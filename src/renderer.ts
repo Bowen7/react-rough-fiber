@@ -1,5 +1,7 @@
 import React from "react";
 import Reconciler, { HostConfig } from "react-reconciler";
+import { pointsOnPath } from "points-on-path";
+import { getStroke } from "perfect-freehand";
 import {
   Type,
   Props,
@@ -18,6 +20,22 @@ import {
 
 const NO_CONTEXT = {};
 const UPDATE_SIGNAL = {};
+
+const getSvgPathFromStroke = (stroke: number[][]) => {
+  if (!stroke.length) return "";
+
+  const d = stroke.reduce(
+    (acc, [x0, y0], i, arr) => {
+      const [x1, y1] = arr[(i + 1) % arr.length];
+      acc.push(x0, y0, (x0 + x1) / 2, (y0 + y1) / 2);
+      return acc;
+    },
+    ["M", ...stroke[0], "Q"]
+  );
+
+  d.push("Z");
+  return d.join(" ");
+};
 
 function setStyles(domElement: SVGElement, styles: React.CSSProperties) {
   Object.keys(styles).forEach((name) => {
@@ -70,8 +88,19 @@ const hostConfig: HostConfig<
 
   finalizeInitialChildren(domElement, type, props) {
     Object.keys(props).forEach((propName) => {
-      const propValue = props[propName];
-
+      let propValue = props[propName];
+      if (propName === "d") {
+        const points = pointsOnPath(propValue)[0];
+        console.log(points);
+        const stroke = getStroke(points as any as number[][], {
+          size: 1,
+          thinning: 0.5,
+          smoothing: 0.5,
+          streamline: 0.75,
+        });
+        propValue = getSvgPathFromStroke(stroke);
+        console.log(propValue);
+      }
       if (propName === "style") {
         setStyles(domElement, propValue);
       } else if (propName === "children") {
