@@ -20,7 +20,7 @@ export const ReactFreehand = ({ children }: PropsWithChildren) => {
     return () => {
       FreehandRenderer.updateContainer(null, mountNode, null);
     };
-  });
+  }, []);
   return (
     // @ts-ignore
     <div ref={ref}>{children}</div>

@@ -1,5 +1,6 @@
 import React from "react";
 import Reconciler, { HostConfig } from "react-reconciler";
+import { DefaultEventPriority } from "react-reconciler/constants";
 import { pointsOnPath } from "points-on-path";
 import { getStroke } from "perfect-freehand";
 import {
@@ -73,16 +74,18 @@ const hostConfig: HostConfig<
   NoTimeout
 > = {
   appendInitialChild(parentInstance, child) {
-    // @ts-ignore
-    parentInstance.appendChild(child);
+    parentInstance.appendChild(child as SVGElement);
   },
 
-  // @ts-ignore
   createInstance(type, props, rootContainerInstance) {
-    return document.createElementNS("http://www.w3.org/2000/svg", type);
+    const instance = document.createElementNS(
+      "http://www.w3.org/2000/svg",
+      type
+    );
+    return instance;
   },
 
-  createTextInstance(text, rootContainerInstance, internalInstanceHandle) {
+  createTextInstance(text: string) {
     return text;
   },
 
@@ -91,15 +94,13 @@ const hostConfig: HostConfig<
       let propValue = props[propName];
       if (propName === "d") {
         const points = pointsOnPath(propValue)[0];
-        console.log(points);
         const stroke = getStroke(points as any as number[][], {
           size: 1,
           thinning: 0.5,
-          smoothing: 0.5,
-          streamline: 0.75,
+          smoothing: 0.1,
+          streamline: 0.15,
         });
         propValue = getSvgPathFromStroke(stroke);
-        console.log(propValue);
       }
       if (propName === "style") {
         setStyles(domElement, propValue);
@@ -148,40 +149,33 @@ const hostConfig: HostConfig<
     );
   },
 
-  now: () => {},
-
   supportsMutation: true,
 
-  useSyncScheduling: true,
-
   appendChild(parentInstance, child) {
-    // @ts-ignore
-    parentInstance.appendChild(child);
+    if ((child as SVGAElement).parentNode === parentInstance) {
+      parentInstance.removeChild(child as SVGElement);
+    }
+    parentInstance.appendChild(child as SVGElement);
   },
 
   appendChildToContainer(parentInstance, child) {
-    // @ts-ignore
-    parentInstance.appendChild(child);
+    parentInstance.appendChild(child as SVGElement);
   },
 
   removeChild(parentInstance, child) {
-    // @ts-ignore
-    parentInstance.removeChild(child);
+    parentInstance.removeChild(child as SVGElement);
   },
 
   removeChildFromContainer(parentInstance, child) {
-    // @ts-ignore
-    parentInstance.removeChild(child);
+    parentInstance.removeChild(child as SVGElement);
   },
 
   insertBefore(parentInstance, child, beforeChild) {
-    // @ts-ignore
-    parentInstance.insertBefore(child, beforeChild);
+    parentInstance.insertBefore(child as SVGElement, beforeChild as SVGElement);
   },
 
   insertInContainerBefore(parentInstance, child, beforeChild) {
-    // @ts-ignore
-    parentInstance.insertBefore(child, beforeChild);
+    parentInstance.insertBefore(child as SVGElement, beforeChild as SVGElement);
   },
 
   commitUpdate(
@@ -204,6 +198,38 @@ const hostConfig: HostConfig<
   },
 
   detachDeletedInstance() {},
+
+  supportsPersistence: false,
+
+  preparePortalMount() {},
+
+  scheduleTimeout: setTimeout,
+
+  cancelTimeout: clearTimeout,
+
+  noTimeout: -1,
+
+  isPrimaryRenderer: false,
+
+  getCurrentEventPriority() {
+    return DefaultEventPriority;
+  },
+
+  getInstanceFromNode() {
+    throw new Error("Not implemented.");
+  },
+
+  beforeActiveInstanceBlur() {},
+
+  afterActiveInstanceBlur() {},
+
+  prepareScopeUpdate() {},
+
+  getInstanceFromScope() {
+    return null;
+  },
+
+  supportsHydration: false,
 };
 
 export const FreehandRenderer = Reconciler(hostConfig);

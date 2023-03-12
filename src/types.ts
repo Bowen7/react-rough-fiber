@@ -2,7 +2,7 @@ export type Type = string;
 
 export type Props = { [key: string]: any };
 
-export type Instance = SVGAElement;
+export type Instance = SVGElement;
 
 export interface Container extends Instance {}
 
@@ -28,4 +28,4 @@ export type ChildSet = any;
 
 export type TimeoutHandle = any;
 
-export type NoTimeout = any;
+export type NoTimeout = -1;
