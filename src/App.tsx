@@ -1,115 +1,61 @@
-import { useState, useRef, useEffect, createElement } from "react";
-import { createPortal } from "react-dom";
 import { Camera } from "react-feather";
 import { ReactFreehand } from "./react-freehand";
+import React from "react";
+import ReactDOM from "react-dom/client";
 
-const createFakeElement = (element: Element) => {
-  const fakeElement = new FakeElement(element);
-  const handler = {
-    get(target: FakeElement, prop: string) {
-      const value =
-        prop in target
-          ? target[prop as keyof FakeElement]
-          : element[prop as keyof Element];
-      if (typeof value === "function") {
-        return prop in target ? value.bind(target) : value.bind(element);
-      }
-      return value;
-    },
-  };
-  return new Proxy(fakeElement, handler);
-};
-
-const getFakeDocument = (ownerDocument: Document) => ({
-  createElementNS: (ns: string, type: string) => {
-    const el = ownerDocument.createElementNS(ns, type);
-    return createFakeElement(el);
+const data = [
+  {
+    name: "Page A",
+    uv: 9000,
+    pv: 2400,
   },
-  addEventListener(event: string, callback: () => void) {
-    ownerDocument.addEventListener(event, callback);
+  {
+    name: "Page B",
+    uv: 3000,
+    pv: 1398,
   },
-});
+  {
+    name: "Page C",
+    uv: 2000,
+    pv: 9800,
+  },
+  {
+    name: "Page D",
+    uv: 2780,
+    pv: 3908,
+  },
+  {
+    name: "Page E",
+    uv: 1890,
+    pv: 4800,
+  },
+  {
+    name: "Page F",
+    uv: 2390,
+    pv: 3800,
+  },
+  {
+    name: "Page G",
+    uv: 3490,
+    pv: 4300,
+  },
+];
 
-class FakeElement {
-  _fake_element: Element;
-  constructor(el: Element) {
-    this._fake_element = el;
-  }
-  get ownerDocument() {
-    return getFakeDocument(this._fake_element.ownerDocument);
-  }
-  appendChild(child: Element | FakeElement) {
-    if (child instanceof FakeElement) {
-      this._fake_element.appendChild(child._fake_element);
-    } else {
-      this._fake_element.appendChild(child);
-    }
-  }
-  removeChild(child: Element | FakeElement) {
-    if (child instanceof FakeElement) {
-      this._fake_element.removeChild(child._fake_element);
-    } else {
-      this._fake_element.removeChild(child);
-    }
-  }
-}
+const App = () => (
+  <ReactFreehand>
+    <Camera size={36} />
+    {/* <BarChart width={730} height={250} data={data}>
+      <CartesianGrid strokeDasharray="3 3" />
+      <XAxis dataKey="name" />
+      <YAxis />
+      <Bar dataKey="pv" fill="#8884d8" />
+      <Bar dataKey="uv" fill="#82ca9d" />
+    </BarChart> */}
+  </ReactFreehand>
+);
 
-const fakeElement = createFakeElement(document.createElement("div"));
-
-// console.log(person.addEventListener);
-function App() {
-  const ref = useRef<SVGPathElement>(null);
-  const onRef = (ref: HTMLDivElement) => {
-    if (ref) {
-      ref.appendChild(fakeElement._fake_element);
-    }
-  };
-
-  useEffect(() => {
-    console.log(ref.current?.getBoundingClientRect());
-  });
-  return (
-    <div>
-      {/* <ReactFreehand> */}
-      {/* <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="64"
-          height="64"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="#000"
-          strokeWidth="2"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        >
-          <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path>
-          <circle cx="12" cy="13" r="4"></circle>
-        </svg> */}
-      <div ref={onRef}></div>
-      {fakeElement &&
-        createPortal(
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="64"
-            height="64"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="#000"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          >
-            <path
-              ref={ref}
-              d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"
-            ></path>
-            <circle cx="12" cy="13" r="4"></circle>
-          </svg>,
-          fakeElement as any as Element
-        )}
-      {/* </ReactFreehand> */}
-    </div>
-  );
-}
-
-export default App;
+ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
+  <React.StrictMode>
+    <App />
+  </React.StrictMode>
+);

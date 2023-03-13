@@ -1,3 +1,6 @@
-export const STYLE = "style";
-export const CHILDREN = "children";
-export const CLASS_NAME = "className";
+export const SVG_PATH_TAG = "path";
+export const SVG_CIRCLE_TAG = "circle";
+
+export const SVG_D = "d";
+
+export const SVG_CIRCLE_PROPS = ["cx", "cy", "r"];

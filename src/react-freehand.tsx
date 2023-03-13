@@ -1,28 +1,21 @@
-import React, { PropsWithChildren, useEffect, useRef } from "react";
-import { LegacyRoot } from "react-reconciler/constants";
-import { FreehandRenderer } from "./renderer";
+import React, { PropsWithChildren, useRef, useEffect, useState } from "react";
+import { createPortal } from "react-dom";
+import { createFakeElement } from "./fake";
 
 export const ReactFreehand = ({ children }: PropsWithChildren) => {
   const ref = useRef<HTMLDivElement>(null);
+  const [fakeContainer, setFakeContainer] = useState<HTMLDivElement | null>(
+    null
+  );
   useEffect(() => {
-    const mountNode = FreehandRenderer.createContainer(
-      // @ts-ignore
-      ref.current,
-      LegacyRoot,
-      null,
-      false,
-      false,
-      "",
-      () => {},
-      null
-    );
-    FreehandRenderer.updateContainer(children, mountNode, null);
-    return () => {
-      FreehandRenderer.updateContainer(null, mountNode, null);
-    };
+    if (ref.current) {
+      setFakeContainer(createFakeElement(ref.current) as any as HTMLDivElement);
+    }
   }, []);
+
   return (
-    // @ts-ignore
-    <div ref={ref}>{children}</div>
+    <span ref={ref}>
+      {fakeContainer && createPortal(children, fakeContainer)}
+    </span>
   );
 };
