@@ -1,0 +1,9 @@
+@font-face {
+  font-family: Gloria-Hallelujah;
+  src: url(GloriaHallelujah-Regular.ttf);
+}
+
+.recharts-wrapper {
+  font-family: Gloria-Hallelujah;
+  line-height: 2;
+}

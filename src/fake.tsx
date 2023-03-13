@@ -2,15 +2,16 @@ import {
   SVG_PATH_TAG,
   SVG_CIRCLE_TAG,
   SVG_D,
-  SVG_CIRCLE_PROPS,
+  SVG_PROPS_MAP,
 } from "./constants";
 import { shape2path } from "./shape2path";
 
-type SVGProp = Pick<React.SVGAttributes<SVGElement>, "d" | "cx" | "cy" | "r">;
-type SVGPropName = keyof SVGProp;
-
-export const createFakeElement = (element: Element, type?: string) => {
-  const fakeElement = new FakeElement(element, type);
+export const createFakeElement = (
+  element: Element,
+  container: Element,
+  type?: string
+) => {
+  const fakeElement = new FakeElement(element, container, type);
   const handler = {
     get(target: FakeElement, prop: string) {
       const value =
@@ -24,7 +25,7 @@ export const createFakeElement = (element: Element, type?: string) => {
       return value;
     },
     set(target: FakeElement, prop: string, value: any) {
-      if (prop.startsWith("_")) {
+      if (prop.startsWith("_fake")) {
         // @ts-ignore
         target[prop] = value;
         return true;
@@ -37,88 +38,125 @@ export const createFakeElement = (element: Element, type?: string) => {
   return new Proxy(fakeElement, handler);
 };
 
-const getFakeDocument = (ownerDocument: Document) => ({
+// TODO proxy?
+const getFakeDocument = (realOwnerDocument: Document, container: Element) => ({
   createElementNS: (ns: string, type: string) => {
     let el: Element;
-    if (type === SVG_PATH_TAG || type === SVG_CIRCLE_TAG) {
-      el = ownerDocument.createElementNS(ns, SVG_PATH_TAG);
+    if (type.toLowerCase() in SVG_PROPS_MAP) {
+      el = realOwnerDocument.createElementNS(ns, SVG_PATH_TAG);
     } else {
-      el = ownerDocument.createElementNS(ns, type);
+      el = realOwnerDocument.createElementNS(ns, type);
     }
-    return createFakeElement(el, type);
+    return createFakeElement(el, container, type);
   },
   createElement: (type: string) => {
-    const el = ownerDocument.createElement(type);
-    return createFakeElement(el);
+    const el = realOwnerDocument.createElement(type);
+    return createFakeElement(el, container);
   },
-  addEventListener(event: string, callback: () => void) {
-    ownerDocument.addEventListener(event, callback);
+  get documentElement() {
+    return realOwnerDocument.documentElement;
   },
 });
 
 class FakeElement {
-  _element: Element;
-  _appended: boolean = false;
-  _svgProps: SVGProp = {};
-  _tagName: string = "";
-  constructor(el: Element, type?: string) {
-    this._tagName = type || el.tagName;
-    this._element = el;
+  _fake_element: Element;
+  _fake_container: Element;
+  _fake_appended: boolean = false;
+  _fake_props: { [name: string]: string } = {};
+  _fake_tagName: string = "";
+  constructor(el: Element, container: Element, type?: string) {
+    this._fake_tagName = (type || el.tagName).toLowerCase();
+    this._fake_container = container;
+    this._fake_element = el;
   }
   get ownerDocument() {
-    return getFakeDocument(this._element.ownerDocument);
+    return getFakeDocument(
+      this._fake_element.ownerDocument,
+      this._fake_container
+    );
   }
   appendChild(child: Element | FakeElement) {
     if (child instanceof FakeElement) {
-      if (!child._appended) {
-        const childType = child._tagName;
-        if (childType === SVG_PATH_TAG || childType === SVG_CIRCLE_TAG) {
-          child._appended = true;
-          child._applySvgProps();
+      if (!child._fake_appended) {
+        const childType = child._fake_tagName;
+        if (childType in SVG_PROPS_MAP) {
+          child._fake_appended = true;
+          child._fake_applyProps();
         }
       }
-      this._element.appendChild(child._element);
+      this._fake_element.appendChild(child._fake_element);
     } else {
-      this._element.appendChild(child);
+      this._fake_element.appendChild(child);
     }
   }
   removeChild(child: Element | FakeElement) {
     if (child instanceof FakeElement) {
-      this._element.removeChild(child._element);
+      this._fake_element.removeChild(child._fake_element);
     } else {
-      this._element.removeChild(child);
+      this._fake_element.removeChild(child);
+    }
+  }
+  insertBefore(child: Element | FakeElement, before: Element | FakeElement) {
+    if (child instanceof FakeElement) {
+      if (!child._fake_appended) {
+        const childType = child._fake_tagName;
+        if (childType in SVG_PROPS_MAP) {
+          child._fake_appended = true;
+          child._fake_applyProps();
+        }
+      }
+      if (before instanceof FakeElement) {
+        this._fake_element.insertBefore(
+          child._fake_element,
+          before._fake_element
+        );
+      } else {
+        this._fake_element.insertBefore(child._fake_element, before);
+      }
+    } else {
+      if (before instanceof FakeElement) {
+        this._fake_element.insertBefore(child, before._fake_element);
+      } else {
+        this._fake_element.insertBefore(child, before);
+      }
     }
   }
   setAttribute(name: string, value: string) {
-    let svgPropsChange = false;
-    switch (this._tagName) {
-      case SVG_PATH_TAG: {
-        if (name === SVG_D) {
-          svgPropsChange = true;
-          this._svgProps.d = value;
-        }
-        break;
+    let propsChange = false;
+    const type = this._fake_tagName;
+    if (type in SVG_PROPS_MAP) {
+      const props = SVG_PROPS_MAP[type as keyof typeof SVG_PROPS_MAP];
+      if (props.has(name)) {
+        propsChange = true;
+        this._fake_props[name] = value;
       }
-      case SVG_CIRCLE_TAG: {
-        if (SVG_CIRCLE_PROPS.includes(name)) {
-          svgPropsChange = true;
-          this._svgProps[name as SVGPropName] = value;
-        }
-      }
-      default:
-        break;
     }
-    if (svgPropsChange) {
-      if (!this._appended) {
+    if (propsChange) {
+      if (name === "fill") {
+        this._fake_element.setAttribute(name, value);
+      }
+      if (!this._fake_appended) {
         return;
       }
-      this._applySvgProps();
+      this._fake_applyProps();
     } else {
-      this._element.setAttribute(name, value);
+      this._fake_element.setAttribute(name, value);
     }
   }
-  _applySvgProps() {
-    const d = shape2path(this._tagName, this._svgProps);
-    this._element.setAttribute(SVG_D, d);
+  removeAttribute(name: string) {
+    let propsChanged = false;
+
+    if (propsChanged) {
+      if (!this._fake_appended) {
+        return;
+      }
+      this._fake_applyProps();
+    } else {
+      this._fake_element.removeAttribute(name);
+    }
+  }
+  _fake_applyProps() {
+    const d = shape2path(this._fake_tagName, this._fake_props);
+    this._fake_element.setAttribute(SVG_D, d);
   }
 }

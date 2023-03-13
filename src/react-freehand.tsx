@@ -9,7 +9,9 @@ export const ReactFreehand = ({ children }: PropsWithChildren) => {
   );
   useEffect(() => {
     if (ref.current) {
-      setFakeContainer(createFakeElement(ref.current) as any as HTMLDivElement);
+      setFakeContainer(
+        createFakeElement(ref.current, ref.current) as any as HTMLDivElement
+      );
     }
   }, []);
 

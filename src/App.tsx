@@ -2,7 +2,16 @@ import { Camera } from "react-feather";
 import { ReactFreehand } from "./react-freehand";
 import React from "react";
 import ReactDOM from "react-dom/client";
-
+import {
+  BarChart,
+  CartesianGrid,
+  XAxis,
+  YAxis,
+  Tooltip,
+  Legend,
+  Bar,
+} from "recharts";
+import "./index.css";
 const data = [
   {
     name: "Page A",
@@ -41,18 +50,23 @@ const data = [
   },
 ];
 
-const App = () => (
-  <ReactFreehand>
-    <Camera size={36} />
-    {/* <BarChart width={730} height={250} data={data}>
-      <CartesianGrid strokeDasharray="3 3" />
-      <XAxis dataKey="name" />
-      <YAxis />
-      <Bar dataKey="pv" fill="#8884d8" />
-      <Bar dataKey="uv" fill="#82ca9d" />
-    </BarChart> */}
-  </ReactFreehand>
-);
+const App = () => {
+  return (
+    <>
+      <ReactFreehand>
+        <BarChart width={730} height={250} data={data}>
+          <CartesianGrid strokeDasharray="3 3" />
+          <XAxis dataKey="name" />
+          <YAxis />
+          <Tooltip />
+          <Legend />
+          <Bar dataKey="pv" fill="#8884d8" />
+          <Bar dataKey="uv" fill="#82ca9d" />
+        </BarChart>
+      </ReactFreehand>
+    </>
+  );
+};
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <React.StrictMode>
