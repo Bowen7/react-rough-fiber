@@ -1,5 +1,4 @@
-import { SVGAttributes } from "react";
-import rough from "roughjs";
+import rough from 'roughjs';
 import {
   SVG_PATH_TAG,
   SVG_CIRCLE_TAG,
@@ -7,10 +6,12 @@ import {
   SVG_LINE_TAG,
   SVG_ELLIPSE_TAG,
   SVG_POLYGON_TAG,
-} from "./constants";
+} from './constants';
 
-type RoughConfig = Parameters<ReturnType<typeof rough["generator"]>["path"]>[1];
-type Drawable = ReturnType<ReturnType<typeof rough["generator"]>["path"]>;
+type RoughConfig = Parameters<
+  ReturnType<(typeof rough)['generator']>['path']
+>[1];
+type Drawable = ReturnType<ReturnType<(typeof rough)['generator']>['path']>;
 
 export const shape2path = (
   type: string,
@@ -23,11 +24,10 @@ export const shape2path = (
 
   switch (type) {
     case SVG_PATH_TAG: {
-      const { d = "", fill } = props;
+      const { d = '', fill } = props;
       if (!d) {
         break;
       }
-      console.log(d);
       drawable = generator.path(d, {
         fill,
         ...config,
@@ -64,8 +64,8 @@ export const shape2path = (
       break;
     }
     case SVG_POLYGON_TAG: {
-      const { points = "" } = props;
-      const pts = points.split(" ").map((v) => v.split(",").map((v) => +v)) as [
+      const { points = '' } = props;
+      const pts = points.split(' ').map((v) => v.split(',').map((v) => +v)) as [
         number,
         number
       ][];
@@ -79,7 +79,7 @@ export const shape2path = (
       break;
   }
   if (drawable) {
-    return drawable.sets.map((set) => generator.opsToPath(set)).join(" ");
+    return drawable.sets.map((set) => generator.opsToPath(set)).join(' ');
   }
-  return "";
+  return '';
 };

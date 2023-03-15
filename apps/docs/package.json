@@ -1,0 +1,32 @@
+{
+  "name": "docs",
+  "version": "0.0.1",
+  "description": "react-freehand docs",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "next": "^13.0.6",
+    "nextra": "latest",
+    "nextra-theme-docs": "latest",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-feather": "^2.0.10",
+    "react-freehand": "workspace:*",
+    "recharts": "^2.4.3"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.0.0",
+    "@types/node": "18.11.10",
+    "@types/react": "^18.0.22",
+    "@types/react-dom": "^18.0.7",
+    "eslint": "7.32.0",
+    "eslint-config-custom": "workspace:*",
+    "tsconfig": "workspace:*",
+    "typescript": "^4.9.3"
+  }
+}

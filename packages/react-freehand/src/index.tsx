@@ -1,6 +1,6 @@
-import React, { PropsWithChildren, useRef, useEffect, useState } from "react";
-import { createPortal } from "react-dom";
-import { createFakeElement } from "./fake";
+import { PropsWithChildren, useRef, useEffect, useState } from 'react';
+import { createPortal } from 'react-dom';
+import { createFakeContainer } from './fake';
 
 export const ReactFreehand = ({ children }: PropsWithChildren) => {
   const ref = useRef<HTMLDivElement>(null);
@@ -10,7 +10,7 @@ export const ReactFreehand = ({ children }: PropsWithChildren) => {
   useEffect(() => {
     if (ref.current) {
       setFakeContainer(
-        createFakeElement(ref.current, ref.current) as any as HTMLDivElement
+        createFakeContainer(ref.current) as any as HTMLDivElement
       );
     }
   }, []);
@@ -21,3 +21,5 @@ export const ReactFreehand = ({ children }: PropsWithChildren) => {
     </span>
   );
 };
+
+export default ReactFreehand;
