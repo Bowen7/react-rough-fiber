@@ -1,24 +1,50 @@
-import { PropsWithChildren, useRef, useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
-import { createFakeContainer } from './fake';
+import { createFakeContainer, FakeContainer } from './fake';
+import { shallowEqual } from './utils';
+import { ReactFreehandProps } from './types';
 
-export const ReactFreehand = ({ children }: PropsWithChildren) => {
-  const ref = useRef<HTMLDivElement>(null);
-  const [fakeContainer, setFakeContainer] = useState<HTMLDivElement | null>(
+export const ReactFreehand = (props: ReactFreehandProps) => {
+  const {
+    children,
+    containerTag = 'div',
+    roughOptions,
+    shouldForceUpdateOnRoughOptionsChange = false,
+    ...restProps
+  } = props;
+  const ref = useRef<Element>();
+  const roughOptionsRef = useRef(roughOptions);
+  const shouldForceUpdateOnRoughOptionsChangeRef = useRef(
+    shouldForceUpdateOnRoughOptionsChange
+  );
+  const [fakeContainer, setFakeContainer] = useState<FakeContainer | null>(
     null
   );
+  const fakeContainerRef = useRef(fakeContainer);
+
+  useEffect(() => {
+    if (shallowEqual(roughOptionsRef.current, roughOptions)) {
+      fakeContainerRef.current &&
+        fakeContainerRef.current._changeRoughOptions();
+    }
+    roughOptionsRef.current = roughOptions;
+  }, [roughOptions]);
+
   useEffect(() => {
     if (ref.current) {
-      setFakeContainer(
-        createFakeContainer(ref.current) as any as HTMLDivElement
+      const fakeContainer = createFakeContainer(
+        ref.current,
+        shouldForceUpdateOnRoughOptionsChangeRef.current
       );
+      setFakeContainer(fakeContainer);
+      fakeContainerRef.current = fakeContainer;
     }
   }, []);
 
-  return (
-    <span ref={ref}>
-      {fakeContainer && createPortal(children, fakeContainer)}
-    </span>
+  return React.createElement(
+    containerTag,
+    { ref, ...restProps },
+    fakeContainer && createPortal(children, fakeContainer as unknown as Element)
   );
 };
 
