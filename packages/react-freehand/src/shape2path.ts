@@ -21,7 +21,6 @@ export const shape2path = (
   const generator = rough.generator();
   let drawable: Drawable | null = null;
   const { fill } = props;
-
   switch (type) {
     case SVG_PATH_TAG: {
       const { d = '', fill } = props;

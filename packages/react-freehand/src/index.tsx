@@ -13,7 +13,6 @@ export const ReactFreehand = (props: ReactFreehandProps) => {
     ...restProps
   } = props;
   const ref = useRef<Element>();
-  const roughOptionsRef = useRef(roughOptions);
   const shouldForceUpdateOnRoughOptionsChangeRef = useRef(
     shouldForceUpdateOnRoughOptionsChange
   );
@@ -21,13 +20,15 @@ export const ReactFreehand = (props: ReactFreehandProps) => {
     null
   );
   const fakeContainerRef = useRef(fakeContainer);
+  const roughOptionsRef = useRef(roughOptions);
 
   useEffect(() => {
-    if (shallowEqual(roughOptionsRef.current, roughOptions)) {
+    if (
       fakeContainerRef.current &&
-        fakeContainerRef.current._changeRoughOptions();
+      !shallowEqual(fakeContainerRef.current._roughOptions, roughOptions)
+    ) {
+      fakeContainerRef.current._changeRoughOptions();
     }
-    roughOptionsRef.current = roughOptions;
   }, [roughOptions]);
 
   useEffect(() => {
@@ -36,6 +37,7 @@ export const ReactFreehand = (props: ReactFreehandProps) => {
         ref.current,
         shouldForceUpdateOnRoughOptionsChangeRef.current
       );
+      fakeContainer._intiRoughOptions(roughOptionsRef.current);
       setFakeContainer(fakeContainer);
       fakeContainerRef.current = fakeContainer;
     }

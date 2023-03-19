@@ -1,4 +1,4 @@
-import { Attributes, PropsWithChildren } from 'react';
+import { HTMLAttributes, PropsWithChildren } from 'react';
 
 // Not all rough options are supported.
 export type RoughOptions = {
@@ -31,5 +31,5 @@ export type ReactFreehandProps = PropsWithChildren<
     containerTag?: string;
     roughOptions?: RoughOptions;
     shouldForceUpdateOnRoughOptionsChange?: boolean;
-  } & Attributes
+  } & HTMLAttributes<HTMLDivElement>
 >;
