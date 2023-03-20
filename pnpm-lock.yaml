@@ -78,6 +78,8 @@ importers:
       '@types/jest': ^29.5.0
       '@types/react': ^18.0.17
       '@types/react-dom': ^18.0.6
+      '@types/react-reconciler': ^0.28.2
+      '@types/scheduler': ^0.16.2
       eslint: ^7.32.0
       eslint-config-custom: workspace:*
       jest: ^29.5.0
@@ -89,12 +91,16 @@ importers:
       react-dom: ^18.2.0
       react-dom-16: npm:react-dom@^16.14.0
       react-dom-17: npm:react-dom@^17.0.2
+      react-reconciler: ^0.29.0
       regenerator-runtime: ^0.13.11
       roughjs: ^4.5.2
+      scheduler: ^0.23.0
       tsconfig: workspace:*
       typescript: ^4.5.2
     dependencies:
+      react-reconciler: 0.29.0_react@18.2.0
       roughjs: 4.5.2
+      scheduler: 0.23.0
     devDependencies:
       '@babel/core': 7.21.3
       '@babel/preset-env': 7.20.2_@babel+core@7.21.3
@@ -106,6 +112,8 @@ importers:
       '@types/jest': 29.5.0
       '@types/react': 18.0.28
       '@types/react-dom': 18.0.11
+      '@types/react-reconciler': 0.28.2
+      '@types/scheduler': 0.16.2
       eslint: 7.32.0
       eslint-config-custom: link:../eslint-config-custom
       jest: 29.5.0
@@ -2288,6 +2296,12 @@ packages:
 
   /@types/react-dom/18.0.11:
     resolution: {integrity: sha512-O38bPbI2CWtgw/OoQoY+BRelw7uysmXbWvw3nLWO21H1HSh+GOlqPuXshJfjmpNlKiiSDG9cc1JZAaMmVdcTlw==}
+    dependencies:
+      '@types/react': 18.0.28
+    dev: true
+
+  /@types/react-reconciler/0.28.2:
+    resolution: {integrity: sha512-8tu6lHzEgYPlfDf/J6GOQdIc+gs+S2yAqlby3zTsB3SP2svlqTYe5fwZNtZyfactP74ShooP2vvi1BOp9ZemWw==}
     dependencies:
       '@types/react': 18.0.28
     dev: true
@@ -6463,6 +6477,17 @@ packages:
 
   /react-lifecycles-compat/3.0.4:
     resolution: {integrity: sha512-fBASbA6LnOU9dOU2eW7aQ8xmYBSXUIWr+UmF9b1efZBazGNO+rcXT/icdKnYm2pTwcRylVUYwW7H1PHfLekVzA==}
+    dev: false
+
+  /react-reconciler/0.29.0_react@18.2.0:
+    resolution: {integrity: sha512-wa0fGj7Zht1EYMRhKWwoo1H9GApxYLBuhoAuXN0TlltESAjDssB+Apf0T/DngVqaMyPypDmabL37vw/2aRM98Q==}
+    engines: {node: '>=0.10.0'}
+    peerDependencies:
+      react: ^18.2.0
+    dependencies:
+      loose-envify: 1.4.0
+      react: 18.2.0
+      scheduler: 0.23.0
     dev: false
 
   /react-resize-detector/7.1.2_biqbaboplfbrettd7655fr4n2y:
