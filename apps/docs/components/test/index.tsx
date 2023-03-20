@@ -81,5 +81,21 @@ export const Test = () => {
       </ReactFreehand>
       <Camera />
     </div>
+    // <>
+    //   <button onClick={onClick}>change</button>
+    //   <ReactFreehand
+    //     shouldForceUpdateOnRoughOptionsChange
+    //     roughOptions={{ seed }}
+    //   >
+    //     <svg
+    //       xmlns="http://www.w3.org/2000/svg"
+    //       width="24"
+    //       height="24"
+    //       viewBox="0 0 24 24"
+    //     >
+    //       <line x1={0} y1={0} x2={24} y2={24}></line>
+    //     </svg>
+    //   </ReactFreehand>
+    // </>
   );
 };

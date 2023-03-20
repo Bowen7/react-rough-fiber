@@ -1,13 +1,12 @@
 import { RoughOptions } from './types';
-// For comparing roughOptions
 export const shallowEqual = (
-  options1: RoughOptions | undefined,
-  options2: RoughOptions | undefined
+  options1: RoughOptions | undefined | null,
+  options2: RoughOptions | undefined | null
 ) => {
   if (options1 === options2) {
     return true;
   }
-  if (options1 === undefined || options2 === undefined) {
+  if (options1 == null || options2 == null) {
     return false;
   }
   const keys1 = Object.keys(options1);

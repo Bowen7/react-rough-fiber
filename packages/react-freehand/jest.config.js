@@ -33,6 +33,7 @@ const react16Config = {
   moduleNameMapper: {
     '^react$': 'react-16',
     '^react-dom$': 'react-dom-16',
+    '^react-dom/test-utils$': 'react-dom-16/test-utils',
     '^@testing-library/react$': '@testing-library/react-12',
     '^react-test-renderer$': 'react-test-renderer-16',
   },

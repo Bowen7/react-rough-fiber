@@ -29,7 +29,7 @@ export type RoughOptions = {
 export type ReactFreehandProps = PropsWithChildren<
   {
     containerTag?: string;
-    roughOptions?: RoughOptions;
-    shouldForceUpdateOnRoughOptionsChange?: boolean;
+    options?: RoughOptions;
+    shouldForceOptionsChange?: boolean;
   } & HTMLAttributes<HTMLDivElement>
 >;

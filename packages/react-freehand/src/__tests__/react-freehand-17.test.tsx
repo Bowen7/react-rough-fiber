@@ -1,8 +1,8 @@
 import { version as reactVersion, useState } from 'react';
 import { cleanup, render, screen } from '@testing-library/react';
 import rough from 'roughjs';
-import { ReactFreehand } from '../index';
 import { act } from 'react-dom/test-utils';
+import { ReactFreehand } from '../index';
 
 afterEach(() => {
   cleanup();
@@ -166,7 +166,7 @@ describe('props', () => {
 
   it('rough options', () => {
     render(
-      <ReactFreehand roughOptions={{ seed: 1 }}>
+      <ReactFreehand options={{ seed: 1 }}>
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="24"
@@ -181,7 +181,7 @@ describe('props', () => {
     cleanup();
 
     render(
-      <ReactFreehand roughOptions={{ seed: 1 }}>
+      <ReactFreehand options={{ seed: 1 }}>
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="24"
@@ -195,7 +195,7 @@ describe('props', () => {
     expect(screen.getByTestId('line').getAttribute('d')).toBe(d);
   });
 
-  describe('shouldForceUpdateOnRoughOptionsChange', () => {
+  describe('shouldForceOptionsChange', () => {
     it('false(default)', () => {
       const spy = jest.spyOn(rough, 'generator');
       const ChangeSeedDemo = () => {
@@ -206,7 +206,7 @@ describe('props', () => {
         return (
           <>
             <button onClick={onClick}>Change</button>
-            <ReactFreehand roughOptions={{ seed }}>
+            <ReactFreehand options={{ seed }}>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="24"
@@ -239,10 +239,7 @@ describe('props', () => {
         return (
           <>
             <button onClick={onClick}>Change</button>
-            <ReactFreehand
-              shouldForceUpdateOnRoughOptionsChange
-              roughOptions={{ seed }}
-            >
+            <ReactFreehand shouldForceOptionsChange options={{ seed }}>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="24"
