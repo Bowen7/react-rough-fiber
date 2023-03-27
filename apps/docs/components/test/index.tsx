@@ -1,14 +1,14 @@
 import { useState } from 'react';
-import ReactFreehand from 'react-freehand';
-import {
-  BarChart,
-  CartesianGrid,
-  XAxis,
-  YAxis,
-  Tooltip,
-  Legend,
-  Bar,
-} from 'recharts';
+import { ReactFreehand } from 'react-freehand';
+// import {
+//   BarChart,
+//   CartesianGrid,
+//   XAxis,
+//   YAxis,
+//   Tooltip,
+//   Legend,
+//   Bar,
+// } from 'recharts';
 import { Camera } from 'react-feather';
 export const data = [
   {
@@ -66,21 +66,20 @@ export const Test = () => {
     //     <Bar dataKey="uv" fill="#82ca9d" />
     //   </BarChart>
     // </ReactFreehand>
-    <>
+    <div>
       <button onClick={onClick}>change</button>
-      <ReactFreehand
-        shouldForceUpdateOnRoughOptionsChange
-        roughOptions={{ seed }}
-      >
-        <svg
+      <ReactFreehand>
+        {/* <svg
           xmlns="http://www.w3.org/2000/svg"
           width="24"
           height="24"
           viewBox="0 0 24 24"
         >
           <line x1={0} y1={0} x2={24} y2={24}></line>
-        </svg>
+        </svg> */}
+        <Camera />
       </ReactFreehand>
-    </>
+      <Camera />
+    </div>
   );
 };
