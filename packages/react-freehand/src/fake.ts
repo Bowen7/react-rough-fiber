@@ -1,71 +1,32 @@
-import { SVG_D } from './constants';
-import { RoughOptions } from './types';
-import { SVG_INTERCEPT_ATTRIBUTE, SVG_PATH_TAG, SVG_FILL } from './constants';
+import { Options, InterceptProps } from './types';
+import {
+  SVG_INTERCEPT_ATTRIBUTE,
+  SVG_PATH_TAG,
+  SVG_FILL,
+  REACT_INTERNAL_PROPS_KEY_START,
+  OLD_REACT_INTERNAL_PROPS_KEY_START,
+  SVG_D,
+} from './constants';
 import { shape2path } from './shape2path';
-import { shallowEqual } from './utils';
-
-// see https://github.com/facebook/react/blob/3554c8852fe209ad02380ebd24d32f56d6399906/packages/react-dom-bindings/src/client/ReactDOMComponentTree.js#L44
-const REACT_INTERNAL_PROPS_KEY_START = '__reactProps$';
-//https://github.com/facebook/react/blob/da834083cccb6ef942f701c6b6cecc78213196a8/packages/react-dom/src/client/ReactDOMComponentTree.js#L22
-// react 16.x
-const OLD_REACT_INTERNAL_PROPS_KEY_START = '__reactEventHandlers$';
-type InterceptProps = {
-  [name: string]: string;
-};
-
-// Create a proxy handler
-// get: if the property exists in target, return the value of target
-// else return the value of fallback
-// set: likewise
-const createProxyHandler = <Target extends object, Fallback extends object>(
-  fallback: Fallback,
-  callback?: (name: string, props: unknown) => void
-) => ({
-  get(target: Target, name: string) {
-    const value =
-      name in target
-        ? target[name as keyof Target]
-        : fallback[name as keyof Fallback];
-
-    if (typeof value === 'function') {
-      return name in target ? value.bind(target) : value.bind(fallback);
-    }
-    return value;
-  },
-  set(target: Target, name: string, value: any) {
-    if (Object.prototype.hasOwnProperty.call(target, name)) {
-      target[name as keyof Target] = value;
-      return true;
-    }
-    fallback[name as keyof Fallback] = value;
-    callback && callback(name, value);
-    return true;
-  },
-});
-
-const shouldInterceptAttribute = (type: string, name: string) =>
-  type in SVG_INTERCEPT_ATTRIBUTE &&
-  name in SVG_INTERCEPT_ATTRIBUTE[type as keyof typeof SVG_INTERCEPT_ATTRIBUTE];
-
-const fakeSet = {
-  size: 0,
-  delete() {},
-  add() {},
-  forEach() {},
-};
+import {
+  shallowEqual,
+  fakeSet,
+  shouldInterceptAttribute,
+  createProxyHandler,
+} from './utils';
 
 export class FakeCore {
-  realContainer: Element;
-  fakeContainer: Element;
-  fakeDocument: Document;
-  fakeSVGElementSet: Set<Element>;
-  roughOptions: RoughOptions | undefined;
-  shouldForceOptionsChange: boolean;
-  couldMergeUpdate = false;
+  private realContainer: Element;
+  private fakeDocument: Document;
+  private fakeSVGElementSet: Set<Element>;
+  private options: Options | undefined;
+  private shouldForceOptionsChange: boolean;
+  private couldMergeUpdate = false;
+  public readonly fakeContainer: Element;
   constructor(
     domElement: Element,
     shouldForceOptionsChange = false,
-    roughOptions?: RoughOptions
+    options?: Options
   ) {
     this.realContainer = domElement;
     // How to force update after rough options change:
@@ -75,7 +36,7 @@ export class FakeCore {
     this.fakeSVGElementSet = shouldForceOptionsChange
       ? new Set()
       : (fakeSet as any as Set<Element>);
-    this.roughOptions = roughOptions;
+    this.options = options;
     this.fakeDocument = this.createFakeDocument() as Document;
 
     // Detect if we could merge update.
@@ -98,7 +59,7 @@ export class FakeCore {
     this.fakeContainer = this.createFakeElement(domElement) as Element;
   }
 
-  createFakeDocument() {
+  private createFakeDocument() {
     const realOwnerDocument = this.realContainer.ownerDocument;
     const doc = {
       createElementNS: (ns: string, type: string) => {
@@ -123,7 +84,7 @@ export class FakeCore {
     return new Proxy(doc, handler);
   }
 
-  createFakeElement(element: Element, _type?: string) {
+  private createFakeElement(element: Element, _type?: string) {
     const type = _type || element.tagName;
     const { fakeSVGElementSet, couldMergeUpdate } = this;
     let interceptedAttrs: InterceptProps | null = null;
@@ -133,7 +94,7 @@ export class FakeCore {
       __commitUpdate: () => {
         element.setAttribute(
           SVG_D,
-          shape2path(type, interceptedAttrs || {}, this.roughOptions)
+          shape2path(type, interceptedAttrs || {}, this.options)
         );
       },
       // react use the ownerDocument to create elements, so we need to override it.
@@ -147,7 +108,7 @@ export class FakeCore {
           ) {
             fakeSVGElementSet.add(child);
           }
-          !couldMergeUpdate && (child as any).__commitUpdate();
+          (child as any).__commitUpdate();
         } else {
           element.appendChild(child);
         }
@@ -170,7 +131,7 @@ export class FakeCore {
           } else {
             element.insertBefore(child.__realElement as Element, before);
           }
-          !couldMergeUpdate && (child as any).__commitUpdate();
+          (child as any).__commitUpdate();
         } else {
           if ('__realElement' in before && '__originalType' in before) {
             element.insertBefore(child, before.__realElement as Element);
@@ -215,8 +176,9 @@ export class FakeCore {
 
     const setCallback = (name: string, value: any) => {
       if (
-        name.startsWith(REACT_INTERNAL_PROPS_KEY_START) ||
-        name.startsWith(OLD_REACT_INTERNAL_PROPS_KEY_START)
+        element.parentNode &&
+        (name.startsWith(REACT_INTERNAL_PROPS_KEY_START) ||
+          name.startsWith(OLD_REACT_INTERNAL_PROPS_KEY_START))
       ) {
         const nextAttrs: InterceptProps = {};
         Object.keys(
@@ -242,16 +204,18 @@ export class FakeCore {
     return new Proxy(el, handler);
   }
 
-  forceUpdate() {
+  private forceUpdate() {
     this.fakeSVGElementSet.forEach((el) => {
       (el as any).__commitUpdate();
     });
   }
 
-  updateRoughOptions(roughOptions: RoughOptions | undefined) {
-    this.roughOptions = roughOptions;
-    if (this.shouldForceOptionsChange) {
-      this.forceUpdate();
+  public updateRoughOptions(options: Options | undefined) {
+    if (!shallowEqual(this.options, options)) {
+      this.options = options;
+      if (this.shouldForceOptionsChange) {
+        this.forceUpdate();
+      }
     }
   }
 }

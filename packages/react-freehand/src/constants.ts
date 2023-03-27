@@ -6,7 +6,10 @@ export const SVG_ELLIPSE_TAG = 'ellipse';
 export const SVG_POLYGON_TAG = 'polygon';
 
 export const SVG_D = 'd';
+export const SVG_FILL = 'fill';
+export const SVG_DEFAULT_FILL = '#000';
 
+export const SVG_PROPS = { fill: true, stroke: true };
 export const SVG_PATH_PROPS = { d: true, fill: true };
 export const SVG_CIRCLE_PROPS = { cx: true, cy: true, r: true, fill: true };
 export const SVG_LINE_PROPS = { x1: true, y1: true, x2: true, y2: true };
@@ -35,4 +38,10 @@ export const SVG_INTERCEPT_ATTRIBUTE = {
   [SVG_POLYGON_TAG]: SVG_POLYGON_PROPS,
 };
 
-export const SVG_FILL = 'fill';
+// react 17.x 18.x
+// see https://github.com/facebook/react/blob/3554c8852fe209ad02380ebd24d32f56d6399906/packages/react-dom-bindings/src/client/ReactDOMComponentTree.js#L44
+export const REACT_INTERNAL_PROPS_KEY_START = '__reactProps$';
+
+// react 16.x
+//https://github.com/facebook/react/blob/da834083cccb6ef942f701c6b6cecc78213196a8/packages/react-dom/src/client/ReactDOMComponentTree.js#L22
+export const OLD_REACT_INTERNAL_PROPS_KEY_START = '__reactEventHandlers$';

@@ -1,7 +1,7 @@
 import { HTMLAttributes, PropsWithChildren } from 'react';
 
 // Not all rough options are supported.
-export type RoughOptions = {
+export type Options = {
   roughness?: number;
   seed?: number;
   bowing?: number;
@@ -29,7 +29,11 @@ export type RoughOptions = {
 export type ReactFreehandProps = PropsWithChildren<
   {
     containerTag?: string;
-    options?: RoughOptions;
+    options?: Options;
     shouldForceOptionsChange?: boolean;
-  } & HTMLAttributes<HTMLDivElement>
+  } & HTMLAttributes<HTMLElement>
 >;
+
+export type InterceptProps = {
+  [name: string]: string;
+};
