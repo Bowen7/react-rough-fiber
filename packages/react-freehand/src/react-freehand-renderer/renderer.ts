@@ -1,9 +1,15 @@
 import Reconciler from 'react-reconciler';
 import { DefaultEventPriority } from 'react-reconciler/constants';
-import { Instance, InstanceProps, HostContext, HostConfig } from './types';
+import {
+  Instance,
+  InstanceProps,
+  HostContext,
+  HostConfig,
+  InstanceWithListeners,
+} from './types';
 import { SVG_NAMESPACE, HTML_NAMESPACE, INTERNAL_PROPS_KEY } from './constants';
-import { updateFiberProps, getFiberProps } from './utils';
-import { setInitialDOMProperties } from './properties';
+import { updateFiberProps, isFun } from './utils';
+import { diffProps } from './props';
 
 export const createRenderer = () => {
   const createInstance = (
@@ -83,17 +89,27 @@ export const createRenderer = () => {
       }
       return parentHostContext;
     },
-    finalizeInitialChildren(instance, type, props) {
-      setInitialDOMProperties(instance, props);
+    finalizeInitialChildren(instance, _type, props, hostContext) {
+      diffProps(
+        instance as InstanceWithListeners,
+        props,
+        {},
+        (hostContext as any as string) === SVG_NAMESPACE
+      );
       return false;
     },
-    // TODO
-    prepareUpdate(instance, type, oldProps, newProps) {
-      return null;
+    prepareUpdate(_domElement, _type, _oldProps, _newProps, hostContext) {
+      return hostContext as any as string;
     },
-    // TODO
-    commitUpdate(instance, updatePayload, type, oldProps, newProps, fiber) {},
-    commitMount(instance, _type, _props, _int) {},
+    commitUpdate(instance, updatePayload, _type, oldProps, newProps) {
+      diffProps(
+        instance as InstanceWithListeners,
+        newProps,
+        oldProps,
+        updatePayload === SVG_NAMESPACE
+      );
+    },
+    commitMount() {},
     getPublicInstance: (instance) => instance!,
     prepareForCommit: () => null,
     preparePortalMount: () => {},
@@ -111,12 +127,8 @@ export const createRenderer = () => {
     detachDeletedInstance: (node) => {
       delete (node as any)[INTERNAL_PROPS_KEY];
     },
-    scheduleTimeout: (typeof setTimeout === 'function'
-      ? setTimeout
-      : undefined) as any,
-    cancelTimeout: (typeof clearTimeout === 'function'
-      ? clearTimeout
-      : undefined) as any,
+    scheduleTimeout: (isFun(setTimeout) ? setTimeout : undefined) as any,
+    cancelTimeout: (isFun(clearTimeout) ? clearTimeout : undefined) as any,
     getInstanceFromNode: () => null,
     prepareScopeUpdate: () => {},
     getInstanceFromScope: () => null,

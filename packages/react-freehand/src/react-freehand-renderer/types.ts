@@ -1,11 +1,8 @@
 export type InstanceProps = {
   [name: string]: unknown;
 };
-export type Instance = Element;
+export type Instance = HTMLElement | SVGElement;
 export type TextInstance = void;
-export type UpdatePayload = {
-  [name: string]: unknown;
-};
 
 export type HostContext = string;
 
@@ -19,8 +16,14 @@ export interface HostConfig {
   hydratableInstance: Instance;
   publicInstance: Instance;
   hostContext: HostContext;
-  updatePayload: UpdatePayload;
+  updatePayload: string;
   childSet: never;
   timeoutHandle: number | undefined;
   noTimeout: -1;
 }
+
+export type Style = { [name: string]: string | number };
+
+export type InstanceWithListeners = Instance & {
+  _listeners: { [name: string]: (e: Event) => void };
+};

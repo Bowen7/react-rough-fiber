@@ -4,5 +4,4 @@ export const updateFiberProps = (node: Instance, props: InstanceProps) => {
   (node as any)[INTERNAL_PROPS_KEY] = props;
 };
 
-export const getFiberProps = (node: Instance) =>
-  (node as any)[INTERNAL_PROPS_KEY] as InstanceProps;
+export const isFun = (val: any) => typeof val === 'function';
