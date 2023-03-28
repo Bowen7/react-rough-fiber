@@ -1,3 +1,13 @@
+export const SVG_NAMESPACE = 'http://www.w3.org/2000/svg';
+export const HTML_NAMESPACE = 'http://www.w3.org/1999/xhtml';
+
+export const IS_NON_DIMENSIONAL =
+  /acit|ex(?:s|g|n|p|$)|rph|grid|ows|mnc|ntw|ine[ch]|zoo|^ord|itera/i;
+export const ON_ANI = /^on(Ani|Tra|Tou|BeforeInp|Compo)/;
+export const CAMEL_REPLACE = /[A-Z0-9]/g;
+export const CAMEL_PROPS =
+  /^(?:accent|alignment|arabic|baseline|cap|clip(?!PathU)|color|dominant|fill|flood|font|glyph(?!R)|horiz|image|letter|lighting|marker(?!H|W|U)|overline|paint|pointer|shape|stop|strikethrough|stroke|text(?!L)|transform|underline|unicode|units|v|vector|vert|word|writing|x(?!C))[A-Z]/;
+
 export const SVG_PATH_TAG = 'path';
 export const SVG_CIRCLE_TAG = 'circle';
 export const SVG_LINE_TAG = 'line';
@@ -8,28 +18,32 @@ export const SVG_POLYGON_TAG = 'polygon';
 export const SVG_D = 'd';
 export const SVG_FILL = 'fill';
 export const SVG_DEFAULT_FILL = '#000';
+export const SVG_DEFAULT_STROKE = 'none';
 
-export const SVG_PROPS = { fill: true, stroke: true };
-export const SVG_PATH_PROPS = { d: true, fill: true };
-export const SVG_CIRCLE_PROPS = { cx: true, cy: true, r: true, fill: true };
-export const SVG_LINE_PROPS = { x1: true, y1: true, x2: true, y2: true };
+export const SVG_PATH_PROPS = {
+  d: '',
+  fill: SVG_FILL,
+  stroke: SVG_DEFAULT_STROKE,
+};
+export const SVG_CIRCLE_PROPS = { cx: 0, cy: 0, r: 0, fill: SVG_DEFAULT_FILL };
+export const SVG_LINE_PROPS = { x1: 0, y1: 0, x2: 0, y2: 0 };
 export const SVG_RECT_PROPS = {
-  x: true,
-  y: true,
-  width: true,
-  height: true,
-  fill: true,
+  x: 0,
+  y: 0,
+  width: 0,
+  height: 0,
+  fill: SVG_DEFAULT_FILL,
 };
 export const SVG_ELLIPSE_PROPS = {
-  cx: true,
-  cy: true,
-  rx: true,
-  ry: true,
-  fill: true,
+  cx: 0,
+  cy: 0,
+  rx: 0,
+  ry: 0,
+  fill: SVG_DEFAULT_FILL,
 };
-export const SVG_POLYGON_PROPS = { points: true, fill: true };
+export const SVG_POLYGON_PROPS = { points: '', fill: SVG_DEFAULT_FILL };
 
-export const SVG_INTERCEPT_ATTRIBUTE = {
+export const SVG_SHAPE_PROPS = {
   [SVG_PATH_TAG]: SVG_PATH_PROPS,
   [SVG_CIRCLE_TAG]: SVG_CIRCLE_PROPS,
   [SVG_LINE_TAG]: SVG_LINE_PROPS,
@@ -37,11 +51,3 @@ export const SVG_INTERCEPT_ATTRIBUTE = {
   [SVG_ELLIPSE_TAG]: SVG_ELLIPSE_PROPS,
   [SVG_POLYGON_TAG]: SVG_POLYGON_PROPS,
 };
-
-// react 17.x 18.x
-// see https://github.com/facebook/react/blob/3554c8852fe209ad02380ebd24d32f56d6399906/packages/react-dom-bindings/src/client/ReactDOMComponentTree.js#L44
-export const REACT_INTERNAL_PROPS_KEY_START = '__reactProps$';
-
-// react 16.x
-//https://github.com/facebook/react/blob/da834083cccb6ef942f701c6b6cecc78213196a8/packages/react-dom/src/client/ReactDOMComponentTree.js#L22
-export const OLD_REACT_INTERNAL_PROPS_KEY_START = '__reactEventHandlers$';

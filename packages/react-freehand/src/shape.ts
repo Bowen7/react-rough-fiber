@@ -86,7 +86,6 @@ export const diffShape = (
   }
   const { children } = domElement;
   const end = Math.max(pathInfos.length, domElement.children.length);
-  console.log(end);
   for (let i = 0; i < end; i++) {
     if (i >= pathInfos.length) {
       domElement.removeChild(children[pathInfos.length]);
@@ -100,7 +99,6 @@ export const diffShape = (
     const child = children[i];
     // TODO: handle different op type
     const opType = opSets[i].type;
-    console.log(pathInfos);
     diffNormalizedProps(
       child as InstanceWithListeners,
       (child as any)._svgProps || {},

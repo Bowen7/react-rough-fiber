@@ -43,9 +43,6 @@ const insertBefore = (
   beforeChild: Instance
 ) => parent.insertBefore(child, beforeChild);
 
-const handleTextInstance = () =>
-  console.warn('Text is not allowed in the react-freehand tree!');
-
 export const Renderer = Reconciler<
   HostConfig['type'],
   HostConfig['props'],
@@ -121,9 +118,10 @@ export const Renderer = Reconciler<
   clearContainer: () => false,
   hideInstance() {},
   unhideInstance() {},
-  createTextInstance: handleTextInstance,
-  hideTextInstance: handleTextInstance,
-  unhideTextInstance: handleTextInstance,
+  createTextInstance: (text, container) =>
+    container.ownerDocument.createTextNode(text),
+  hideTextInstance: () => {},
+  unhideTextInstance: () => {},
   getCurrentEventPriority: () => DefaultEventPriority,
   beforeActiveInstanceBlur: () => {},
   afterActiveInstanceBlur: () => {},
