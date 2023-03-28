@@ -7,7 +7,7 @@ import {
   HostConfig,
   InstanceWithListeners,
 } from './types';
-import { SVG_NAMESPACE, HTML_NAMESPACE } from './constants';
+import { SVG_NAMESPACE, HTML_NAMESPACE, SVG_SHAPE_PROPS } from './constants';
 import { isFun } from './utils';
 import { diffProps } from './props';
 
@@ -21,6 +21,9 @@ const createInstance = (
   const namespace = hostContext;
   let domElement: Instance;
   if (namespace === SVG_NAMESPACE || type === 'svg') {
+    if (SVG_SHAPE_PROPS.hasOwnProperty(type)) {
+      type = 'g';
+    }
     domElement = ownerDocument.createElementNS(SVG_NAMESPACE, type);
   } else {
     domElement = ownerDocument.createElement(type);
@@ -32,7 +35,7 @@ const removeChild = (parent: Instance, child: Instance) =>
   parent.removeChild(child);
 
 const appendChild = (parent: Instance, child: Instance) =>
-  parent.appendChild(child);
+  child && parent.appendChild(child);
 
 const insertBefore = (
   parent: Instance,

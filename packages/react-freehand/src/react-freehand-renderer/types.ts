@@ -1,5 +1,5 @@
 export type InstanceProps = {
-  [name: string]: unknown;
+  [name: string]: any;
 };
 export type Instance = HTMLElement | SVGElement;
 export type TextInstance = void;
@@ -26,4 +26,31 @@ export type Style = { [name: string]: string | number };
 
 export type InstanceWithListeners = Instance & {
   _listeners: { [name: string]: (e: Event) => void };
+};
+
+export type SVGShapeProps = {
+  fill?: string;
+  stroke?: string;
+  d?: string;
+  cx?: number;
+  cy?: number;
+  r?: number;
+  x1?: number;
+  y1?: number;
+  x2?: number;
+  y2?: number;
+  x?: number;
+  y?: number;
+  width?: number;
+  height?: number;
+  rx?: number;
+  ry?: number;
+  points?: string;
+};
+
+export type PathInfo = {
+  d: string;
+  stroke: string;
+  strokeWidth: number;
+  fill?: string;
 };

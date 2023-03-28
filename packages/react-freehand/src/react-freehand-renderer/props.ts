@@ -19,21 +19,33 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
-import { isFun } from './utils';
-import { InstanceWithListeners } from './types';
+import { InstanceWithListeners, SVGShapeProps, InstanceProps } from './types';
 import {
   IS_NON_DIMENSIONAL,
   ON_ANI,
   CAMEL_REPLACE,
   CAMEL_PROPS,
+  SVG_SHAPE_PROPS,
 } from './constants';
+import { diffShape } from './shape';
 
-export function normalizeProps(type: string, props: object) {
-  const normalizedProps: { [name: string]: any } = {};
+export function normalizeProps(
+  type: string,
+  props: InstanceProps
+): [InstanceProps, SVGShapeProps] {
+  const normalizedProps: InstanceProps = {};
+  const svgProps: SVGShapeProps = {};
+  const isSVGType = SVG_SHAPE_PROPS.hasOwnProperty(type);
 
   for (let i in props) {
     let value: any = props[i as keyof typeof props];
-
+    if (
+      isSVGType &&
+      SVG_SHAPE_PROPS[type as keyof typeof SVG_SHAPE_PROPS].hasOwnProperty(i)
+    ) {
+      svgProps[i as keyof typeof svgProps] = value;
+      continue;
+    }
     if (
       (i === 'value' && 'defaultValue' in props && value == null) ||
       // Emulate React's behavior of not rendering the contents of noscript tags on the client.
@@ -110,45 +122,59 @@ export function normalizeProps(type: string, props: object) {
       props['className' as keyof typeof props];
   }
 
-  return normalizedProps;
+  return [normalizedProps, svgProps];
 }
 
-export function diffProps(
-  type: string,
+export function diffNormalizedProps(
   domElement: InstanceWithListeners,
-  newProps: object,
-  oldProps: object,
+  prevProps: InstanceProps,
+  nextProps: InstanceProps,
   isSvg: boolean
 ) {
-  let i;
-  newProps = normalizeProps(type, newProps);
-  oldProps = normalizeProps(type, oldProps);
-
-  for (i in oldProps) {
-    if (i !== 'children' && i !== 'key' && !(i in newProps)) {
+  for (const i in prevProps) {
+    if (i !== 'children' && i !== 'key' && !(i in nextProps)) {
       setProperty(
         domElement,
         i,
         null,
-        oldProps[i as keyof typeof oldProps],
+        prevProps[i as keyof typeof prevProps],
         isSvg
       );
     }
   }
 
-  for (i in newProps) {
-    const oldProp = oldProps[i as keyof typeof oldProps];
-    const newProp = newProps[i as keyof typeof newProps];
-    if (
-      i !== 'children' &&
+  for (const i in nextProps) {
+    const prevProp = prevProps[i as keyof typeof prevProps];
+    const nextProp = nextProps[i as keyof typeof nextProps];
+    if (i === 'children') {
+      if (typeof nextProp === 'number' || typeof nextProp === 'string') {
+        domElement.textContent = nextProp.toString();
+      }
+    } else if (
       i !== 'key' &&
       i !== 'value' &&
       i !== 'checked' &&
-      oldProp !== newProp
+      prevProp !== nextProp
     ) {
-      setProperty(domElement, i, newProp, oldProp, isSvg);
+      setProperty(domElement, i, nextProp, prevProp, isSvg);
     }
   }
+}
+
+export function diffProps(
+  type: string,
+  domElement: InstanceWithListeners,
+  newProps: InstanceProps,
+  oldProps: InstanceProps,
+  isSvg: boolean
+) {
+  const [nextProps, nextSVGProps] = normalizeProps(type, newProps);
+  const [prevProps] = normalizeProps(type, oldProps);
+  if (SVG_SHAPE_PROPS.hasOwnProperty(type)) {
+    diffShape(type, domElement as SVGElement, nextSVGProps);
+  }
+
+  diffNormalizedProps(domElement, prevProps, nextProps, isSvg);
 }
 
 function setStyle(style: CSSStyleDeclaration, key: string, value: any) {
@@ -236,8 +262,7 @@ export function setProperty(
       name in domElement
     ) {
       try {
-        // @ts-ignore
-        domElement[name] = value == null ? '' : value;
+        (<any>domElement)[name] = value == null ? '' : value;
         return;
       } catch (e) {}
     }

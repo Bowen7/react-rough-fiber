@@ -1,10 +1,10 @@
-import { useEffect, PropsWithChildren } from 'react';
+import { useEffect, PropsWithChildren, useRef } from 'react';
 import { LegacyRoot } from 'react-reconciler/constants';
-import { useNearestParent, FiberProvider } from 'its-fine';
+import { FiberProvider } from 'its-fine';
 import { Renderer } from './renderer';
 
 const ReactFreehandRenderer = ({ children }: PropsWithChildren<{}>) => {
-  const parentRef = useNearestParent<HTMLElement>();
+  const parentRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
     let mountNode: any;
     if (parentRef.current) {
@@ -18,14 +18,13 @@ const ReactFreehandRenderer = ({ children }: PropsWithChildren<{}>) => {
         () => {},
         null
       );
-      console.log(Renderer);
       Renderer.updateContainer(children, mountNode, null);
     }
     return () => {
       Renderer.updateContainer(null, mountNode, null);
     };
   }, []);
-  return null;
+  return <div ref={parentRef} />;
 };
 
 export const ReactFreehand = ({ children }: PropsWithChildren<{}>) => (
