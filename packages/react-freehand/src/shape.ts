@@ -10,6 +10,7 @@ import {
   SVG_NAMESPACE,
 } from './constants';
 import { SVGShapeProps, PathInfo, InstanceWithListeners } from './types';
+import { shallowEqual } from './utils';
 import { diffNormalizedProps } from './props';
 type RoughConfig = Parameters<
   ReturnType<(typeof rough)['generator']>['path']
@@ -22,12 +23,18 @@ export const diffShape = (
   domElement: SVGElement,
   props: SVGShapeProps
 ) => {
-  const generator = rough.generator();
-  let drawable: Drawable | null = null;
   props = {
     ...SVG_SHAPE_PROPS[type as keyof typeof SVG_SHAPE_PROPS],
     ...props,
   };
+  const prevProps = (<any>domElement)._svgProps;
+  if (shallowEqual(prevProps, props)) {
+    return;
+  }
+
+  (<any>domElement)._svgProps = props;
+  const generator = rough.generator();
+  let drawable: Drawable | null = null;
   switch (type) {
     case SVG_PATH_TAG: {
       const { d, fill } = props;
@@ -101,10 +108,10 @@ export const diffShape = (
     const opType = opSets[i].type;
     diffNormalizedProps(
       child as InstanceWithListeners,
-      (child as any)._svgProps || {},
+      (child as any)._pathProps || {},
       pathInfos[i],
       true
     );
-    (child as any)._svgProps = pathInfos[i];
+    (child as any)._pathProps = pathInfos[i];
   }
 };
