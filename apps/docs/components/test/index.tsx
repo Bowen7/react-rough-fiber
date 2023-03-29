@@ -48,6 +48,19 @@ export const data = [
   },
 ];
 
+const Content = () => {
+  const [seed, setSeed] = useState(1);
+  const onClick = () => {
+    console.log(123);
+    setSeed(seed + 1);
+  };
+  return (
+    <button onClick={onClick} style={{ zIndex: seed }}>
+      change
+    </button>
+  );
+};
+
 export const Test = () => {
   const [seed, setSeed] = useState(1);
   const onClick = () => {
@@ -68,9 +81,10 @@ export const Test = () => {
     //   </BarChart>
     // </ReactFreehand>
     <div>
-      <button onClick={onClick}>change</button>
       <ReactFreehand>
-        <button onClick={onClick}>change</button>
+        <button onClick={onClick} style={{ zIndex: seed }}>
+          change
+        </button>
         {/* <BarChart width={730} height={250} data={data}>
           <CartesianGrid strokeDasharray="3 3" />
           <XAxis dataKey="name" />

@@ -87,7 +87,7 @@ export const Renderer = Reconciler<
     }
     return parentHostContext;
   },
-  finalizeInitialChildren(instance, type, props, hostContext) {
+  finalizeInitialChildren(instance, type, props, _container, hostContext) {
     diffProps(
       type,
       instance as InstanceWithListeners,
