@@ -87,27 +87,15 @@ export const Renderer = Reconciler<
     }
     return parentHostContext;
   },
-  finalizeInitialChildren(instance, type, props, _container, hostContext) {
-    diffProps(
-      type,
-      instance as InstanceWithListeners,
-      props,
-      {},
-      (hostContext as any as string) === SVG_NAMESPACE
-    );
+  finalizeInitialChildren(instance, type, props) {
+    diffProps(type, instance as InstanceWithListeners, props, {});
     return false;
   },
-  prepareUpdate(_domElement, _type, _oldProps, _newProps, hostContext) {
-    return hostContext as any as string;
+  prepareUpdate() {
+    return null;
   },
-  commitUpdate(instance, updatePayload, type, oldProps, newProps) {
-    diffProps(
-      type,
-      instance as InstanceWithListeners,
-      newProps,
-      oldProps,
-      updatePayload === SVG_NAMESPACE
-    );
+  commitUpdate(instance, _updatePayload, type, oldProps, newProps) {
+    diffProps(type, instance as InstanceWithListeners, newProps, oldProps);
   },
   commitMount() {},
   getPublicInstance: (instance) => instance!,

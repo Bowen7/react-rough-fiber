@@ -109,8 +109,7 @@ export const diffShape = (
     diffNormalizedProps(
       child as InstanceWithListeners,
       (child as any)._pathProps || {},
-      pathInfos[i],
-      true
+      pathInfos[i]
     );
     (child as any)._pathProps = pathInfos[i];
   }

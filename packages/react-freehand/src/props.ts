@@ -35,12 +35,12 @@ export function normalizeProps(
 ): [InstanceProps, SVGShapeProps] {
   const normalizedProps: InstanceProps = {};
   const svgProps: SVGShapeProps = {};
-  const isSVGType = SVG_SHAPE_PROPS.hasOwnProperty(type);
+  const isShapeType = SVG_SHAPE_PROPS.hasOwnProperty(type);
 
   for (let i in props) {
     let value: any = props[i as keyof typeof props];
     if (
-      isSVGType &&
+      isShapeType &&
       SVG_SHAPE_PROPS[type as keyof typeof SVG_SHAPE_PROPS].hasOwnProperty(i)
     ) {
       svgProps[i as keyof typeof svgProps] = value;
@@ -128,18 +128,11 @@ export function normalizeProps(
 export function diffNormalizedProps(
   domElement: InstanceWithListeners,
   prevProps: InstanceProps,
-  nextProps: InstanceProps,
-  isSvg: boolean
+  nextProps: InstanceProps
 ) {
   for (const i in prevProps) {
     if (i !== 'children' && i !== 'key' && !(i in nextProps)) {
-      setProperty(
-        domElement,
-        i,
-        null,
-        prevProps[i as keyof typeof prevProps],
-        isSvg
-      );
+      setProperty(domElement, i, null, prevProps[i as keyof typeof prevProps]);
     }
   }
 
@@ -156,7 +149,7 @@ export function diffNormalizedProps(
       i !== 'checked' &&
       prevProp !== nextProp
     ) {
-      setProperty(domElement, i, nextProp, prevProp, isSvg);
+      setProperty(domElement, i, nextProp, prevProp);
     }
   }
 }
@@ -165,8 +158,7 @@ export function diffProps(
   type: string,
   domElement: InstanceWithListeners,
   newProps: InstanceProps,
-  oldProps: InstanceProps,
-  isSvg: boolean
+  oldProps: InstanceProps
 ) {
   const [nextProps, nextSVGProps] = normalizeProps(type, newProps);
   const [prevProps] = normalizeProps(type, oldProps);
@@ -174,7 +166,7 @@ export function diffProps(
     diffShape(type, domElement as SVGElement, nextSVGProps);
   }
 
-  diffNormalizedProps(domElement, prevProps, nextProps, isSvg);
+  diffNormalizedProps(domElement, prevProps, nextProps);
 }
 
 function setStyle(style: CSSStyleDeclaration, key: string, value: any) {
@@ -193,8 +185,7 @@ export function setProperty(
   domElement: InstanceWithListeners,
   name: string,
   value: any,
-  oldValue: any,
-  isSvg: boolean
+  oldValue: any
 ) {
   let useCapture;
 
@@ -244,12 +235,7 @@ export function setProperty(
       domElement.removeEventListener(name, handler, useCapture);
     }
   } else if (name !== 'dangerouslySetInnerHTML') {
-    if (isSvg) {
-      // Normalize incorrect prop usage for SVG:
-      // - xlink:href / xlinkHref --> href (xlink:href was removed from SVG and isn't needed)
-      // - className --> class
-      name = name.replace(/xlink(H|:h)/, 'h').replace(/sName$/, 's');
-    } else if (
+    if (
       name !== 'width' &&
       name !== 'height' &&
       name !== 'href' &&
