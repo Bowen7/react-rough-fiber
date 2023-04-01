@@ -17,31 +17,31 @@ export const SVG_POLYGON_TAG = 'polygon';
 
 export const SVG_D = 'd';
 export const SVG_FILL = 'fill';
-export const SVG_DEFAULT_FILL = '#000';
-export const SVG_DEFAULT_STROKE = 'none';
+
+export const FILL_PATTERN_ID = 'react-rough-fiber-fill-id';
+export const FILL_PATTERN_URL = `url(#${FILL_PATTERN_ID})`;
 
 export const SVG_PATH_PROPS = {
   d: '',
-  fill: SVG_FILL,
-  stroke: SVG_DEFAULT_STROKE,
+  fill: FILL_PATTERN_URL,
 };
-export const SVG_CIRCLE_PROPS = { cx: 0, cy: 0, r: 0, fill: SVG_DEFAULT_FILL };
+export const SVG_CIRCLE_PROPS = { cx: 0, cy: 0, r: 0, fill: FILL_PATTERN_URL };
 export const SVG_LINE_PROPS = { x1: 0, y1: 0, x2: 0, y2: 0 };
 export const SVG_RECT_PROPS = {
   x: 0,
   y: 0,
   width: 0,
   height: 0,
-  fill: SVG_DEFAULT_FILL,
+  fill: FILL_PATTERN_URL,
 };
 export const SVG_ELLIPSE_PROPS = {
   cx: 0,
   cy: 0,
   rx: 0,
   ry: 0,
-  fill: SVG_DEFAULT_FILL,
+  fill: FILL_PATTERN_URL,
 };
-export const SVG_POLYGON_PROPS = { points: '', fill: SVG_DEFAULT_FILL };
+export const SVG_POLYGON_PROPS = { points: '', fill: FILL_PATTERN_URL };
 
 export const SVG_SHAPE_PROPS = {
   [SVG_PATH_TAG]: SVG_PATH_PROPS,

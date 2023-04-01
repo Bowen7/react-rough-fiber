@@ -18,7 +18,7 @@ const createInstance = (
   hostContext: HostContext
 ) => {
   const ownerDocument = root.ownerDocument;
-  const namespace = hostContext;
+  const { namespace } = hostContext;
   let domElement: Instance;
   if (namespace === SVG_NAMESPACE || type === 'svg') {
     if (SVG_SHAPE_PROPS.hasOwnProperty(type)) {
@@ -77,13 +77,17 @@ export const Renderer = Reconciler<
   insertInContainerBefore: (container, child, beforeChild) => {
     container.insertBefore(child as Instance, beforeChild as Instance);
   },
-  getRootHostContext: (root) => root.namespaceURI,
+  getRootHostContext: (root) => ({
+    namespace: root.namespaceURI || '',
+    props: {},
+  }),
   getChildHostContext: (parentHostContext, type) => {
+    const { namespace, props } = parentHostContext;
     if (type === 'svg') {
-      return SVG_NAMESPACE;
+      return { namespace: SVG_NAMESPACE, props };
     }
-    if (parentHostContext === SVG_NAMESPACE && type === 'foreignObject') {
-      return HTML_NAMESPACE;
+    if (namespace === SVG_NAMESPACE && type === 'foreignObject') {
+      return { namespace: HTML_NAMESPACE, props };
     }
     return parentHostContext;
   },
@@ -92,10 +96,13 @@ export const Renderer = Reconciler<
     return false;
   },
   prepareUpdate() {
-    return null;
+    return {};
   },
   commitUpdate(instance, _updatePayload, type, oldProps, newProps) {
     diffProps(type, instance as InstanceWithListeners, newProps, oldProps);
+  },
+  commitTextUpdate(textInstance, oldText: string, newText: string): void {
+    (<any>textInstance).nodeValue = newText;
   },
   commitMount() {},
   getPublicInstance: (instance) => instance!,
