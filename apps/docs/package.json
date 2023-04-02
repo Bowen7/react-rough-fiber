@@ -10,6 +10,7 @@
   },
   "license": "MIT",
   "dependencies": {
+    "imagetracerjs": "^1.2.6",
     "next": "^13.0.6",
     "nextra": "latest",
     "nextra-theme-docs": "latest",
@@ -17,6 +18,7 @@
     "react-dom": "^18.2.0",
     "react-feather": "^2.0.10",
     "react-freehand": "workspace:*",
+    "react-inlinesvg": "^3.0.2",
     "recharts": "^2.4.3"
   },
   "devDependencies": {

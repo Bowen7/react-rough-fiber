@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { ReactFreehand } from 'react-freehand';
 import {
   BarChart,
@@ -10,6 +10,10 @@ import {
   Bar,
 } from 'recharts';
 import { Camera } from 'react-feather';
+// @ts-ignore
+import { imageToSVG } from 'imagetracerjs';
+import SVG from 'react-inlinesvg';
+import { Dog } from '../dog';
 export const data = [
   {
     name: 'Page A',
@@ -63,10 +67,16 @@ const Content = () => {
 
 export const Test = () => {
   const [seed, setSeed] = useState(1);
+  const [svg, setSVG] = useState('');
   const onClick = () => {
     console.log(123);
     setSeed(seed + 1);
   };
+  // useEffect(() => {
+  //   imageToSVG('/app.png', (str: string) => {
+  //     setSVG(str);
+  //   });
+  // }, []);
   return (
     // <ReactFreehand>
     //   {/* <Camera size={36} /> */}
@@ -83,20 +93,20 @@ export const Test = () => {
 
     <div>
       <ReactFreehand>
+        {/* {svg && <SVG src={svg} />} */}
         <button onClick={onClick} style={{ zIndex: seed }}>
           change
         </button>
-
         <BarChart width={730} height={250} data={data}>
-          <CartesianGrid strokeDasharray="3 3" />
           <XAxis dataKey="name" />
           <YAxis />
           <Tooltip />
           <Legend />
-          <Bar dataKey="pv" fill="#8884d8" />
-          <Bar dataKey="uv" fill="#82ca9d" />
+          <Bar dataKey="pv" fill="#8884d8" stroke="#333" />
+          <Bar dataKey="uv" fill="#82ca9d" stroke="#333" />
         </BarChart>
         <Camera />
+        {/* <Dog /> */}
       </ReactFreehand>
       <Camera />
     </div>

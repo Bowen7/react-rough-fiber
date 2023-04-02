@@ -20,7 +20,6 @@
     "@types/react": "^18.0.17",
     "@types/react-dom": "^18.0.6",
     "@types/react-reconciler": "^0.28.2",
-    "@types/scheduler": "^0.16.2",
     "eslint": "^7.32.0",
     "eslint-config-custom": "workspace:*",
     "jest": "^29.5.0",
@@ -39,7 +38,6 @@
   "dependencies": {
     "its-fine": "^1.1.0",
     "react-reconciler": "^0.29.0",
-    "roughjs": "^4.5.2",
-    "scheduler": "^0.23.0"
+    "@bowen7/roughjs": "^0.0.2"
   }
 }

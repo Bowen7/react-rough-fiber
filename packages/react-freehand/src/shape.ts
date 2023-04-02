@@ -1,4 +1,4 @@
-import rough from 'roughjs/bin/rough';
+import rough from '@bowen7/roughjs';
 import {
   SVG_PATH_TAG,
   SVG_CIRCLE_TAG,
@@ -8,11 +8,17 @@ import {
   SVG_POLYGON_TAG,
   SVG_SHAPE_PROPS,
   SVG_NAMESPACE,
-  FILL_PATTERN_ID,
+  FILL_PLACEHOLDER,
+  STROKE_PLACEHOLDER,
 } from './constants';
-import { SVGShapeProps, PathInfo, InstanceWithListeners } from './types';
+import {
+  SVGShapeProps,
+  PathInfo,
+  InstanceWithListeners,
+  InstanceProps,
+} from './types';
 import { shallowEqual } from './utils';
-import { diffNormalizedProps, normalizeProps } from './props';
+import { diffNormalizedProps } from './props';
 type RoughConfig = Parameters<
   ReturnType<(typeof rough)['generator']>['path']
 >[1];
@@ -27,48 +33,64 @@ const getDrawable = (
 ): Drawable | null => {
   switch (type) {
     case SVG_PATH_TAG: {
-      const { d, fill } = props;
+      const { d, fill, stroke } = props;
       if (!d) {
         return null;
       }
       return generator.path(d, {
         fill,
+        stroke,
       });
     }
     case SVG_CIRCLE_TAG: {
-      const { cx, cy, r, fill } = props;
+      const { cx, cy, r, fill, stroke } = props;
       return generator.circle(+cx!, +cy!, +r!, {
         fill,
+        stroke,
       });
     }
     case SVG_LINE_TAG: {
-      const { x1, y1, x2, y2 } = props;
-      return generator.line(+x1!, +y1!, +x2!, +y2!);
+      const { x1, y1, x2, y2, stroke } = props;
+      return generator.line(+x1!, +y1!, +x2!, +y2!, { stroke });
     }
     case SVG_RECT_TAG: {
-      const { x, y, width, height, fill } = props;
+      const { x, y, width, height, fill, stroke } = props;
       return generator.rectangle(+x!, +y!, +width!, +height!, {
         fill,
+        stroke,
       });
     }
     case SVG_ELLIPSE_TAG: {
-      const { cx, cy, rx, ry, fill } = props;
+      const { cx, cy, rx, ry, fill, stroke } = props;
       return generator.ellipse(+cx!, +cy!, +rx!, +ry!, {
         fill,
+        stroke,
       });
     }
     case SVG_POLYGON_TAG: {
-      const { points, fill } = props;
+      const { points, fill, stroke } = props;
       const pts = points!
         .split(' ')
         .map((v) => v.split(',').map((v) => +v)) as [number, number][];
       return generator.polygon(pts, {
         fill,
+        stroke,
       });
     }
     default:
       return null;
   }
+};
+
+const normalizePathInfo = ({ d, fill, stroke }: PathInfo) => {
+  const pathInfo: InstanceProps = { d };
+  if (fill !== FILL_PLACEHOLDER) {
+    pathInfo.fill = fill;
+  }
+  if (stroke !== STROKE_PLACEHOLDER) {
+    pathInfo.stroke = stroke;
+  }
+  return pathInfo;
 };
 
 export const diffShape = (
@@ -77,7 +99,8 @@ export const diffShape = (
   props: SVGShapeProps
 ) => {
   props = {
-    fill: FILL_PATTERN_ID,
+    fill: FILL_PLACEHOLDER,
+    stroke: STROKE_PLACEHOLDER,
     ...SVG_SHAPE_PROPS[type as keyof typeof SVG_SHAPE_PROPS],
     ...props,
   };
@@ -85,7 +108,6 @@ export const diffShape = (
   if (shallowEqual(prevProps, props)) {
     return;
   }
-
   (<any>domElement)._svgProps = props;
   const generator = rough.generator();
   const drawable = getDrawable(generator, type, props);
@@ -96,35 +118,11 @@ export const diffShape = (
     pathInfos = generator.toPaths(drawable);
   }
 
-  const shouldAppendDefs = opSets.some(
-    (opSet) => opSet.type === 'fillSketch' && props.fill === FILL_PATTERN_ID
-  );
-
   const { children } = domElement;
-  // a trick set correct fill sketch color
-  const firstChild = children[0];
-  if (shouldAppendDefs) {
-    if (firstChild?.tagName !== 'defs') {
-      const defs = domElement.ownerDocument.createElementNS(
-        SVG_NAMESPACE,
-        'defs'
-      );
-      defs.innerHTML = `<pattern id="${FILL_PATTERN_ID}" patternUnits="userSpaceOnUse" width="10" height="10"><rect x="0" y="0" width="10" height="10" stroke="none"></rect></pattern>`;
-      domElement.insertBefore(defs, firstChild);
-    }
-  } else {
-    if (firstChild?.tagName === 'defs') {
-      domElement.removeChild(firstChild);
-    }
-  }
 
-  const start = shouldAppendDefs ? 1 : 0;
-  const end =
-    Math.max(pathInfos.length, domElement.children.length - start) + start;
-  for (let i = start; i < end; i++) {
-    // ii = pathInfo index, i = children index
-    const ii = i - start;
-    if (ii >= pathInfos.length) {
+  const end = Math.max(pathInfos.length, domElement.children.length);
+  for (let i = 0; i < end; i++) {
+    if (i >= pathInfos.length) {
       domElement.removeChild(domElement.lastElementChild!);
       continue;
     }
@@ -134,7 +132,7 @@ export const diffShape = (
       );
     }
     const child = children[i];
-    let pathInfo = normalizeProps('', pathInfos[ii])[0];
+    let pathInfo = normalizePathInfo(pathInfos[i]);
     diffNormalizedProps(
       child as InstanceWithListeners,
       (child as any)._pathProps || {},

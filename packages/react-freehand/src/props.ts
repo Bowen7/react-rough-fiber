@@ -19,6 +19,8 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
+
+// almost all code is from preact, modified for react-rough-fiber
 import { InstanceWithListeners, SVGShapeProps, InstanceProps } from './types';
 import {
   IS_NON_DIMENSIONAL,
@@ -45,6 +47,10 @@ export function normalizeProps(
     ) {
       svgProps[i as keyof typeof svgProps] = value;
       continue;
+    }
+    // fill and stroke will be set to both svgProps and normalizedProps
+    if (isShapeType && (i === 'fill' || i === 'stroke')) {
+      svgProps[i as keyof typeof svgProps] = value;
     }
     if (
       (i === 'value' && 'defaultValue' in props && value == null) ||
@@ -82,15 +88,6 @@ export function normalizeProps(
       i = i.replace(CAMEL_REPLACE, '-$&').toLowerCase();
     } else if (value === null) {
       value = undefined;
-    }
-
-    // Add support for onInput and onChange, see #3561
-    // if we have an oninput prop already change it to oninputCapture
-    if (lowerCased === 'oninput') {
-      i = lowerCased;
-      if (normalizedProps[i]) {
-        i = 'oninputCapture';
-      }
     }
 
     normalizedProps[i] = value;
