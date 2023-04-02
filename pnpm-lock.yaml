@@ -27,8 +27,8 @@ importers:
       react: ^18.2.0
       react-dom: ^18.2.0
       react-feather: ^2.0.10
-      react-freehand: workspace:*
       react-inlinesvg: ^3.0.2
+      react-rough-fiber: workspace:*
       recharts: ^2.4.3
       tsconfig: workspace:*
       typescript: ^4.9.3
@@ -40,8 +40,8 @@ importers:
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
       react-feather: 2.0.10_react@18.2.0
-      react-freehand: link:../../packages/react-freehand
       react-inlinesvg: 3.0.2_react@18.2.0
+      react-rough-fiber: link:../../packages/react-rough-fiber
       recharts: 2.4.3_biqbaboplfbrettd7655fr4n2y
     devDependencies:
       '@babel/core': 7.21.3
@@ -70,7 +70,7 @@ importers:
     devDependencies:
       typescript: 4.9.5
 
-  packages/react-freehand:
+  packages/react-rough-fiber:
     specifiers:
       '@babel/core': ^7.0.0
       '@babel/preset-env': ^7.20.2

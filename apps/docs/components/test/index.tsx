@@ -1,14 +1,6 @@
 import { useEffect, useState } from 'react';
-import { ReactFreehand } from 'react-freehand';
-import {
-  BarChart,
-  CartesianGrid,
-  XAxis,
-  YAxis,
-  Tooltip,
-  Legend,
-  Bar,
-} from 'recharts';
+import { ReactFreehand } from 'react-rough-fiber';
+import { BarChart, XAxis, YAxis, Tooltip, Legend, Bar } from 'recharts';
 import { Camera } from 'react-feather';
 // @ts-ignore
 import { imageToSVG } from 'imagetracerjs';

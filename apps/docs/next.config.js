@@ -5,5 +5,5 @@ const withNextra = require('nextra')({
 
 module.exports = withNextra({
   reactStrictMode: true,
-  transpilePackages: ['react-freehand'],
+  transpilePackages: ['react-rough-fiber'],
 });

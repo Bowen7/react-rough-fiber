@@ -265,10 +265,10 @@ describe('props', () => {
 
   it('rest props', () => {
     render(
-      <ReactFreehand data-testid="container" className="react-freehand" />
+      <ReactFreehand data-testid="container" className="react-rough-fiber" />
     );
     expect(screen.getByTestId('container').getAttribute('class')).toBe(
-      'react-freehand'
+      'react-rough-fiber'
     );
   });
 });

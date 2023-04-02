@@ -1,7 +1,7 @@
 {
   "name": "docs",
   "version": "0.0.1",
-  "description": "react-freehand docs",
+  "description": "react-rough-fiber docs",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
@@ -17,7 +17,7 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-feather": "^2.0.10",
-    "react-freehand": "workspace:*",
+    "react-rough-fiber": "workspace:*",
     "react-inlinesvg": "^3.0.2",
     "recharts": "^2.4.3"
   },
