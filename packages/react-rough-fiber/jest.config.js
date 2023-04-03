@@ -26,25 +26,12 @@ const react17Config = {
   },
 };
 
-const react16Config = {
-  displayName: 'react 16',
-  testRegex: '.*-16\\.test\\.(j|t)sx?$',
-  ...commonConfig,
-  moduleNameMapper: {
-    '^react$': 'react-16',
-    '^react-dom$': 'react-dom-16',
-    '^react-dom/test-utils$': 'react-dom-16/test-utils',
-    '^@testing-library/react$': '@testing-library/react-12',
-    '^react-test-renderer$': 'react-test-renderer-16',
-  },
-};
-
-const fakeConfig = {
-  displayName: 'fake',
+const normalConfig = {
+  displayName: 'normal tests',
   testRegex: '.*(?<!(-16)|(-17)|(-18))\\.test\\.(j|t)sx?$',
   ...commonConfig,
 };
 
 module.exports = {
-  projects: [react18Config, react17Config, react16Config, fakeConfig],
+  projects: [react18Config, react17Config, normalConfig],
 };

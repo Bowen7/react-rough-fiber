@@ -1,3 +1,4 @@
+import { PropsWithChildren, HTMLAttributes } from 'react';
 export type InstanceProps = {
   [name: string]: any;
 };
@@ -54,3 +55,38 @@ export type PathInfo = {
   strokeWidth: number;
   fill?: string;
 };
+
+export type RoughOptions = {
+  roughness?: number;
+  bowing?: number;
+  seed?: number;
+  fillStyle?:
+    | 'hachure'
+    | 'solid'
+    | 'zigzag'
+    | 'cross-hatch'
+    | 'dots'
+    | 'dashed'
+    | 'zigzag-line';
+  fillWeight?: number;
+  hachureAngle?: number;
+  hachureGap?: number;
+  curveStepCount?: number;
+  curveFitting?: number;
+  fillLineDash?: number[];
+  fillLineDashOffset?: number;
+  disableMultiStroke?: boolean;
+  disableMultiStrokeFill?: boolean;
+  simplification?: number;
+  dashOffset?: number;
+  dashGap?: number;
+  zigzagOffset?: number;
+  preserveVertices?: boolean;
+};
+
+export type ReactRoughFiberProps = PropsWithChildren<
+  {
+    containerType?: string;
+    roughOptions?: RoughOptions;
+  } & HTMLAttributes<''>
+>;

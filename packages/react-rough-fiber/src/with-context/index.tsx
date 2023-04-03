@@ -1,15 +1,23 @@
-import { useEffect, useRef, useState, createElement } from 'react';
+import {
+  useEffect,
+  PropsWithChildren,
+  useRef,
+  useState,
+  createElement,
+} from 'react';
 import { LegacyRoot } from 'react-reconciler/constants';
-import { createRenderer } from './renderer';
-import { ReactRoughFiberProps } from './types';
+import { FiberProvider, type ContextBridge, useContextBridge } from 'its-fine';
+import { createRenderer } from '../renderer';
+import { ReactRoughFiberProps } from '../types';
 
-export const ReactRoughFiber = ({
+const ReactRoughFiberRenderer = ({
   containerType = 'div',
   children,
   roughOptions,
 }: ReactRoughFiberProps) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const mountNodeRef = useRef<any>(null);
+  const Bridge: ContextBridge = useContextBridge();
   const [Renderer] = useState(() => createRenderer(roughOptions));
 
   useEffect(() => {
@@ -26,9 +34,13 @@ export const ReactRoughFiber = ({
       );
     }
     if (mountNodeRef.current) {
-      Renderer.updateContainer(children, mountNodeRef.current, null);
+      Renderer.updateContainer(
+        <Bridge>{children}</Bridge>,
+        mountNodeRef.current,
+        null
+      );
     }
-  }, [children, Renderer]);
+  }, [children, Bridge, Renderer]);
 
   useEffect(() => {
     return () => {
@@ -38,3 +50,9 @@ export const ReactRoughFiber = ({
 
   return createElement(containerType, { ref: containerRef });
 };
+
+export const ReactRoughFiber = ({ children }: PropsWithChildren<{}>) => (
+  <FiberProvider>
+    <ReactRoughFiberRenderer>{children}</ReactRoughFiberRenderer>
+  </FiberProvider>
+);

@@ -21,7 +21,12 @@
 // SOFTWARE.
 
 // almost all code is from preact, modified for react-rough-fiber
-import { InstanceWithListeners, SVGShapeProps, InstanceProps } from './types';
+import {
+  InstanceWithListeners,
+  SVGShapeProps,
+  InstanceProps,
+  RoughOptions,
+} from './types';
 import {
   IS_NON_DIMENSIONAL,
   ON_ANI,
@@ -155,12 +160,13 @@ export function diffProps(
   type: string,
   domElement: InstanceWithListeners,
   newProps: InstanceProps,
-  oldProps: InstanceProps
+  oldProps: InstanceProps,
+  roughOptions: RoughOptions
 ) {
   const [nextProps, nextSVGProps] = normalizeProps(type, newProps);
   const [prevProps] = normalizeProps(type, oldProps);
   if (SVG_SHAPE_PROPS.hasOwnProperty(type)) {
-    diffShape(type, domElement as SVGElement, nextSVGProps);
+    diffShape(type, domElement as SVGElement, nextSVGProps, roughOptions);
   }
 
   diffNormalizedProps(domElement, prevProps, nextProps);

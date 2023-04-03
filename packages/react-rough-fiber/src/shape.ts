@@ -16,20 +16,19 @@ import {
   PathInfo,
   InstanceWithListeners,
   InstanceProps,
+  RoughOptions,
 } from './types';
 import { shallowEqual } from './utils';
 import { diffNormalizedProps } from './props';
-type RoughConfig = Parameters<
-  ReturnType<(typeof rough)['generator']>['path']
->[1];
+
 type Drawable = ReturnType<ReturnType<(typeof rough)['generator']>['path']>;
-type OpSets = Drawable['sets'];
 type Generator = ReturnType<(typeof rough)['generator']>;
 
 const getDrawable = (
   generator: Generator,
   type: string,
-  props: SVGShapeProps
+  props: SVGShapeProps,
+  roughOptions: RoughOptions
 ): Drawable | null => {
   switch (type) {
     case SVG_PATH_TAG: {
@@ -38,6 +37,7 @@ const getDrawable = (
         return null;
       }
       return generator.path(d, {
+        ...roughOptions,
         fill,
         stroke,
       });
@@ -45,17 +45,22 @@ const getDrawable = (
     case SVG_CIRCLE_TAG: {
       const { cx, cy, r, fill, stroke } = props;
       return generator.circle(+cx!, +cy!, +r!, {
+        ...roughOptions,
         fill,
         stroke,
       });
     }
     case SVG_LINE_TAG: {
       const { x1, y1, x2, y2, stroke } = props;
-      return generator.line(+x1!, +y1!, +x2!, +y2!, { stroke });
+      return generator.line(+x1!, +y1!, +x2!, +y2!, {
+        ...roughOptions,
+        stroke,
+      });
     }
     case SVG_RECT_TAG: {
       const { x, y, width, height, fill, stroke } = props;
       return generator.rectangle(+x!, +y!, +width!, +height!, {
+        ...roughOptions,
         fill,
         stroke,
       });
@@ -63,6 +68,7 @@ const getDrawable = (
     case SVG_ELLIPSE_TAG: {
       const { cx, cy, rx, ry, fill, stroke } = props;
       return generator.ellipse(+cx!, +cy!, +rx!, +ry!, {
+        ...roughOptions,
         fill,
         stroke,
       });
@@ -73,6 +79,7 @@ const getDrawable = (
         .split(' ')
         .map((v) => v.split(',').map((v) => +v)) as [number, number][];
       return generator.polygon(pts, {
+        ...roughOptions,
         fill,
         stroke,
       });
@@ -96,7 +103,8 @@ const normalizePathInfo = ({ d, fill, stroke }: PathInfo) => {
 export const diffShape = (
   type: string,
   domElement: SVGElement,
-  props: SVGShapeProps
+  props: SVGShapeProps,
+  roughOptions: RoughOptions
 ) => {
   props = {
     fill: FILL_PLACEHOLDER,
@@ -110,11 +118,9 @@ export const diffShape = (
   }
   (<any>domElement)._svgProps = props;
   const generator = rough.generator();
-  const drawable = getDrawable(generator, type, props);
-  let opSets: OpSets = [];
+  const drawable = getDrawable(generator, type, props, roughOptions);
   let pathInfos: PathInfo[] = [];
   if (drawable) {
-    opSets = drawable.sets;
     pathInfos = generator.toPaths(drawable);
   }
 
