@@ -4,7 +4,9 @@ const commonConfig = {
   transform: {
     '^.+\\.[jt]sx?$': ['babel-jest', { configFile: './test/.babelrc.js' }],
   },
-  setupFilesAfterEnv: ['./test/setup.ts'],
+  transformIgnorePatterns: [
+    'node_modules/(?!.*(@bowen7|path-data-parser|points-on-curve|points-on-path))',
+  ],
 };
 
 const react18Config = {
@@ -22,7 +24,7 @@ const react17Config = {
     '^react-dom$': 'react-dom-17',
     '^react-dom/test-utils$': 'react-dom-17/test-utils',
     '^@testing-library/react$': '@testing-library/react-12',
-    '^react-test-renderer$': 'react-test-renderer-17',
+    '^react-reconciler$': 'react-reconciler-26',
   },
 };
 

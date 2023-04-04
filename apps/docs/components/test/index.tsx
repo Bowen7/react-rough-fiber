@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { ReactFreehand } from 'react-rough-fiber';
+import { RoughSVG } from 'react-rough-fiber';
 import { BarChart, XAxis, YAxis, Tooltip, Legend, Bar } from 'recharts';
 import { Camera } from 'react-feather';
 // @ts-ignore
@@ -84,7 +84,7 @@ export const Test = () => {
     // </ReactFreehand>
 
     <div>
-      <ReactFreehand>
+      <RoughSVG>
         {/* {svg && <SVG src={svg} />} */}
         <button onClick={onClick} style={{ zIndex: seed }}>
           change
@@ -99,7 +99,7 @@ export const Test = () => {
         </BarChart>
         <Camera />
         {/* <Dog /> */}
-      </ReactFreehand>
+      </RoughSVG>
       <Camera />
     </div>
     // <>

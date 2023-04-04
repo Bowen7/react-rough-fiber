@@ -53,10 +53,6 @@ export function normalizeProps(
       svgProps[i as keyof typeof svgProps] = value;
       continue;
     }
-    // fill and stroke will be set to both svgProps and normalizedProps
-    if (isShapeType && (i === 'fill' || i === 'stroke')) {
-      svgProps[i as keyof typeof svgProps] = value;
-    }
     if (
       (i === 'value' && 'defaultValue' in props && value == null) ||
       // Emulate React's behavior of not rendering the contents of noscript tags on the client.

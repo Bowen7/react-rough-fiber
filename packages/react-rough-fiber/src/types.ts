@@ -84,7 +84,7 @@ export type RoughOptions = {
   preserveVertices?: boolean;
 };
 
-export type ReactRoughFiberProps = PropsWithChildren<
+export type RoughSVGProps = PropsWithChildren<
   {
     containerType?: string;
     roughOptions?: RoughOptions;

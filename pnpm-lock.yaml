@@ -95,13 +95,13 @@ importers:
       react-dom: ^18.2.0
       react-dom-17: npm:react-dom@^17.0.2
       react-reconciler: ^0.29.0
+      react-reconciler-26: npm:react-reconciler@^0.26.2
       regenerator-runtime: ^0.13.11
       tsconfig: workspace:*
       typescript: ^4.5.2
     dependencies:
       '@bowen7/roughjs': 0.0.2
       its-fine: 1.1.0_react@18.2.0
-      react-reconciler: 0.29.0_react@18.2.0
     devDependencies:
       '@babel/core': 7.21.3
       '@babel/preset-env': 7.20.2_@babel+core@7.21.3
@@ -123,6 +123,8 @@ importers:
       react-17: /react/17.0.2
       react-dom: 18.2.0_react@18.2.0
       react-dom-17: /react-dom/17.0.2_react@18.2.0
+      react-reconciler: 0.29.0_react@18.2.0
+      react-reconciler-26: /react-reconciler/0.26.2_react@18.2.0
       regenerator-runtime: 0.13.11
       tsconfig: link:../tsconfig
       typescript: 4.9.5
@@ -6511,6 +6513,18 @@ packages:
     resolution: {integrity: sha512-fBASbA6LnOU9dOU2eW7aQ8xmYBSXUIWr+UmF9b1efZBazGNO+rcXT/icdKnYm2pTwcRylVUYwW7H1PHfLekVzA==}
     dev: false
 
+  /react-reconciler/0.26.2_react@18.2.0:
+    resolution: {integrity: sha512-nK6kgY28HwrMNwDnMui3dvm3rCFjZrcGiuwLc5COUipBK5hWHLOxMJhSnSomirqWwjPBJKV1QcbkI0VJr7Gl1Q==}
+    engines: {node: '>=0.10.0'}
+    peerDependencies:
+      react: ^17.0.2
+    dependencies:
+      loose-envify: 1.4.0
+      object-assign: 4.1.1
+      react: 18.2.0
+      scheduler: 0.20.2
+    dev: true
+
   /react-reconciler/0.29.0_react@18.2.0:
     resolution: {integrity: sha512-wa0fGj7Zht1EYMRhKWwoo1H9GApxYLBuhoAuXN0TlltESAjDssB+Apf0T/DngVqaMyPypDmabL37vw/2aRM98Q==}
     engines: {node: '>=0.10.0'}
@@ -6520,7 +6534,7 @@ packages:
       loose-envify: 1.4.0
       react: 18.2.0
       scheduler: 0.23.0
-    dev: false
+    dev: true
 
   /react-resize-detector/7.1.2_biqbaboplfbrettd7655fr4n2y:
     resolution: {integrity: sha512-zXnPJ2m8+6oq9Nn8zsep/orts9vQv3elrpA+R8XTcW7DVVUJ9vwDwMXaBtykAYjMnkCIaOoK9vObyR7ZgFNlOw==}

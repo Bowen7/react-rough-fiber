@@ -8,13 +8,13 @@ import {
 import { LegacyRoot } from 'react-reconciler/constants';
 import { FiberProvider, type ContextBridge, useContextBridge } from 'its-fine';
 import { createRenderer } from '../renderer';
-import { ReactRoughFiberProps } from '../types';
+import { RoughSVGProps } from '../types';
 
-const ReactRoughFiberRenderer = ({
+const RoughSVGRenderer = ({
   containerType = 'div',
   children,
   roughOptions,
-}: ReactRoughFiberProps) => {
+}: RoughSVGProps) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const mountNodeRef = useRef<any>(null);
   const Bridge: ContextBridge = useContextBridge();
@@ -51,8 +51,8 @@ const ReactRoughFiberRenderer = ({
   return createElement(containerType, { ref: containerRef });
 };
 
-export const ReactRoughFiber = ({ children }: PropsWithChildren<{}>) => (
+export const RoughSVG = ({ children }: PropsWithChildren<{}>) => (
   <FiberProvider>
-    <ReactRoughFiberRenderer>{children}</ReactRoughFiberRenderer>
+    <RoughSVGRenderer>{children}</RoughSVGRenderer>
   </FiberProvider>
 );

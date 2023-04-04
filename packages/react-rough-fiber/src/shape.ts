@@ -107,8 +107,6 @@ export const diffShape = (
   roughOptions: RoughOptions
 ) => {
   props = {
-    fill: FILL_PLACEHOLDER,
-    stroke: STROKE_PLACEHOLDER,
     ...SVG_SHAPE_PROPS[type as keyof typeof SVG_SHAPE_PROPS],
     ...props,
   };

@@ -1,13 +1,13 @@
 import { useEffect, useRef, useState, createElement } from 'react';
 import { LegacyRoot } from 'react-reconciler/constants';
 import { createRenderer } from './renderer';
-import { ReactRoughFiberProps } from './types';
+import { RoughSVGProps } from './types';
 
-export const ReactRoughFiber = ({
+export const RoughSVG = ({
   containerType = 'div',
   children,
   roughOptions,
-}: ReactRoughFiberProps) => {
+}: RoughSVGProps) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const mountNodeRef = useRef<any>(null);
   const [Renderer] = useState(() => createRenderer(roughOptions));

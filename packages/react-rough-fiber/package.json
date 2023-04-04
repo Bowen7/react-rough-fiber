@@ -25,6 +25,8 @@
     "jest": "^29.5.0",
     "jest-environment-jsdom": "^29.5.0",
     "jsdom": "latest",
+    "react-reconciler": "^0.29.0",
+    "react-reconciler-26": "npm:react-reconciler@^0.26.2",
     "react": "^18.2.0",
     "react-17": "npm:react@^17.0.2",
     "react-dom": "^18.2.0",
@@ -35,7 +37,6 @@
   },
   "dependencies": {
     "its-fine": "^1.1.0",
-    "react-reconciler": "^0.29.0",
     "@bowen7/roughjs": "^0.0.2"
   }
 }
