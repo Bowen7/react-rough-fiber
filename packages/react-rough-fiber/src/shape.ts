@@ -119,7 +119,9 @@ export const diffShape = (
   const drawable = getDrawable(generator, type, props, roughOptions);
   let pathInfos: PathInfo[] = [];
   if (drawable) {
-    pathInfos = generator.toPaths(drawable);
+    pathInfos = generator
+      .toPaths(drawable)
+      .filter(({ fill, stroke }) => fill !== 'none' || stroke !== 'none');
   }
 
   const { children } = domElement;

@@ -88,5 +88,5 @@ export type RoughSVGProps = PropsWithChildren<
   {
     containerType?: string;
     roughOptions?: RoughOptions;
-  } & HTMLAttributes<''>
+  } & HTMLAttributes<HTMLOrSVGElement>
 >;

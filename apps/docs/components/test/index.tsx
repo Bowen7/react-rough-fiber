@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, ComponentProps } from 'react';
 import { RoughSVG } from 'react-rough-fiber';
 import { BarChart, XAxis, YAxis, Tooltip, Legend, Bar } from 'recharts';
 import { Camera } from 'react-feather';
@@ -58,65 +58,92 @@ const Content = () => {
 };
 
 export const Test = () => {
-  const [seed, setSeed] = useState(1);
-  const [svg, setSVG] = useState('');
+  // const [seed, setSeed] = useState(1);
+  // const [svg, setSVG] = useState('');
+  // const onClick = () => {
+  //   console.log(123);
+  //   setSeed(seed + 1);
+  // };
+  const [rectProps, setRectProps] = useState<ComponentProps<'rect'>>({
+    width: 10,
+    height: 10,
+  });
   const onClick = () => {
-    console.log(123);
-    setSeed(seed + 1);
+    setRectProps({
+      width: 10,
+      height: 10,
+      fill: 'none',
+    });
   };
+  return (
+    <RoughSVG>
+      <button onClick={onClick}>change</button>
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+        fill="red"
+        stroke="green"
+      >
+        <rect {...rectProps} data-testid="rect"></rect>
+      </svg>
+    </RoughSVG>
+  );
   // useEffect(() => {
   //   imageToSVG('/app.png', (str: string) => {
   //     setSVG(str);
   //   });
   // }, []);
-  return (
-    // <ReactFreehand>
-    //   {/* <Camera size={36} /> */}
-    //   <BarChart width={730} height={250} data={data}>
-    //     <CartesianGrid strokeDasharray="3 3" />
-    //     <XAxis dataKey="name" />
-    //     <YAxis />
-    //     <Tooltip />
-    //     <Legend />
-    //     <Bar dataKey="pv" fill="#8884d8" />
-    //     <Bar dataKey="uv" fill="#82ca9d" />
-    //   </BarChart>
-    // </ReactFreehand>
+  // return (
+  // <ReactFreehand>
+  //   {/* <Camera size={36} /> */}
+  //   <BarChart width={730} height={250} data={data}>
+  //     <CartesianGrid strokeDasharray="3 3" />
+  //     <XAxis dataKey="name" />
+  //     <YAxis />
+  //     <Tooltip />
+  //     <Legend />
+  //     <Bar dataKey="pv" fill="#8884d8" />
+  //     <Bar dataKey="uv" fill="#82ca9d" />
+  //   </BarChart>
+  // </ReactFreehand>
 
-    <div>
-      <RoughSVG>
-        {/* {svg && <SVG src={svg} />} */}
-        <button onClick={onClick} style={{ zIndex: seed }}>
-          change
-        </button>
-        <BarChart width={730} height={250} data={data}>
-          <XAxis dataKey="name" />
-          <YAxis />
-          <Tooltip />
-          <Legend />
-          <Bar dataKey="pv" fill="#8884d8" stroke="#333" />
-          <Bar dataKey="uv" fill="#82ca9d" stroke="#333" />
-        </BarChart>
-        <Camera />
-        {/* <Dog /> */}
-      </RoughSVG>
-      <Camera />
-    </div>
-    // <>
-    //   <button onClick={onClick}>change</button>
-    //   <ReactFreehand
-    //     shouldForceUpdateOnRoughOptionsChange
-    //     roughOptions={{ seed }}
-    //   >
-    //     <svg
-    //       xmlns="http://www.w3.org/2000/svg"
-    //       width="24"
-    //       height="24"
-    //       viewBox="0 0 24 24"
-    //     >
-    //       <line x1={0} y1={0} x2={24} y2={24}></line>
-    //     </svg>
-    //   </ReactFreehand>
-    // </>
-  );
+  // <div>
+  //   <RoughSVG>
+  //     {/* {svg && <SVG src={svg} />} */}
+  //     {/* <button onClick={onClick} style={{ zIndex: seed }}>
+  //       change
+  //     </button>
+  //     <BarChart width={730} height={250} data={data}>
+  //       <XAxis dataKey="name" />
+  //       <YAxis />
+  //       <Tooltip />
+  //       <Legend />
+  //       <Bar dataKey="pv" fill="#8884d8" stroke="#333" />
+  //       <Bar dataKey="uv" fill="#82ca9d" stroke="#333" />
+  //     </BarChart>
+  //     <Camera /> */}
+
+  //     {/* <Dog /> */}
+  //   </RoughSVG>
+  //   <Camera />
+  // </div>
+  // <>
+  //   <button onClick={onClick}>change</button>
+  //   <ReactFreehand
+  //     shouldForceUpdateOnRoughOptionsChange
+  //     roughOptions={{ seed }}
+  //   >
+  //     <svg
+  //       xmlns="http://www.w3.org/2000/svg"
+  //       width="24"
+  //       height="24"
+  //       viewBox="0 0 24 24"
+  //     >
+  //       <line x1={0} y1={0} x2={24} y2={24}></line>
+  //     </svg>
+  //   </ReactFreehand>
+  // </>
+  // );
 };

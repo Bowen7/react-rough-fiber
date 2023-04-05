@@ -22,6 +22,8 @@ const createInstance = (
   const { namespace } = hostContext;
   let domElement: Instance;
   if (namespace === SVG_NAMESPACE || type === 'svg') {
+    // roughjs renders a shape as a fill path(if fill is not none) and a stroke path(if stroke is not none)
+    // so we need to wrap the shape in a g element
     if (SVG_SHAPE_PROPS.hasOwnProperty(type)) {
       type = 'g';
     }

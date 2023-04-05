@@ -14,6 +14,7 @@ const RoughSVGRenderer = ({
   containerType = 'div',
   children,
   roughOptions,
+  ...restProps
 }: RoughSVGProps) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const mountNodeRef = useRef<any>(null);
@@ -48,7 +49,7 @@ const RoughSVGRenderer = ({
     };
   }, [Renderer]);
 
-  return createElement(containerType, { ref: containerRef });
+  return createElement(containerType, { ref: containerRef, ...restProps });
 };
 
 export const RoughSVG = ({ children }: PropsWithChildren<{}>) => (
