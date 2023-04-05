@@ -26,10 +26,18 @@ jobs:
         with:
           node-version: 16
           registry-url: https://registry.npmjs.org/
-      - uses: pnpm/action-setup@v2
+      - name: Cache pnpm modules
+        uses: actions/cache@v2
         with:
-          version: 6.0.2
-      - run: pnpm install
+          path: ~/.pnpm-store
+          key: ${{ runner.os }}-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-
+      - uses: pnpm/action-setup@v2.1.0
+        with:
+          version: 7.29.1
+          run_install: true
+      - run: cd packages/react-rough-fiber
       - run: pnpm build
       - name: Publish
         run: |
