@@ -37,6 +37,6 @@
   },
   "dependencies": {
     "its-fine": "^1.1.0",
-    "@bowen7/roughjs": "^0.0.2"
+    "@bowen7/roughjs": "^0.0.3"
   }
 }

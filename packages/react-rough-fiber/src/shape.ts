@@ -1,4 +1,4 @@
-import rough from '@bowen7/roughjs';
+import { roughGenerator } from '@bowen7/roughjs';
 import {
   SVG_PATH_TAG,
   SVG_CIRCLE_TAG,
@@ -21,8 +21,8 @@ import {
 import { shallowEqual } from './utils';
 import { diffNormalizedProps } from './props';
 
-type Drawable = ReturnType<ReturnType<(typeof rough)['generator']>['path']>;
-type Generator = ReturnType<(typeof rough)['generator']>;
+type Generator = ReturnType<typeof roughGenerator>;
+type Drawable = ReturnType<Generator['path']>;
 
 const getDrawable = (
   generator: Generator,
@@ -115,7 +115,7 @@ export const diffShape = (
     return;
   }
   (<any>domElement)._svgProps = props;
-  const generator = rough.generator();
+  const generator = roughGenerator();
   const drawable = getDrawable(generator, type, props, roughOptions);
   let pathInfos: PathInfo[] = [];
   if (drawable) {
