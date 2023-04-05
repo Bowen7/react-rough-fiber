@@ -7,8 +7,7 @@ import {
 } from 'react';
 import { cleanup, render, screen } from '@testing-library/react';
 import { act } from 'react-dom/test-utils';
-import { RoughSVG } from '../index';
-import { RoughSVG as RoughSVGWithContext } from '../withContext';
+import { RoughSVG, WCRoughSVG } from '../index';
 
 afterEach(() => {
   cleanup();
@@ -524,9 +523,9 @@ it('work with context', () => {
       <>
         <button onClick={onClick}>change</button>
         <FillContext.Provider value={fill}>
-          <RoughSVGWithContext data-testid="container">
+          <WCRoughSVG data-testid="container">
             <Path />
-          </RoughSVGWithContext>
+          </WCRoughSVG>
         </FillContext.Provider>
       </>
     );

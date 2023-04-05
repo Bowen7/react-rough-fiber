@@ -1,16 +1,9 @@
-import {
-  useEffect,
-  PropsWithChildren,
-  useRef,
-  useState,
-  createElement,
-} from 'react';
+import { useEffect, useRef, useState, createElement } from 'react';
 import { LegacyRoot } from 'react-reconciler/constants';
-import { FiberProvider, type ContextBridge, useContextBridge } from 'its-fine';
-import { createRenderer } from '../renderer';
-import { RoughSVGProps } from '../types';
+import { createRenderer } from './renderer';
+import { RoughSVGProps } from './types';
 
-const RoughSVGRenderer = ({
+export const RoughSVG = ({
   containerType = 'div',
   children,
   roughOptions,
@@ -18,7 +11,6 @@ const RoughSVGRenderer = ({
 }: RoughSVGProps) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const mountNodeRef = useRef<any>(null);
-  const Bridge: ContextBridge = useContextBridge();
   const [Renderer] = useState(() => createRenderer(roughOptions));
 
   useEffect(() => {
@@ -35,13 +27,9 @@ const RoughSVGRenderer = ({
       );
     }
     if (mountNodeRef.current) {
-      Renderer.updateContainer(
-        <Bridge>{children}</Bridge>,
-        mountNodeRef.current,
-        null
-      );
+      Renderer.updateContainer(children, mountNodeRef.current, null);
     }
-  }, [children, Bridge, Renderer]);
+  }, [children, Renderer]);
 
   useEffect(() => {
     return () => {
@@ -51,9 +39,3 @@ const RoughSVGRenderer = ({
 
   return createElement(containerType, { ref: containerRef, ...restProps });
 };
-
-export const RoughSVG = ({ children }: PropsWithChildren<{}>) => (
-  <FiberProvider>
-    <RoughSVGRenderer>{children}</RoughSVGRenderer>
-  </FiberProvider>
-);
