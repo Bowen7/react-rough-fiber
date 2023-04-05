@@ -1,15 +1,79 @@
-import {Test} from "components/test"
+import { Tab, Tabs, Callout } from 'nextra-theme-docs'
+import { RoughSVG } from 'react-rough-fiber'
+import { Sandbox } from "components/sandbox"
 
-# Introduction
+# Get Started
  
-Welcome to Nextra! This is a basic docs template. You can use it as a starting point for your own project :)
+## Introduction
 
-## What is Nextra?
+`react-rough-fiber` is a React renderer for rendering hand-drawn SVG.
 
-A **simple**, **powerful** and **flexible** site generation framework with everything you love from Next.js.
+## Install
 
-## Documentation
+<Tabs items={['pnpm', 'npm', 'yarn']}>
+  <Tab>
+    ```bash copy
+    pnpm i react-rough-fiber react-reconciler
+    ```
+  </Tab>
+  <Tab>
+    ```bash copy
+    npm i react-rough-fiber react-reconciler
+    ```
+  </Tab>
+  <Tab>
+    ```bash copy
+    yarn add react-rough-fiber react-reconciler
+    ```
+  </Tab>
+</Tabs>
 
-The documentation is available at [https://nextra.site](https://nextra.site).
+<Callout type="warning" emoji="⚠️">
+  If you are using React 17, you need to install `react-reconciler@0.26.2`.
+</Callout>
 
-<Test />
+## Quick Start
+
+You only need to add **three lines** of code to make the SVG look more like a hand-drawn image:
+
+```jsx {1,4,20}
+import { RoughSVG } from 'react-rough-fiber'
+export default function App() {
+  return (
+    <RoughSVG>
+      <svg 
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 64 64"
+        width="256"
+        height="256"
+      >
+        <rect
+          x={12}
+          y={12}
+          width={48}
+          height={48}
+          stroke="#000"
+          fill="#82ca9d"
+        />
+      </svg>
+    </RoughSVG>
+  )
+}
+```
+
+<RoughSVG>
+  <svg viewBox="0 0 64 64" width="256" height="256">
+    <rect
+      x={12}
+      y={12}
+      width={48}
+      height={48}
+      stroke="#000"
+      fill="#82ca9d"
+    />
+  </svg>
+</RoughSVG>
+
+### Want more?
+
+You can use `react-rough-fiber` with [icons](/examples/icon), [charts](/examples/chart), and even [png images](/examples/image)!
