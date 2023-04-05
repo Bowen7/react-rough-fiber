@@ -14,7 +14,7 @@ on:
       - LICENSE
       - '**/*.gitignore'
       - .editorconfig
-      - docs/**
+      - apps/**
   pull_request: null
 
 jobs:
