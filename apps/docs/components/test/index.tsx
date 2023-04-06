@@ -5,7 +5,6 @@ import { Camera } from 'react-feather';
 // @ts-ignore
 import { imageToSVG } from 'imagetracerjs';
 import SVG from 'react-inlinesvg';
-import { Dog } from '../dog';
 export const data = [
   {
     name: 'Page A',

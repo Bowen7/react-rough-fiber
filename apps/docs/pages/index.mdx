@@ -1,6 +1,46 @@
 import { Tab, Tabs, Callout } from 'nextra-theme-docs'
 import { RoughSVG } from 'react-rough-fiber'
+import { Bell, Battery, Coffee, Twitter, Camera, Edit, Image } from "react-feather"
+import { BarChart, XAxis, YAxis, Tooltip, Legend, Bar } from 'recharts';
 import { Sandbox } from "components/sandbox"
+
+export const data = [
+  {
+    name: 'Page A',
+    uv: 9000,
+    pv: 2400,
+  },
+  {
+    name: 'Page B',
+    uv: 3000,
+    pv: 1398,
+  },
+  {
+    name: 'Page C',
+    uv: 2000,
+    pv: 9800,
+  },
+  {
+    name: 'Page D',
+    uv: 2780,
+    pv: 3908,
+  },
+  {
+    name: 'Page E',
+    uv: 1890,
+    pv: 4800,
+  },
+  {
+    name: 'Page F',
+    uv: 2390,
+    pv: 3800,
+  },
+  {
+    name: 'Page G',
+    uv: 3490,
+    pv: 4300,
+  },
+];
 
 # Get Started
  
@@ -34,27 +74,15 @@ import { Sandbox } from "components/sandbox"
 
 ## Quick Start
 
-You only need to add **three lines** of code to make the SVG look more like a hand-drawn image:
+To render the SVG in a hand-drawn style, you only need to add three lines of code:
 
-```jsx {1,4,20}
+```jsx {1,4,8}
 import { RoughSVG } from 'react-rough-fiber'
 export default function App() {
   return (
     <RoughSVG>
-      <svg 
-        xmlns="http://www.w3.org/2000/svg"
-        viewBox="0 0 64 64"
-        width="256"
-        height="256"
-      >
-        <rect
-          x={12}
-          y={12}
-          width={48}
-          height={48}
-          stroke="#000"
-          fill="#82ca9d"
-        />
+      <svg viewBox="0 0 64 64" width="256" height="256">
+        <rect x={12} y={12} width={48} height={48} stroke="#000" fill="#82ca9d" />
       </svg>
     </RoughSVG>
   )
@@ -74,6 +102,41 @@ export default function App() {
   </svg>
 </RoughSVG>
 
-### Want more?
+## Integration
 
-You can use `react-rough-fiber` with [icons](/examples/icon), [charts](/examples/chart), and even [png images](/examples/image)!
+### Icons
+
+With [react-feather](https://github.com/feathericons/react-feather):
+
+<RoughSVG className="flex gap-4 my-4" roughOptions={{roughness: 0.75, seed: 2}}>
+  <Battery />
+  <Bell />
+  <Coffee />
+  <Twitter />
+  <Camera />
+  <Edit />
+  <Image />
+</RoughSVG>
+
+[Code](/examples/icon)
+
+### Chart
+
+With [recharts](https://github.com/recharts/recharts):
+
+<RoughSVG className="my-4" roughOptions={{fillStyle: 'zigzag'}} style={{fontFamily: 'HandDrawnFont'}}>
+  <BarChart width={730} height={250} data={data}>
+    <XAxis dataKey="name" />
+    <YAxis />
+    <Tooltip />
+    <Legend />
+    <Bar dataKey="pv" fill="#8884d8" stroke="#333" />
+    <Bar dataKey="uv" fill="#82ca9d" stroke="#333" />
+  </BarChart>
+</RoughSVG>
+
+[Code](/examples/chart)
+
+### Even HTML!
+
+See [HTML Examples](/examples/html)
