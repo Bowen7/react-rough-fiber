@@ -76,18 +76,19 @@ export const Test = () => {
     });
   };
   return (
-    <RoughCanvas>
-      <svg viewbox="0 0 64 64" width={64} height={64}>
-        <rect
-          x={10}
-          y={10}
-          width={100}
-          height={100}
-          stroke="#000"
-          fill="#82ca9d"
-        />
+    <RoughSVG>
+      <button onClick={onClick}>change</button>
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+        fill="red"
+        stroke="green"
+      >
+        <rect {...rectProps} data-testid="rect"></rect>
       </svg>
-    </RoughCanvas>
+    </RoughSVG>
   );
   // useEffect(() => {
   //   imageToSVG('/app.png', (str: string) => {
