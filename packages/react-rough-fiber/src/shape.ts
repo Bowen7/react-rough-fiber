@@ -6,6 +6,7 @@ import {
   SVG_RECT_TAG,
   SVG_ELLIPSE_TAG,
   SVG_POLYGON_TAG,
+  SVG_POLYLINE_TAG,
   SVG_SHAPE_PROPS,
   SVG_NAMESPACE,
   FILL_PLACEHOLDER,
@@ -18,7 +19,7 @@ import {
   InstanceProps,
   RoughOptions,
 } from './types';
-import { shallowEqual } from './utils';
+import { shallowEqual, parsePoints } from './utils';
 import { diffNormalizedProps } from './props';
 
 type Generator = ReturnType<typeof roughGenerator>;
@@ -75,10 +76,17 @@ const getDrawable = (
     }
     case SVG_POLYGON_TAG: {
       const { points, fill, stroke } = props;
-      const pts = points!
-        .split(' ')
-        .map((v) => v.split(',').map((v) => +v)) as [number, number][];
+      const pts = parsePoints(points!);
       return generator.polygon(pts, {
+        ...roughOptions,
+        fill,
+        stroke,
+      });
+    }
+    case SVG_POLYLINE_TAG: {
+      const { points, fill, stroke } = props;
+      const pts = parsePoints(points!);
+      return generator.linearPath(pts, {
         ...roughOptions,
         fill,
         stroke,

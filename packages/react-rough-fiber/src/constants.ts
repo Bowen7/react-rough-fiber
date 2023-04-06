@@ -14,6 +14,7 @@ export const SVG_LINE_TAG = 'line';
 export const SVG_RECT_TAG = 'rect';
 export const SVG_ELLIPSE_TAG = 'ellipse';
 export const SVG_POLYGON_TAG = 'polygon';
+export const SVG_POLYLINE_TAG = 'polyline';
 
 export const FILL_PLACEHOLDER = 'fill-placeholder';
 export const STROKE_PLACEHOLDER = 'stroke-placeholder';
@@ -58,6 +59,11 @@ export const SVG_POLYGON_PROPS = {
   fill: FILL_PLACEHOLDER,
   stroke: STROKE_PLACEHOLDER,
 };
+export const SVG_POLYLINE_PROPS = {
+  points: '',
+  fill: FILL_PLACEHOLDER,
+  stroke: STROKE_PLACEHOLDER,
+};
 
 export const SVG_SHAPE_PROPS = {
   [SVG_PATH_TAG]: SVG_PATH_PROPS,
@@ -66,4 +72,5 @@ export const SVG_SHAPE_PROPS = {
   [SVG_RECT_TAG]: SVG_RECT_PROPS,
   [SVG_ELLIPSE_TAG]: SVG_ELLIPSE_PROPS,
   [SVG_POLYGON_TAG]: SVG_POLYGON_PROPS,
+  [SVG_POLYLINE_TAG]: SVG_POLYLINE_PROPS,
 };
