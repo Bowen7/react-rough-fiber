@@ -14,7 +14,7 @@ on:
       - LICENSE
       - '**/*.gitignore'
       - .editorconfig
-      - docs/**
+      - apps/**
   pull_request: null
 
 jobs:
@@ -30,7 +30,7 @@ jobs:
         with:
           version: 7.29.1
           run_install: true
-      - run: cd packages/react-rough-fiber && pnpm build
+      - run: cd packages/react-rough-fiber && pnpm release
       - name: Publish
         run: |
           if git log -1 --pretty=%B | grep "^[0-9]\+\.[0-9]\+\.[0-9]\+$";

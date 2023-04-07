@@ -20,3 +20,13 @@ export const shallowEqual = (
 
   return keys1.every((key) => options1[key] === options2[key]);
 };
+
+const pointSplit = /\s+|\s*,\s*/;
+export const parsePoints = (points: string) => {
+  const pts: [number, number][] = [];
+  const coord = points.split(pointSplit);
+  for (let i = 0; i < coord.length; i += 2) {
+    pts.push([+coord[i], +coord[i + 1]]);
+  }
+  return pts;
+};

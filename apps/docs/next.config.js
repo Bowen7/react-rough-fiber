@@ -6,4 +6,15 @@ const withNextra = require('nextra')({
 module.exports = withNextra({
   reactStrictMode: true,
   transpilePackages: ['react-rough-fiber'],
+  images: {
+    domains: ['localhost'],
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'storage.ko-fi.com',
+        port: '',
+        pathname: '/cdn/**',
+      },
+    ],
+  },
 });

@@ -4,9 +4,7 @@ const commonConfig = {
   transform: {
     '^.+\\.[jt]sx?$': ['babel-jest', { configFile: './test/.babelrc.js' }],
   },
-  transformIgnorePatterns: [
-    'node_modules/(?!.*(@bowen7|path-data-parser|points-on-curve|points-on-path))',
-  ],
+  transformIgnorePatterns: ['node_modules/(?!.*(@bowen7))'],
 };
 
 const react18Config = {

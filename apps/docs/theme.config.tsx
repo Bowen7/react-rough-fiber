@@ -1,18 +1,25 @@
-import React from 'react'
-import { DocsThemeConfig } from 'nextra-theme-docs'
+import React from 'react';
+import { DocsThemeConfig } from 'nextra-theme-docs';
 
 const config: DocsThemeConfig = {
-  logo: <span>My Project</span>,
+  logo: <strong>React Rough Fiber</strong>,
   project: {
-    link: 'https://github.com/shuding/nextra-docs-template',
+    link: 'https://github.com/Bowen7/react-rough-fiber',
+  },
+  docsRepositoryBase: 'https://github.com/Bowen7/react-rough-fiber',
+  footer: {
+    text: 'React Rough Fiber Docs',
   },
   chat: {
-    link: 'https://discord.com',
+    link: 'https://ko-fi.com/Q5Q0JBEEF',
+    icon: (
+      <img
+        style={{ height: 36 }}
+        src="https://storage.ko-fi.com/cdn/kofi3.png?v=3"
+        alt="Buy Me a Coffee at ko-fi.com"
+      />
+    ),
   },
-  docsRepositoryBase: 'https://github.com/shuding/nextra-docs-template',
-  footer: {
-    text: 'Nextra Docs Template',
-  },
-}
+};
 
-export default config
+export default config;

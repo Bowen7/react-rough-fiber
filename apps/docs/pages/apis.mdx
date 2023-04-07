@@ -1,0 +1,72 @@
+import { Callout } from 'nextra-theme-docs'
+import { FilStyleDemo } from "../components/fillStyleDemo"
+
+# API
+
+## RoughSVG
+
+### Parameters
+
+- `containerType = 'div'`: The type of container to use for the `RoughSVG`.
+- `roughOptions = {}`: The options for `Rough.js`.
+
+#### roughOptions
+
+Link: [`Rough.js` official api docs](https://github.com/rough-stuff/rough/wiki)
+
+<Callout type="warning" emoji="⚠️">
+  Please note that not all options of `Rough.js` are supported.
+</Callout>
+
+
+- `roughness`: Numerical value indicating how rough the drawing is.
+  A rectangle with the roughness of 0 would be a perfect rectangle.
+  Default value is 1. There is no upper limit to this value, but a value over 10 is mostly useless.
+- `bowing`: Numerical value indicating how curvy the lines are when drawing a sketch.
+  A value of 0 will cause straight lines.
+  Default value is 1.
+- `seed`: An optional numeric value that sets the seed for creating random values used in shape generation.
+  This is useful for creating the exact shape when re-generating with the same parameters.
+  The value of seed is between 1 and 2^31. If seed is not defined, or set to 0, no seed is used when computing random values.
+- `fillStyle`: Rough.js supports the following styles (Default value is hachure):
+  - `hachure` draws sketchy parallel lines with the same roughness as defined by the roughness and the bowing properties of the shape. It can be further configured using the fillWeight, hachureAngle, and hachureGap properties.
+  - `solid` is more like a conventional fill.
+  - `zigzag` draws zig-zag lines filling the shape
+  - `cross-hatch` Similar to hachure, but draws cross hatch lines (akin to two hachure fills 90 degrees from each other).
+  - `dots` Fills the shape with sketchy dots.
+  - `dashed` Similar to hachure but the individual lines are dashed. Dashes can be configured using the dashOffset and dashGap properties.
+  - `zigzag-line` Similar to hachure but individual lines are drawn in a zig-zag fashion. The size of the zig-zag can be configured using the zigzagOffset proeprty
+
+You can view every fillStyle effect through the demo:
+
+<FilStyleDemo />
+
+- `fillWeight`: Numeric value representing the width of the hachure lines.
+  Default value of the fillWeight is set to half the strokeWidth of that shape.
+  When using dots styles to fill the shape, this value represents the diameter of the dot.
+- `hachureAngle`: Numerical value (in degrees) that defines the angle of the hachure lines. Default value is -41 degrees.
+- `hachureGap`: Numerical value that defines the average gap, in pixels, between two hachure lines. Default value of the hachureGap is set to four times the `strokeWidth` of that shape.
+- `curveStepCount`: When drawing ellipses, circles, and arcs, RoughJS approximates curveStepCount number of points to estimate the shape. Default value is 9.
+- `curveFitting`: When drawing ellipses, circles, and arcs, Let RoughJS know how close should the rendered dimensions be when compared to the specified one.
+  Default value is 0.95 - which means the rendered dimensions will be at least 95% close to the specified dimensions.
+  A value of 1 will ensure that the dimensions are almost 100% accurate.
+- `fillLineDash`: This property is similar to the strokeLineDash property but it affects the fills, not the stroke. eg. when you want hachure lines to be dashed.
+- `fillLineDashOffset`: This property is similar to the strokeLineDashOffset property but it affects the fills, not the stroke.
+- `disableMultiStroke`: If this property is set to true, roughjs does not apply multiple strokes to sketch the shape.
+- `disableMultiStrokeFill`: If this property is set to true, roughjs does not apply multiple strokes to sketch the hachure lines to fill the shape.
+- `simplification`: When drawing paths using SVG path instructions, simplification can be set to simplify the shape by the specified factor. The value can be between 0 and 1.
+  For example, a path with 100 points and a simplification value of 0.5 will estimate the shape to about 50 points. This will give more complex shapes a sketchy feel.
+- `dashOffset`: When filling a shape using the dashed style, this property indicates the nominal length of dash (in pixels). If not set, it defaults to the hachureGap value.
+- `dashGap`: When filling a shape using the dashed style, this property indicates the nominal gap between dashes (in pixels). If not set, it defaults to the hachureGap value.
+- `zigzagOffset`: When filling a shape using the zigzag-line style, this property indicates the nominal width of the zig-zag triangle in each line. If not set, it defaults to the hachureGap value.
+- `preserveVertices`: When randomizing shapes do not randomize locations of the end points. e.g. end points of line or a curve. Boolean value, defaults to `false`
+
+## WCRoughSVG
+
+<Callout type="warning" emoji="⚠️">
+  `WCRoughSVG` is only compatible with React version 18.0.0 or later.
+</Callout>
+
+If you want to use context in `RoughSVG`, you can use `WCRoughSVG` instead of `RoughSVG`. See [FAQ](/faq#why-cant-i-get-the-context-value) for more details.
+
+All parameters of `WCRoughSVG` are identical to `RoughSVG`.

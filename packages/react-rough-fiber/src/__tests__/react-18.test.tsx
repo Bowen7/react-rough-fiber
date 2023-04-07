@@ -191,6 +191,26 @@ describe('render svg element', () => {
     const polygon = screen.getByTestId('polygon');
     expect(polygon.tagName).toBe('g');
   });
+
+  it('render polyline', () => {
+    render(
+      <RoughSVG>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+        >
+          <polyline
+            points="0,10 5,20 5,15 10,0"
+            data-testid="polyline"
+          ></polyline>
+        </svg>
+      </RoughSVG>
+    );
+    const polyline = screen.getByTestId('polyline');
+    expect(polyline.tagName).toBe('g');
+  });
 });
 
 describe('render fill and stroke', () => {

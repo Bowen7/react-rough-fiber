@@ -1,0 +1,8 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+  font-family: HandDrawnFont;
+  src: url(/GloriaHallelujah-Regular.ttf);
+}

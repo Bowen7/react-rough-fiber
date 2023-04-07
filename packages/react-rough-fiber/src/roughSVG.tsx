@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState, createElement } from 'react';
 import { LegacyRoot } from 'react-reconciler/constants';
-import { createRenderer } from './renderer';
+import { createReconciler } from './renderer';
 import { RoughSVGProps } from './types';
 
 export const RoughSVG = ({
@@ -11,11 +11,13 @@ export const RoughSVG = ({
 }: RoughSVGProps) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const mountNodeRef = useRef<any>(null);
-  const [Renderer] = useState(() => createRenderer(roughOptions));
+  const [[reconciler, setRoughOptions]] = useState(() =>
+    createReconciler(roughOptions)
+  );
 
   useEffect(() => {
     if (containerRef.current && !mountNodeRef.current) {
-      mountNodeRef.current = Renderer.createContainer(
+      mountNodeRef.current = reconciler.createContainer(
         containerRef.current,
         LegacyRoot,
         null,
@@ -26,16 +28,17 @@ export const RoughSVG = ({
         null
       );
     }
+    roughOptions && setRoughOptions(roughOptions);
     if (mountNodeRef.current) {
-      Renderer.updateContainer(children, mountNodeRef.current, null);
+      reconciler.updateContainer(children, mountNodeRef.current, null);
     }
-  }, [children, Renderer]);
+  }, [children, reconciler, roughOptions]);
 
   useEffect(() => {
     return () => {
-      Renderer.updateContainer(null, mountNodeRef.current, null);
+      reconciler.updateContainer(null, mountNodeRef.current, null);
     };
-  }, [Renderer]);
+  }, [reconciler]);
 
   return createElement(containerType, { ref: containerRef, ...restProps });
 };

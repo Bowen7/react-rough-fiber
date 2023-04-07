@@ -1,15 +1,142 @@
-import {Test} from "components/test"
+import { Tab, Tabs, Callout } from 'nextra-theme-docs'
+import { RoughSVG } from 'react-rough-fiber'
+import { Bell, Battery, Coffee, Twitter, Camera, Edit, Image } from "react-feather"
+import { BarChart, XAxis, YAxis, Tooltip, Legend, Bar } from 'recharts';
+import { Sandbox } from "components/sandbox"
 
-# Introduction
+export const data = [
+  {
+    name: 'Page A',
+    uv: 9000,
+    pv: 2400,
+  },
+  {
+    name: 'Page B',
+    uv: 3000,
+    pv: 1398,
+  },
+  {
+    name: 'Page C',
+    uv: 2000,
+    pv: 9800,
+  },
+  {
+    name: 'Page D',
+    uv: 2780,
+    pv: 3908,
+  },
+  {
+    name: 'Page E',
+    uv: 1890,
+    pv: 4800,
+  },
+  {
+    name: 'Page F',
+    uv: 2390,
+    pv: 3800,
+  },
+  {
+    name: 'Page G',
+    uv: 3490,
+    pv: 4300,
+  },
+];
+
+# Get Started
  
-Welcome to Nextra! This is a basic docs template. You can use it as a starting point for your own project :)
+## Introduction
 
-## What is Nextra?
+`react-rough-fiber` is a React renderer for rendering hand-drawn SVG.
 
-A **simple**, **powerful** and **flexible** site generation framework with everything you love from Next.js.
+## Install
 
-## Documentation
+<Tabs items={['pnpm', 'npm', 'yarn']}>
+  <Tab>
+    ```bash copy
+    pnpm i react-rough-fiber react-reconciler
+    ```
+  </Tab>
+  <Tab>
+    ```bash copy
+    npm i react-rough-fiber react-reconciler
+    ```
+  </Tab>
+  <Tab>
+    ```bash copy
+    yarn add react-rough-fiber react-reconciler
+    ```
+  </Tab>
+</Tabs>
 
-The documentation is available at [https://nextra.site](https://nextra.site).
+<Callout type="warning" emoji="⚠️">
+  If you are using React 17, you need to install `react-reconciler@0.26.2`.
+</Callout>
 
-<Test />
+## Quick Start
+
+To render the SVG in a hand-drawn style, you only need to add three lines of code:
+
+```jsx {1,4,8}
+import { RoughSVG } from 'react-rough-fiber'
+export default function App() {
+  return (
+    <RoughSVG>
+      <svg viewBox="0 0 64 64" width="256" height="256">
+        <rect x={12} y={12} width={48} height={48} stroke="#000" fill="#82ca9d" />
+      </svg>
+    </RoughSVG>
+  )
+}
+```
+
+<RoughSVG>
+  <svg viewBox="0 0 64 64" width="256" height="256">
+    <rect
+      x={12}
+      y={12}
+      width={48}
+      height={48}
+      stroke="#000"
+      fill="#82ca9d"
+    />
+  </svg>
+</RoughSVG>
+
+## Integration
+
+### Icons
+
+With [react-feather](https://github.com/feathericons/react-feather):
+
+<RoughSVG className="flex gap-4 my-4" roughOptions={{roughness: 0.6, seed: 2, bowing: 15}}>
+  <Battery />
+  <Bell />
+  <Coffee />
+  <Twitter />
+  <Camera />
+  <Edit />
+  <Image />
+</RoughSVG>
+
+[Code](/examples/icon)
+
+### Chart
+
+With [recharts](https://github.com/recharts/recharts):
+
+<RoughSVG className="my-4" roughOptions={{fillStyle: 'zigzag'}} style={{fontFamily: 'HandDrawnFont'}}>
+  <BarChart width={730} height={250} data={data}>
+    <XAxis dataKey="name" />
+    <YAxis />
+    <Tooltip />
+    <Legend />
+    <Bar dataKey="pv" fill="#8884d8" stroke="#333" />
+    <Bar dataKey="uv" fill="#82ca9d" stroke="#333" />
+  </BarChart>
+</RoughSVG>
+
+[Code](/examples/chart)
+
+### Even HTML!
+
+See [HTML Examples](/examples/html)
