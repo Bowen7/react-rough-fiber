@@ -4,17 +4,8 @@
 name: Node.js Package
 
 on:
-  push:
-    branches:
-      - main
-    tags-ignore:
-      - '**'
-    paths-ignore:
-      - '**/*.md'
-      - LICENSE
-      - '**/*.gitignore'
-      - .editorconfig
-      - apps/**
+  release:
+    types: [published]
 
 jobs:
   publish-npm:
@@ -29,8 +20,11 @@ jobs:
         with:
           version: 7.29.1
           run_install: true
-      - run: cd packages/react-rough-fiber && pnpm release
+      - name: Test
+        run: pnpm test
+      - name: Build
+        run: cd packages/react-rough-fiber && node scripts/npm.js && pnpm build
       - name: Publish
-        run: cd packages/react-rough-fiber && ls
+        run: cd packages/react-rough-fiber && npm publish --access public
         env:
           NODE_AUTH_TOKEN: ${{secrets.npm_token}}

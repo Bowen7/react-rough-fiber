@@ -10,19 +10,11 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - name: setup node
-        uses: actions/setup-node@v3
+      - uses: actions/setup-node@v3
         with:
-          node-version: "14"
-
-      - name: Cache pnpm modules
-        uses: actions/cache@v2
-        with:
-          path: ~/.pnpm-store
-          key: ${{ runner.os }}-${{ hashFiles('**/pnpm-lock.yaml') }}
-          restore-keys: |
-            ${{ runner.os }}-
-      - uses: pnpm/action-setup@v2.1.0
+          node-version: 16
+          registry-url: https://registry.npmjs.org/
+      - uses: pnpm/action-setup@v2
         with:
           version: 7.29.1
           run_install: true
