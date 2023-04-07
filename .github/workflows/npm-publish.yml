@@ -31,6 +31,6 @@ jobs:
           run_install: true
       - run: cd packages/react-rough-fiber && pnpm release
       - name: Publish
-        run: ls
+        run: cd packages/react-rough-fiber && ls
         env:
           NODE_AUTH_TOKEN: ${{secrets.npm_token}}
