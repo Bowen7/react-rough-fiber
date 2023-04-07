@@ -31,17 +31,6 @@ jobs:
           run_install: true
       - run: cd packages/react-rough-fiber && pnpm release
       - name: Publish
-        run: |
-          if git log -1 --pretty=%B | grep "^[0-9]\+\.[0-9]\+\.[0-9]\+$";
-          then
-            echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" >> ~/.npmrc
-            cd packages/react-rough-fiber && npm publish --access public
-          elif git log -1 --pretty=%B | grep "^[0-9]\+\.[0-9]\+\.[0-9]\+";
-          then
-            echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" >> ~/.npmrc
-            cd packages/react-rough-fiber && npm publish --tag next --access public
-          else
-            echo "Not a release, skipping publish"
-          fi
+        run: ls
         env:
           NODE_AUTH_TOKEN: ${{secrets.npm_token}}
