@@ -15,7 +15,6 @@ on:
       - '**/*.gitignore'
       - .editorconfig
       - apps/**
-  pull_request: null
 
 jobs:
   publish-npm:

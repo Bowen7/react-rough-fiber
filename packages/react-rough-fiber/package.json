@@ -1,6 +1,6 @@
 {
   "name": "react-rough-fiber",
-  "version": "0.0.1-alpha.1",
+  "version": "0.0.1",
   "main": "./src/index.tsx",
   "license": "MIT",
   "scripts": {
