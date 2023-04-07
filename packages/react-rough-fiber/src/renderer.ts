@@ -46,8 +46,19 @@ const insertBefore = (
   beforeChild: Instance
 ) => parent.insertBefore(child, beforeChild);
 
-export const createRenderer = (roughOptions: RoughOptions = {}) =>
-  Reconciler<
+export const createReconciler = (
+  roughOptions: RoughOptions = {}
+): [
+  Reconciler.Reconciler<Instance, Instance, void, Instance, Instance>,
+  (options: RoughOptions) => void
+] => {
+  let _roughOptions = roughOptions;
+
+  const setRoughOptions = (options: RoughOptions) => {
+    _roughOptions = options;
+  };
+
+  const reconciler = Reconciler<
     HostConfig['type'],
     HostConfig['props'],
     HostConfig['container'],
@@ -101,7 +112,7 @@ export const createRenderer = (roughOptions: RoughOptions = {}) =>
         instance as InstanceWithListeners,
         props,
         {},
-        roughOptions
+        _roughOptions
       );
       return false;
     },
@@ -114,7 +125,7 @@ export const createRenderer = (roughOptions: RoughOptions = {}) =>
         instance as InstanceWithListeners,
         newProps,
         oldProps,
-        roughOptions
+        _roughOptions
       );
     },
     commitTextUpdate(textInstance, _oldText: string, newText: string): void {
@@ -143,3 +154,5 @@ export const createRenderer = (roughOptions: RoughOptions = {}) =>
     prepareScopeUpdate: () => {},
     getInstanceFromScope: () => null,
   });
+  return [reconciler, setRoughOptions];
+};

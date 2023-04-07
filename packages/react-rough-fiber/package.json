@@ -2,8 +2,6 @@
   "name": "react-rough-fiber",
   "version": "0.0.1-alpha.1",
   "main": "./src/index.tsx",
-  "types": "./dist/index.d.ts",
-  "module": "./dist/esm/index.js",
   "license": "MIT",
   "scripts": {
     "lint": "eslint *.ts*",
@@ -38,7 +36,7 @@
     "tsconfig": "workspace:*",
     "tsup": "^6.7.0",
     "typescript": "^4.5.2",
-    "@bowen7/roughjs": "^0.0.3",
+    "@bowen7/roughjs": "^0.0.4",
     "its-fine": "^1.1.0"
   },
   "peerDependencies": {

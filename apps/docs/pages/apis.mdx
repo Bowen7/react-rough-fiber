@@ -1,4 +1,5 @@
 import { Callout } from 'nextra-theme-docs'
+import { FilStyleDemo } from "../components/FillStyleDemo"
 
 # API
 
@@ -35,7 +36,12 @@ Link: [`Rough.js` official api docs](https://github.com/rough-stuff/rough/wiki)
   - `dots` Fills the shape with sketchy dots.
   - `dashed` Similar to hachure but the individual lines are dashed. Dashes can be configured using the dashOffset and dashGap properties.
   - `zigzag-line` Similar to hachure but individual lines are drawn in a zig-zag fashion. The size of the zig-zag can be configured using the zigzagOffset proeprty
-  - `fillWeight`: Numeric value representing the width of the hachure lines.
+
+You can view every fillStyle effect through the demo:
+
+<FilStyleDemo />
+
+- `fillWeight`: Numeric value representing the width of the hachure lines.
   Default value of the fillWeight is set to half the strokeWidth of that shape.
   When using dots styles to fill the shape, this value represents the diameter of the dot.
 - `hachureAngle`: Numerical value (in degrees) that defines the angle of the hachure lines. Default value is -41 degrees.

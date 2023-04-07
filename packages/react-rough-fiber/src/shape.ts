@@ -119,10 +119,15 @@ export const diffShape = (
     ...props,
   };
   const prevProps = (<any>domElement)._svgProps;
-  if (shallowEqual(prevProps, props)) {
+  const prevRoughOptions = (<any>domElement)._roughOptions;
+  if (
+    shallowEqual(prevProps, props) &&
+    shallowEqual(prevRoughOptions, roughOptions)
+  ) {
     return;
   }
   (<any>domElement)._svgProps = props;
+  (<any>domElement)._roughOptions = roughOptions;
   const generator = roughGenerator();
   const drawable = getDrawable(generator, type, props, roughOptions);
   let pathInfos: PathInfo[] = [];

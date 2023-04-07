@@ -13,4 +13,8 @@ No. `react-rough-fiber` is a React renderer, so it only works with SVG elements 
 
 If you create an SVG elemet manually(like `document.createElement`) or use `dangerouslySetInnerHTML`, `react-rough-fiber` cannot work with it.
 
-But you can use like [`react-inlinesvg`](https://github.com/gilbarbara/react-inlinesvg) to load SVGs as React elements. See the [example](/examples/inline-svg).
+### So I can't use `react-rough-fiber` with local/remote SVG files?
+
+You can use [`SVGR`](https://github.com/gregberge/svgr) to transform local SVGs into React components.
+
+You also can use like [`react-inlinesvg`](https://github.com/gilbarbara/react-inlinesvg) to load SVGs as React elements. See the [example](/examples/inline-svg).
