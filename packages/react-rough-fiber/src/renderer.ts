@@ -19,12 +19,12 @@ const createInstance = (
   hostContext: HostContext
 ) => {
   const ownerDocument = root.ownerDocument;
-  const { namespace } = hostContext;
+  const { namespace, inDefs } = hostContext;
   let domElement: Instance;
   if (namespace === SVG_NAMESPACE || type === 'svg') {
     // roughjs renders a shape as a fill path(if fill is not none) and a stroke path(if stroke is not none)
     // so we need to wrap the shape in a g element
-    if (SVG_SHAPE_PROPS.hasOwnProperty(type)) {
+    if (!inDefs && SVG_SHAPE_PROPS.hasOwnProperty(type)) {
       type = 'g';
     }
     domElement = ownerDocument.createElementNS(SVG_NAMESPACE, type);
@@ -94,38 +94,50 @@ export const createReconciler = (
     },
     getRootHostContext: (root) => ({
       namespace: root.namespaceURI || '',
-      props: {},
+      inDefs: false,
     }),
     getChildHostContext: (parentHostContext, type) => {
-      const { namespace, props } = parentHostContext;
+      const { namespace, inDefs } = parentHostContext;
       if (type === 'svg') {
-        return { namespace: SVG_NAMESPACE, props };
+        return { namespace: SVG_NAMESPACE, inDefs };
       }
       if (namespace === SVG_NAMESPACE && type === 'foreignObject') {
-        return { namespace: HTML_NAMESPACE, props };
+        return { namespace: HTML_NAMESPACE, inDefs };
+      }
+      if (type === 'defs') {
+        return { namespace, inDefs: true };
       }
       return parentHostContext;
     },
-    finalizeInitialChildren(instance, type, props) {
+    finalizeInitialChildren(instance, type, props, rootContainer, { inDefs }) {
       diffProps(
         type,
         instance as InstanceWithListeners,
         props,
         {},
-        _roughOptions
+        _roughOptions,
+        inDefs
       );
       return false;
     },
-    prepareUpdate() {
-      return {};
+    prepareUpdate(
+      _instance,
+      _type,
+      _oldProps,
+      _newProps,
+      _rootContainer,
+      { inDefs }
+    ) {
+      return { inDefs };
     },
-    commitUpdate(instance, _updatePayload, type, oldProps, newProps) {
+    commitUpdate(instance, { inDefs }, type, oldProps, newProps) {
       diffProps(
         type,
         instance as InstanceWithListeners,
         newProps,
         oldProps,
-        _roughOptions
+        _roughOptions,
+        inDefs
       );
     },
     commitTextUpdate(textInstance, _oldText: string, newText: string): void {

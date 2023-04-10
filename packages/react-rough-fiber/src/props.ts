@@ -38,7 +38,8 @@ import { diffShape } from './shape';
 
 export function normalizeProps(
   type: string,
-  props: InstanceProps
+  props: InstanceProps,
+  inDefs: boolean
 ): [InstanceProps, SVGShapeProps] {
   const normalizedProps: InstanceProps = {};
   const svgProps: SVGShapeProps = {};
@@ -47,6 +48,7 @@ export function normalizeProps(
   for (let i in props) {
     let value: any = props[i as keyof typeof props];
     if (
+      !inDefs &&
       isShapeType &&
       SVG_SHAPE_PROPS[type as keyof typeof SVG_SHAPE_PROPS].hasOwnProperty(i)
     ) {
@@ -157,11 +159,12 @@ export function diffProps(
   domElement: InstanceWithListeners,
   newProps: InstanceProps,
   oldProps: InstanceProps,
-  roughOptions: RoughOptions
+  roughOptions: RoughOptions,
+  inDefs: boolean
 ) {
-  const [nextProps, nextSVGProps] = normalizeProps(type, newProps);
-  const [prevProps] = normalizeProps(type, oldProps);
-  if (SVG_SHAPE_PROPS.hasOwnProperty(type)) {
+  const [nextProps, nextSVGProps] = normalizeProps(type, newProps, inDefs);
+  const [prevProps] = normalizeProps(type, oldProps, inDefs);
+  if (!inDefs && SVG_SHAPE_PROPS.hasOwnProperty(type)) {
     diffShape(type, domElement as SVGElement, nextSVGProps, roughOptions);
   }
 

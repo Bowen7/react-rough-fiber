@@ -5,7 +5,7 @@ export type InstanceProps = {
 export type Instance = HTMLElement | SVGElement;
 export type TextInstance = void;
 
-export type HostContext = { namespace: string; props: InstanceProps };
+export type HostContext = { namespace: string; inDefs: boolean };
 
 export interface HostConfig {
   type: string;
@@ -17,7 +17,7 @@ export interface HostConfig {
   hydratableInstance: Instance;
   publicInstance: Instance;
   hostContext: HostContext;
-  updatePayload: {};
+  updatePayload: { inDefs: boolean };
   childSet: never;
   timeoutHandle: number | undefined;
   noTimeout: -1;
