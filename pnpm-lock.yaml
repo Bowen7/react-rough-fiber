@@ -17,6 +17,7 @@ importers:
       '@babel/core': ^7.0.0
       '@codemirror/lang-javascript': ^6.1.5
       '@codemirror/lang-xml': ^6.0.2
+      '@codemirror/state': ^6.2.0
       '@codesandbox/sandpack-react': ^2.2.9
       '@heroicons/react': ^2.0.17
       '@types/node': 18.11.10
@@ -33,6 +34,7 @@ importers:
       postcss: ^8.4.21
       react: ^18.2.0
       react-dom: ^18.2.0
+      react-error-boundary: ^4.0.3
       react-feather: ^2.0.10
       react-inlinesvg: ^3.0.2
       react-jsx-parser: ^1.29.0
@@ -48,15 +50,17 @@ importers:
     dependencies:
       '@codemirror/lang-javascript': 6.1.5
       '@codemirror/lang-xml': 6.0.2
+      '@codemirror/state': 6.2.0
       '@codesandbox/sandpack-react': 2.2.9_biqbaboplfbrettd7655fr4n2y
       '@heroicons/react': 2.0.17_react@18.2.0
-      '@uiw/codemirror-theme-github': 4.19.15
-      '@uiw/react-codemirror': 4.19.15_biqbaboplfbrettd7655fr4n2y
+      '@uiw/codemirror-theme-github': 4.19.15_@codemirror+state@6.2.0
+      '@uiw/react-codemirror': 4.19.15_ehqzn5xbnrltqhpj6mb2k26b6i
       next: 13.2.4_hrdbe576m4w26u2yfpqpvbxyky
       nextra: 2.3.0_ld2jel3hspngo3u5lti2kgl2sq
       nextra-theme-docs: 2.3.0_2sg6ajj32xrbwuked4upeu4dxe
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
+      react-error-boundary: 4.0.3_react@18.2.0
       react-feather: 2.0.10_react@18.2.0
       react-inlinesvg: 3.0.2_react@18.2.0
       react-jsx-parser: 1.29.0_biqbaboplfbrettd7655fr4n2y
@@ -102,7 +106,6 @@ importers:
       '@babel/preset-env': ^7.20.2
       '@babel/preset-react': ^7.18.6
       '@babel/preset-typescript': ^7.21.0
-      '@bowen7/roughjs': ^0.0.6
       '@testing-library/jest-dom': ^5.16.5
       '@testing-library/react': ^14.0.0
       '@testing-library/react-12': npm:@testing-library/react@^12.1.5
@@ -131,7 +134,6 @@ importers:
       '@babel/preset-env': 7.20.2_@babel+core@7.21.3
       '@babel/preset-react': 7.18.6_@babel+core@7.21.3
       '@babel/preset-typescript': 7.21.0_@babel+core@7.21.3
-      '@bowen7/roughjs': 0.0.6
       '@testing-library/jest-dom': 5.16.5
       '@testing-library/react': 14.0.0_biqbaboplfbrettd7655fr4n2y
       '@testing-library/react-12': /@testing-library/react/12.1.5_biqbaboplfbrettd7655fr4n2y
@@ -1432,10 +1434,6 @@ packages:
     resolution: {integrity: sha512-0hYQ8SB4Db5zvZB4axdMHGwEaQjkZzFjQiN9LVYvIFB2nSUHW9tYpxWriPrWDASIxiaXax83REcLxuSdnGPZtw==}
     dev: true
 
-  /@bowen7/roughjs/0.0.6:
-    resolution: {integrity: sha512-cF1rQ1+7XyGxZOHHKV8rgue0YQq/O/i0XkQyCGXWI9zTBs5cMJWlHcPzdemsI8mrXjt9xZNabL3M8bIDtlJ17Q==}
-    dev: true
-
   /@code-hike/classer/0.0.0-e48fa74_react@18.2.0:
     resolution: {integrity: sha512-CyPYvfl4K5Hp9uyhLhUemul56eiGOF0FNXh5ALzzK9VNhRmRmj1O0mKtLDpoccI8W90r9kQES/nW2FC8jVVieg==}
     peerDependencies:
@@ -1444,8 +1442,10 @@ packages:
       react: 18.2.0
     dev: false
 
-  /@codemirror/autocomplete/6.4.2:
+  /@codemirror/autocomplete/6.4.2_@codemirror+state@6.2.0:
     resolution: {integrity: sha512-8WE2xp+D0MpWEv5lZ6zPW1/tf4AGb358T5GWYiKEuCP8MvFfT3tH2mIF9Y2yr2e3KbHuSvsVhosiEyqCpiJhZQ==}
+    peerDependencies:
+      '@codemirror/state': ^6.0.0
     dependencies:
       '@codemirror/language': 6.6.0
       '@codemirror/state': 6.2.0
@@ -1465,7 +1465,7 @@ packages:
   /@codemirror/lang-css/6.1.1:
     resolution: {integrity: sha512-P6jdNEHyRcqqDgbvHYyC9Wxkek0rnG3a9aVSRi4a7WrjPbQtBTaOmvYpXmm13zZMAatO4Oqpac+0QZs7sy+LnQ==}
     dependencies:
-      '@codemirror/autocomplete': 6.4.2
+      '@codemirror/autocomplete': 6.4.2_@codemirror+state@6.2.0
       '@codemirror/language': 6.6.0
       '@codemirror/state': 6.2.0
       '@lezer/css': 1.1.1
@@ -1474,7 +1474,7 @@ packages:
   /@codemirror/lang-html/6.4.3:
     resolution: {integrity: sha512-VKzQXEC8nL69Jg2hvAFPBwOdZNvL8tMFOrdFwWpU+wc6a6KEkndJ/19R5xSaglNX6v2bttm8uIEFYxdQDcIZVQ==}
     dependencies:
-      '@codemirror/autocomplete': 6.4.2
+      '@codemirror/autocomplete': 6.4.2_@codemirror+state@6.2.0
       '@codemirror/lang-css': 6.1.1
       '@codemirror/lang-javascript': 6.1.5
       '@codemirror/language': 6.6.0
@@ -1488,7 +1488,7 @@ packages:
   /@codemirror/lang-javascript/6.1.5:
     resolution: {integrity: sha512-BS2SmI1IXxWqMPhbJ0DC3eAHAK9V9XvdHMSqwvTBnmh5xFALt+cVDg7XE/A1dxdxzXYXyeqGddgqx1rQv7AYaw==}
     dependencies:
-      '@codemirror/autocomplete': 6.4.2
+      '@codemirror/autocomplete': 6.4.2_@codemirror+state@6.2.0
       '@codemirror/language': 6.6.0
       '@codemirror/lint': 6.2.0
       '@codemirror/state': 6.2.0
@@ -1500,7 +1500,7 @@ packages:
   /@codemirror/lang-xml/6.0.2:
     resolution: {integrity: sha512-JQYZjHL2LAfpiZI2/qZ/qzDuSqmGKMwyApYmEUUCTxLM4MWS7sATUEfIguZQr9Zjx/7gcdnewb039smF6nC2zw==}
     dependencies:
-      '@codemirror/autocomplete': 6.4.2
+      '@codemirror/autocomplete': 6.4.2_@codemirror+state@6.2.0
       '@codemirror/language': 6.6.0
       '@codemirror/state': 6.2.0
       '@lezer/common': 1.0.2
@@ -1579,7 +1579,7 @@ packages:
       react-dom: ^16.8.0 || ^17 || ^18
     dependencies:
       '@code-hike/classer': 0.0.0-e48fa74_react@18.2.0
-      '@codemirror/autocomplete': 6.4.2
+      '@codemirror/autocomplete': 6.4.2_@codemirror+state@6.2.0
       '@codemirror/commands': 6.2.2
       '@codemirror/lang-css': 6.1.1
       '@codemirror/lang-html': 6.4.3
@@ -2902,10 +2902,12 @@ packages:
       eslint-visitor-keys: 3.3.0
     dev: false
 
-  /@uiw/codemirror-extensions-basic-setup/4.19.15:
+  /@uiw/codemirror-extensions-basic-setup/4.19.15_@codemirror+state@6.2.0:
     resolution: {integrity: sha512-HOMbIMm+rjiich/oZkqXHPTmtergPQvVn8TUsZmQTEHjhmMeYcksfUkyF87zAI6gyPIPz3/fJxCYo5/beI1bhw==}
+    peerDependencies:
+      '@codemirror/state': '>=6.0.0'
     dependencies:
-      '@codemirror/autocomplete': 6.4.2
+      '@codemirror/autocomplete': 6.4.2_@codemirror+state@6.2.0
       '@codemirror/commands': 6.2.2
       '@codemirror/language': 6.6.0
       '@codemirror/lint': 6.2.0
@@ -2914,23 +2916,28 @@ packages:
       '@codemirror/view': 6.9.3
     dev: false
 
-  /@uiw/codemirror-theme-github/4.19.15:
+  /@uiw/codemirror-theme-github/4.19.15_@codemirror+state@6.2.0:
     resolution: {integrity: sha512-HLDP0D0tGbIomODIWEK6SMy+DEHS0SDwwq8AGpDbNIZ9qIim6OX8Zbd0gBX9yPpSVZ8afsOMJ3cB1SDczXvhwg==}
     dependencies:
-      '@uiw/codemirror-themes': 4.19.15
+      '@uiw/codemirror-themes': 4.19.15_@codemirror+state@6.2.0
+    transitivePeerDependencies:
+      - '@codemirror/state'
     dev: false
 
-  /@uiw/codemirror-themes/4.19.15:
+  /@uiw/codemirror-themes/4.19.15_@codemirror+state@6.2.0:
     resolution: {integrity: sha512-53jwVHF0vo+VbfowMQGmXW5NnmqsYQvvLgst5UiiHomaZQ2pn4e09yqOWDM1xaMFZy8QYbAcf1FFP/ensNTUbw==}
+    peerDependencies:
+      '@codemirror/state': '>=6.0.0'
     dependencies:
       '@codemirror/language': 6.6.0
       '@codemirror/state': 6.2.0
       '@codemirror/view': 6.9.3
     dev: false
 
-  /@uiw/react-codemirror/4.19.15_biqbaboplfbrettd7655fr4n2y:
+  /@uiw/react-codemirror/4.19.15_ehqzn5xbnrltqhpj6mb2k26b6i:
     resolution: {integrity: sha512-3sL+LwtDo6ev+YiDVoi0eebMLl6A1m6a46R9s02HHsPx5fitq6N17RGMJ37jVuM6+NVZE7KV/WwL3qHaQO2ygQ==}
     peerDependencies:
+      '@codemirror/state': '>=6.0.0'
       '@codemirror/view': '>=6.0.0'
       react: '>=16.8.0'
       react-dom: '>=16.8.0'
@@ -2939,7 +2946,7 @@ packages:
       '@codemirror/commands': 6.2.2
       '@codemirror/state': 6.2.0
       '@codemirror/theme-one-dark': 6.1.1
-      '@uiw/codemirror-extensions-basic-setup': 4.19.15
+      '@uiw/codemirror-extensions-basic-setup': 4.19.15_@codemirror+state@6.2.0
       codemirror: 6.0.1
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
@@ -3529,7 +3536,7 @@ packages:
   /codemirror/6.0.1:
     resolution: {integrity: sha512-J8j+nZ+CdWmIeFIGXEFbFPtpiYacFMDR8GlHK3IyHQJMCaVRfGx9NT+Hxivv1ckLWPvNdZqndbr/7lVhrf/Svg==}
     dependencies:
-      '@codemirror/autocomplete': 6.4.2
+      '@codemirror/autocomplete': 6.4.2_@codemirror+state@6.2.0
       '@codemirror/commands': 6.2.2
       '@codemirror/language': 6.6.0
       '@codemirror/lint': 6.2.0
@@ -7415,6 +7422,15 @@ packages:
       loose-envify: 1.4.0
       react: 18.2.0
       scheduler: 0.23.0
+
+  /react-error-boundary/4.0.3_react@18.2.0:
+    resolution: {integrity: sha512-IzNKP/ViHWp2QRDgsDMirEcf0XLsLueN6Wgzm1TVwgbAH+paX8Z42VyKvZcFFRHgd+rPK2P4TLrOrHC/dommew==}
+    peerDependencies:
+      react: '>=16.13.1'
+    dependencies:
+      '@babel/runtime': 7.21.0
+      react: 18.2.0
+    dev: false
 
   /react-feather/2.0.10_react@18.2.0:
     resolution: {integrity: sha512-BLhukwJ+Z92Nmdcs+EMw6dy1Z/VLiJTzEQACDUEnWMClhYnFykJCGWQx+NmwP/qQHGX/5CzQ+TGi8ofg2+HzVQ==}

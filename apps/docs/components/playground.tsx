@@ -8,9 +8,12 @@ import { RoughSVG } from 'react-rough-fiber';
 import SVG from 'react-inlinesvg';
 import JSXParser from 'react-jsx-parser';
 import xmlFormat from 'xml-formatter';
+import { EditorState } from '@codemirror/state';
+import { ErrorBoundary } from 'react-error-boundary';
 
 const jsxExtension = [javascript({ jsx: true })];
 const xmlExtension = [xml()];
+const readOnlyExtension = [xml(), EditorState.readOnly.of(true)];
 
 const JSX_INITIAL_VALUE = `
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-6 h-6">
@@ -82,26 +85,36 @@ export const Playground = () => {
           onChange={(value) => setValue(value)}
         />
       )}
-      <div className="flex px-4">
-        <div className="flex-1">
-          <p className="my-4">Input Preview:</p>
-          {/* @ts-ignore */}
-          {lang === 'jsx' ? <JSXParser jsx={value} /> : <SVG src={value} />}
-        </div>
-        <RoughSVG className="flex-1">
-          <p className="my-4">Output Preview:</p>
-          <div ref={previewRef}>
+      <ErrorBoundary fallback={<div>Parsing error</div>}>
+        <div className="flex px-4">
+          <div className="flex-1">
+            <p className="my-4">Input Preview:</p>
             {/* @ts-ignore */}
             {lang === 'jsx' ? <JSXParser jsx={value} /> : <SVG src={value} />}
           </div>
-        </RoughSVG>
-      </div>
+          <RoughSVG
+            className="flex-1"
+            roughOptions={{
+              preserveVertices: true,
+              hachureAngle: -43.50668311367565,
+              hachureGap: 1.579461317867495,
+              fillWeight: 1.2654732452735349,
+            }}
+          >
+            <p className="my-4">Output Preview:</p>
+            <div ref={previewRef}>
+              {/* @ts-ignore */}
+              {lang === 'jsx' ? <JSXParser jsx={value} /> : <SVG src={value} />}
+            </div>
+          </RoughSVG>
+        </div>
+      </ErrorBoundary>
       <p className="my-4">Output:</p>
       <CodeMirror
         value={output}
         height="400px"
         theme={theme}
-        extensions={xmlExtension}
+        extensions={readOnlyExtension}
       />
     </div>
   );

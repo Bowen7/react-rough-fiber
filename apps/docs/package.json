@@ -12,6 +12,7 @@
   "dependencies": {
     "@codemirror/lang-javascript": "^6.1.5",
     "@codemirror/lang-xml": "^6.0.2",
+    "@codemirror/state": "^6.2.0",
     "@codesandbox/sandpack-react": "^2.2.9",
     "@heroicons/react": "^2.0.17",
     "@uiw/codemirror-theme-github": "^4.19.15",
@@ -21,6 +22,7 @@
     "nextra-theme-docs": "latest",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-error-boundary": "^4.0.3",
     "react-feather": "^2.0.10",
     "react-inlinesvg": "^3.0.2",
     "react-jsx-parser": "^1.29.0",

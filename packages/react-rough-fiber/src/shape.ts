@@ -1,4 +1,4 @@
-import { roughGenerator } from '@bowen7/roughjs';
+import { roughGenerator } from './rough';
 import {
   SVG_PATH_TAG,
   SVG_CIRCLE_TAG,
