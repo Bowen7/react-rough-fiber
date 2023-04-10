@@ -35,7 +35,7 @@
     "tsconfig": "workspace:*",
     "tsup": "^6.7.0",
     "typescript": "^4.5.2",
-    "@bowen7/roughjs": "^0.0.4",
+    "@bowen7/roughjs": "^0.0.6",
     "its-fine": "^1.1.0"
   },
   "peerDependencies": {
