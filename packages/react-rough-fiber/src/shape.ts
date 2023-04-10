@@ -97,13 +97,20 @@ const getDrawable = (
   }
 };
 
-const normalizePathInfo = ({ d, fill, stroke }: PathInfo) => {
+const normalizePathInfo = (
+  fillStyle: string,
+  { d, fill, stroke }: PathInfo
+) => {
   const pathInfo: InstanceProps = { d };
   if (fill !== FILL_PLACEHOLDER) {
     pathInfo.fill = fill;
   }
   if (stroke !== STROKE_PLACEHOLDER) {
     pathInfo.stroke = stroke;
+  }
+  // enforce set fill-rule to be set nonzero when fillStyle is not solid
+  if (fillStyle !== 'solid' && fill !== 'none') {
+    pathInfo['fill-rule'] = 'nonzero';
   }
   return pathInfo;
 };
@@ -128,6 +135,7 @@ export const diffShape = (
   }
   (<any>domElement)._svgProps = props;
   (<any>domElement)._roughOptions = roughOptions;
+  const { fillStyle = 'hachure' } = roughOptions;
   const generator = roughGenerator();
   const drawable = getDrawable(generator, type, props, roughOptions);
   let pathInfos: PathInfo[] = [];
@@ -151,7 +159,7 @@ export const diffShape = (
       );
     }
     const child = children[i];
-    let pathInfo = normalizePathInfo(pathInfos[i]);
+    let pathInfo = normalizePathInfo(fillStyle, pathInfos[i]);
     diffNormalizedProps(
       child as InstanceWithListeners,
       (child as any)._pathProps || {},
