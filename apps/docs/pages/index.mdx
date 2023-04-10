@@ -1,52 +1,19 @@
 import { Tab, Tabs, Callout } from 'nextra-theme-docs'
 import { RoughSVG } from 'react-rough-fiber'
-import { Bell, Battery, Coffee, Twitter, Camera, Edit, Image } from "react-feather"
-import { BarChart, XAxis, YAxis, Tooltip, Legend, Bar } from 'recharts';
-import { Sandbox } from "components/sandbox"
+import dynamic from "next/dynamic";
+import { IconDemo } from "components/iconDemo"
+import { ChartDemo } from "components/chartDemo"
 
-export const data = [
-  {
-    name: 'Page A',
-    uv: 9000,
-    pv: 2400,
-  },
-  {
-    name: 'Page B',
-    uv: 3000,
-    pv: 1398,
-  },
-  {
-    name: 'Page C',
-    uv: 2000,
-    pv: 9800,
-  },
-  {
-    name: 'Page D',
-    uv: 2780,
-    pv: 3908,
-  },
-  {
-    name: 'Page E',
-    uv: 1890,
-    pv: 4800,
-  },
-  {
-    name: 'Page F',
-    uv: 2390,
-    pv: 3800,
-  },
-  {
-    name: 'Page G',
-    uv: 3490,
-    pv: 4300,
-  },
-];
+export const ClientJSXDemo = dynamic(
+    () => import("../components/htmlDemo"),
+    { ssr: false }
+  );
 
 # Get Started
  
 ## Introduction
 
-`react-rough-fiber` is a React renderer for rendering hand-drawn SVG.
+`react-rough-fiber` is a React renderer for rendering hand-drawn SVGs.
 
 ## Install
 
@@ -90,53 +57,37 @@ export default function App() {
 ```
 
 <RoughSVG>
-  <svg viewBox="0 0 64 64" width="256" height="256">
+  <svg viewBox="0 0 48 48" width="128" height="128">
     <rect
-      x={12}
-      y={12}
-      width={48}
-      height={48}
-      stroke="#000"
+      x={6}
+      y={6}
+      width={36}
+      height={36}
+      stroke="currentColor"
       fill="#82ca9d"
     />
-  </svg>
+  </svg><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-6 h-6">
+  <path fill-rule="evenodd" d="M19.916 4.626a.75.75 0 01.208 1.04l-9 13.5a.75.75 0 01-1.154.114l-6-6a.75.75 0 011.06-1.06l5.353 5.353 8.493-12.739a.75.75 0 011.04-.208z" clip-rule="evenodd" />
+</svg>
+
 </RoughSVG>
 
 ## Integration
 
 ### Icons
 
-With [react-feather](https://github.com/feathericons/react-feather):
-
-<RoughSVG className="flex gap-4 my-4" roughOptions={{roughness: 0.6, seed: 2, bowing: 15}}>
-  <Battery />
-  <Bell />
-  <Coffee />
-  <Twitter />
-  <Camera />
-  <Edit />
-  <Image />
-</RoughSVG>
+<IconDemo />
 
 [Code](/examples/icon)
 
 ### Chart
 
-With [recharts](https://github.com/recharts/recharts):
-
-<RoughSVG className="my-4" roughOptions={{fillStyle: 'zigzag'}} style={{fontFamily: 'HandDrawnFont'}}>
-  <BarChart width={730} height={250} data={data}>
-    <XAxis dataKey="name" />
-    <YAxis />
-    <Tooltip />
-    <Legend />
-    <Bar dataKey="pv" fill="#8884d8" stroke="#333" />
-    <Bar dataKey="uv" fill="#82ca9d" stroke="#333" />
-  </BarChart>
-</RoughSVG>
+<ChartDemo />
 
 [Code](/examples/chart)
 
 ### Even HTML!
 
-See [HTML Examples](/examples/html)
+<ClientJSXDemo />
+
+[Code](/examples/html)

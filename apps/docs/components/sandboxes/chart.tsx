@@ -1,4 +1,4 @@
-import { Sandbox } from '../components/sandbox';
+import { Sandbox } from './sandbox';
 
 const rechartsCode = /* js */ `
 import { RoughSVG } from 'react-rough-fiber';
@@ -59,6 +59,11 @@ export default function App() {
 `.trim();
 export const RechartsSandbox = () => {
   return (
-    <Sandbox code={rechartsCode} dependencies={{ recharts: '2.4.3' }} css />
+    <Sandbox
+      code={rechartsCode}
+      dependencies={{ recharts: '2.4.3' }}
+      direction="vertical"
+      font
+    />
   );
 };
