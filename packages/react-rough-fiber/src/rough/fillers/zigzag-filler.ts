@@ -18,16 +18,13 @@ export class ZigZagFiller extends HachureFiller {
     const dgy = gap * 0.5 * Math.sin(zigZagAngle);
     for (const [p1, p2] of lines) {
       if (lineLength([p1, p2])) {
-        zigzagLines.push([
-          [p1[0] - dgx, p1[1] + dgy],
-          [...p2],
-        ], [
-          [p1[0] + dgx, p1[1] - dgy],
-          [...p2],
-        ]);
+        zigzagLines.push(
+          [[p1[0] - dgx, p1[1] + dgy], [...p2]],
+          [[p1[0] + dgx, p1[1] - dgy], [...p2]]
+        );
       }
     }
     const ops = this.renderLines(zigzagLines, o);
-    return { type: 'fillPath', ops };
+    return { type: 'fillSketch', ops };
   }
 }

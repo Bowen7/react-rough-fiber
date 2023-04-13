@@ -17,16 +17,22 @@ export class HachureFiller implements PatternFiller {
   protected _fillPolygons(polygonList: Point[][], o: ResolvedOptions): OpSet {
     const lines = polygonHachureLines(polygonList, o);
     const ops = this.renderLines(lines, o);
-    return { type: 'fillPath', ops };
+    return { type: 'fillSketch', ops };
   }
 
   protected renderLines(lines: Line[], o: ResolvedOptions): Op[] {
     const ops: Op[] = [];
     for (const line of lines) {
-      ops.push(...this.helper.doubleLineOps(line[0][0], line[0][1], line[1][0], line[1][1], o));
+      ops.push(
+        ...this.helper.doubleLineOps(
+          line[0][0],
+          line[0][1],
+          line[1][0],
+          line[1][1],
+          o
+        )
+      );
     }
     return ops;
   }
-
-
 }

@@ -1,5 +1,25 @@
-import { Config, Options, Drawable, OpSet, ResolvedOptions, PathInfo, Point } from './core';
-import { line, solidFillPolygon, patternFillPolygons, rectangle, ellipseWithParams, generateEllipseParams, linearPath, arc, patternFillArc, curve, svgPath } from './renderer';
+import {
+  Config,
+  Options,
+  Drawable,
+  OpSet,
+  ResolvedOptions,
+  PathInfo,
+  Point,
+} from './core';
+import {
+  line,
+  solidFillPolygon,
+  patternFillPolygons,
+  rectangle,
+  ellipseWithParams,
+  generateEllipseParams,
+  linearPath,
+  arc,
+  patternFillArc,
+  curve,
+  svgPath,
+} from './renderer';
 import { randomSeed } from './math';
 import { curveToBezier } from './points-on-curve/curve-to-bezier';
 import { pointsOnBezierCurves } from './points-on-curve';
@@ -45,24 +65,43 @@ export class RoughGenerator {
   }
 
   private _o(options?: Options): ResolvedOptions {
-    return options ? Object.assign({}, this.defaultOptions, options) : this.defaultOptions;
+    return options
+      ? Object.assign({}, this.defaultOptions, options)
+      : this.defaultOptions;
   }
 
   private _d(shape: string, sets: OpSet[], options: ResolvedOptions): Drawable {
     return { shape, sets: sets || [], options: options || this.defaultOptions };
   }
 
-  line(x1: number, y1: number, x2: number, y2: number, options?: Options): Drawable {
+  line(
+    x1: number,
+    y1: number,
+    x2: number,
+    y2: number,
+    options?: Options
+  ): Drawable {
     const o = this._o(options);
     return this._d('line', [line(x1, y1, x2, y2, o)], o);
   }
 
-  rectangle(x: number, y: number, width: number, height: number, options?: Options): Drawable {
+  rectangle(
+    x: number,
+    y: number,
+    width: number,
+    height: number,
+    options?: Options
+  ): Drawable {
     const o = this._o(options);
     const paths = [];
     const outline = rectangle(x, y, width, height, o);
     if (o.fill) {
-      const points: Point[] = [[x, y], [x + width, y], [x + width, y + height], [x, y + height]];
+      const points: Point[] = [
+        [x, y],
+        [x + width, y],
+        [x + width, y + height],
+        [x, y + height],
+      ];
       if (o.fillStyle === 'solid') {
         paths.push(solidFillPolygon([points], o));
       } else {
@@ -75,7 +114,13 @@ export class RoughGenerator {
     return this._d('rectangle', paths, o);
   }
 
-  ellipse(x: number, y: number, width: number, height: number, options?: Options): Drawable {
+  ellipse(
+    x: number,
+    y: number,
+    width: number,
+    height: number,
+    options?: Options
+  ): Drawable {
     const o = this._o(options);
     const paths: OpSet[] = [];
     const ellipseParams = generateEllipseParams(width, height, o);
@@ -106,7 +151,16 @@ export class RoughGenerator {
     return this._d('linearPath', [linearPath(points, false, o)], o);
   }
 
-  arc(x: number, y: number, width: number, height: number, start: number, stop: number, closed: boolean = false, options?: Options): Drawable {
+  arc(
+    x: number,
+    y: number,
+    width: number,
+    height: number,
+    start: number,
+    stop: number,
+    closed: boolean = false,
+    options?: Options
+  ): Drawable {
     const o = this._o(options);
     const paths = [];
     const outline = arc(x, y, width, height, start, stop, closed, true, o);
@@ -114,7 +168,17 @@ export class RoughGenerator {
       if (o.fillStyle === 'solid') {
         const fillOptions: ResolvedOptions = { ...o };
         fillOptions.disableMultiStroke = true;
-        const shape = arc(x, y, width, height, start, stop, true, false, fillOptions);
+        const shape = arc(
+          x,
+          y,
+          width,
+          height,
+          start,
+          stop,
+          true,
+          false,
+          fillOptions
+        );
         shape.type = 'fillPath';
         paths.push(shape);
       } else {
@@ -133,7 +197,11 @@ export class RoughGenerator {
     const outline = curve(points, o);
     if (o.fill && o.fill !== NOS && points.length >= 3) {
       const bcurve = curveToBezier(points);
-      const polyPoints = pointsOnBezierCurves(bcurve, 10, (1 + o.roughness) / 2);
+      const polyPoints = pointsOnBezierCurves(
+        bcurve,
+        10,
+        (1 + o.roughness) / 2
+      );
       if (o.fillStyle === 'solid') {
         paths.push(solidFillPolygon([polyPoints], o));
       } else {
@@ -169,12 +237,17 @@ export class RoughGenerator {
     if (!d) {
       return this._d('path', paths, o);
     }
-    d = (d || '').replace(/\n/g, ' ').replace(/(-\s)/g, '-').replace('/(\s\s)/g', ' ');
+    d = (d || '')
+      .replace(/\n/g, ' ')
+      .replace(/(-\s)/g, '-')
+      .replace('/(ss)/g', ' ');
 
     const hasFill = o.fill && o.fill !== 'transparent' && o.fill !== NOS;
     const hasStroke = o.stroke !== NOS;
-    const simplified = !!(o.simplification && (o.simplification < 1));
-    const distance = simplified ? (4 - 4 * (o.simplification!)) : ((1 + o.roughness) / 2);
+    const simplified = !!(o.simplification && o.simplification < 1);
+    const distance = simplified
+      ? 4 - 4 * o.simplification!
+      : (1 + o.roughness) / 2;
     const sets = pointsOnPath(d, 1, distance);
 
     if (hasFill) {
@@ -200,7 +273,10 @@ export class RoughGenerator {
   opsToPath(drawing: OpSet, fixedDecimals?: number): string {
     let path = '';
     for (const item of drawing.ops) {
-      const data = ((typeof fixedDecimals === 'number') && fixedDecimals >= 0) ? (item.data.map((d) => +d.toFixed(fixedDecimals))) : item.data;
+      const data =
+        typeof fixedDecimals === 'number' && fixedDecimals >= 0
+          ? item.data.map((d) => +d.toFixed(fixedDecimals))
+          : item.data;
       switch (item.op) {
         case 'move':
           path += `M${data[0]} ${data[1]} `;
@@ -225,9 +301,11 @@ export class RoughGenerator {
     const paths: PathInfo[] = [];
     for (const drawing of sets) {
       let path: PathInfo | null = null;
-      switch (drawing.type) {
+      const { type } = drawing;
+      switch (type) {
         case 'path':
           path = {
+            type,
             d: this.opsToPath(drawing, o.fixedDecimalPlaceDigits),
             stroke: o.stroke,
             strokeWidth: o.strokeWidth,
@@ -236,6 +314,7 @@ export class RoughGenerator {
           break;
         case 'fillPath':
           path = {
+            type,
             d: this.opsToPath(drawing, o.fixedDecimalPlaceDigits),
             stroke: NOS,
             strokeWidth: 0,
@@ -259,6 +338,7 @@ export class RoughGenerator {
       fweight = o.strokeWidth / 2;
     }
     return {
+      type: 'fillSketch',
       d: this.opsToPath(drawing, o.fixedDecimalPlaceDigits),
       stroke: o.fill || NOS,
       strokeWidth: fweight,
