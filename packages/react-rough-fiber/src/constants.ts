@@ -16,53 +16,37 @@ export const SVG_ELLIPSE_TAG = 'ellipse';
 export const SVG_POLYGON_TAG = 'polygon';
 export const SVG_POLYLINE_TAG = 'polyline';
 
-export const FILL_PLACEHOLDER = 'fill-placeholder';
-export const STROKE_PLACEHOLDER = 'stroke-placeholder';
-
 export const SVG_PATH_PROPS = {
   d: '',
-  fill: FILL_PLACEHOLDER,
-  stroke: STROKE_PLACEHOLDER,
 };
 export const SVG_CIRCLE_PROPS = {
   cx: 0,
   cy: 0,
   r: 0,
-  fill: FILL_PLACEHOLDER,
-  stroke: STROKE_PLACEHOLDER,
 };
 export const SVG_LINE_PROPS = {
   x1: 0,
   y1: 0,
   x2: 0,
   y2: 0,
-  stroke: STROKE_PLACEHOLDER,
 };
 export const SVG_RECT_PROPS = {
   x: 0,
   y: 0,
   width: 0,
   height: 0,
-  fill: FILL_PLACEHOLDER,
-  stroke: STROKE_PLACEHOLDER,
 };
 export const SVG_ELLIPSE_PROPS = {
   cx: 0,
   cy: 0,
   rx: 0,
   ry: 0,
-  fill: FILL_PLACEHOLDER,
-  stroke: STROKE_PLACEHOLDER,
 };
 export const SVG_POLYGON_PROPS = {
   points: '',
-  fill: FILL_PLACEHOLDER,
-  stroke: STROKE_PLACEHOLDER,
 };
 export const SVG_POLYLINE_PROPS = {
   points: '',
-  fill: FILL_PLACEHOLDER,
-  stroke: STROKE_PLACEHOLDER,
 };
 
 export const SVG_SHAPE_PROPS = {
@@ -74,3 +58,5 @@ export const SVG_SHAPE_PROPS = {
   [SVG_POLYGON_TAG]: SVG_POLYGON_PROPS,
   [SVG_POLYLINE_TAG]: SVG_POLYLINE_PROPS,
 };
+
+export const FILL_CSS_VARIABLE = '--rrf-fill-color';

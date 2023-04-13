@@ -8,19 +8,18 @@ import {
   SVG_POLYGON_TAG,
   SVG_POLYLINE_TAG,
   SVG_SHAPE_PROPS,
+  FILL_CSS_VARIABLE,
   SVG_NAMESPACE,
-  FILL_PLACEHOLDER,
-  STROKE_PLACEHOLDER,
 } from './constants';
 import {
   SVGShapeProps,
-  PathInfo,
   InstanceWithListeners,
   InstanceProps,
   RoughOptions,
 } from './types';
 import { shallowEqual, parsePoints } from './utils';
 import { diffNormalizedProps } from './props';
+import { PathInfo } from './rough/core';
 
 type Generator = ReturnType<typeof roughGenerator>;
 type Drawable = ReturnType<Generator['path']>;
@@ -97,24 +96,6 @@ const getDrawable = (
   }
 };
 
-const normalizePathInfo = (
-  fillStyle: string,
-  { d, fill, stroke }: PathInfo
-) => {
-  const pathInfo: InstanceProps = { d };
-  if (fill !== FILL_PLACEHOLDER) {
-    pathInfo.fill = fill;
-  }
-  if (stroke !== STROKE_PLACEHOLDER) {
-    pathInfo.stroke = stroke;
-  }
-  // enforce set fill-rule to be set nonzero when fillStyle is not solid
-  if (fillStyle !== 'solid' && fill !== 'none') {
-    pathInfo['fill-rule'] = 'nonzero';
-  }
-  return pathInfo;
-};
-
 export const diffShape = (
   type: string,
   domElement: SVGElement,
@@ -122,6 +103,7 @@ export const diffShape = (
   roughOptions: RoughOptions
 ) => {
   props = {
+    fill: `var(${FILL_CSS_VARIABLE})`,
     ...SVG_SHAPE_PROPS[type as keyof typeof SVG_SHAPE_PROPS],
     ...props,
   };
@@ -135,7 +117,6 @@ export const diffShape = (
   }
   (<any>domElement)._svgProps = props;
   (<any>domElement)._roughOptions = roughOptions;
-  const { fillStyle = 'hachure' } = roughOptions;
   const generator = roughGenerator();
   const drawable = getDrawable(generator, type, props, roughOptions);
   let pathInfos: PathInfo[] = [];
@@ -159,7 +140,7 @@ export const diffShape = (
       );
     }
     const child = children[i];
-    let pathInfo = normalizePathInfo(fillStyle, pathInfos[i]);
+    const pathInfo = pathInfos[i];
     diffNormalizedProps(
       child as InstanceWithListeners,
       (child as any)._pathProps || {},

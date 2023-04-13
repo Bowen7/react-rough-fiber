@@ -33,6 +33,7 @@ import {
   CAMEL_REPLACE,
   CAMEL_PROPS,
   SVG_SHAPE_PROPS,
+  FILL_CSS_VARIABLE,
 } from './constants';
 import { diffShape } from './shape';
 
@@ -47,13 +48,16 @@ export function normalizeProps(
 
   for (let i in props) {
     let value: any = props[i as keyof typeof props];
-    if (
-      !inDefs &&
-      isShapeType &&
-      SVG_SHAPE_PROPS[type as keyof typeof SVG_SHAPE_PROPS].hasOwnProperty(i)
-    ) {
-      svgProps[i as keyof typeof svgProps] = value;
-      continue;
+    if (!inDefs && isShapeType) {
+      if (
+        SVG_SHAPE_PROPS[type as keyof typeof SVG_SHAPE_PROPS].hasOwnProperty(i)
+      ) {
+        svgProps[i as keyof typeof svgProps] = value;
+        continue;
+      }
+      if (i === 'fill' || i === 'stroke') {
+        svgProps[i] = value;
+      }
     }
     if (
       (i === 'value' && 'defaultValue' in props && value == null) ||
@@ -120,6 +124,22 @@ export function normalizeProps(
   ) {
     normalizedProps.class = normalizedProps.className =
       props['className' as keyof typeof props];
+  }
+
+  let fill = normalizedProps.fill;
+  if (Object.prototype.hasOwnProperty.call(normalizeProps, 'style')) {
+    const style = normalizedProps.style;
+    if (Object.prototype.hasOwnProperty.call(style, 'fill')) {
+      fill = style.fill;
+      svgProps.fill = style.fill;
+    }
+  }
+
+  if (!isShapeType && fill) {
+    normalizedProps.style = {
+      ...normalizedProps.style,
+      [FILL_CSS_VARIABLE]: fill,
+    };
   }
 
   return [normalizedProps, svgProps];
