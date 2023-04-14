@@ -223,8 +223,10 @@ describe('render fill and stroke', () => {
     );
     const pathGroup = screen.getByTestId('path');
     expect(pathGroup.children.length).toBe(2);
-    expect(pathGroup.children[0].getAttribute('fill')).toBe(null);
-    expect(pathGroup.children[0].getAttribute('stroke')).toBe('none');
+    expect(pathGroup.children[0].getAttribute('fill')).toBe('none');
+    expect(pathGroup.children[0].getAttribute('stroke')).toBe(
+      'var(--rrf-fill-color)'
+    );
     expect(pathGroup.children[1].getAttribute('fill')).toBe('none');
     expect(pathGroup.children[1].getAttribute('stroke')).toBe(null);
   });
@@ -262,9 +264,10 @@ describe('render fill and stroke', () => {
       </RoughSVG>
     );
     const pathGroup = screen.getByTestId('path');
-    expect(pathGroup.children.length).toBe(1);
-    expect(pathGroup.children[0].getAttribute('fill')).toBe(null);
-    expect(pathGroup.children[0].getAttribute('stroke')).toBe('none');
+    expect(pathGroup.children[0].getAttribute('fill')).toBe('none');
+    expect(pathGroup.children[0].getAttribute('stroke')).toBe(
+      'var(--rrf-fill-color)'
+    );
   });
 
   it('when the shape has inline stroke !== none, pass it to the stroke path', () => {
@@ -282,8 +285,10 @@ describe('render fill and stroke', () => {
     );
     const pathGroup = screen.getByTestId('path');
     expect(pathGroup.children.length).toBe(2);
-    expect(pathGroup.children[0].getAttribute('fill')).toBe(null);
-    expect(pathGroup.children[0].getAttribute('stroke')).toBe('none');
+    expect(pathGroup.children[0].getAttribute('fill')).toBe('none');
+    expect(pathGroup.children[0].getAttribute('stroke')).toBe(
+      'var(--rrf-fill-color)'
+    );
     expect(pathGroup.children[1].getAttribute('fill')).toBe('none');
     expect(pathGroup.children[1].getAttribute('stroke')).toBe('#000');
   });
@@ -303,8 +308,8 @@ describe('render fill and stroke', () => {
     );
     const pathGroup = screen.getByTestId('path');
     expect(pathGroup.children.length).toBe(2);
-    expect(pathGroup.children[0].getAttribute('fill')).toBe('#000');
-    expect(pathGroup.children[0].getAttribute('stroke')).toBe('none');
+    expect(pathGroup.children[0].getAttribute('fill')).toBe('none');
+    expect(pathGroup.children[0].getAttribute('stroke')).toBe('#000');
     expect(pathGroup.children[1].getAttribute('fill')).toBe('none');
     expect(pathGroup.children[1].getAttribute('stroke')).toBe(null);
   });
