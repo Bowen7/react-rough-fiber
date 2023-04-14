@@ -1,6 +1,7 @@
 {
   "icon": "Icon",
   "chart": "Chart",
-  "inline-svg": "Inline SVG",
+  "svg-string": "SVG String",
+  "remote-svg": "Remote SVG",
   "html": "HTML"
 }

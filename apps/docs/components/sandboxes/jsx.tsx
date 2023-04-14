@@ -1,7 +1,7 @@
 import { Sandbox } from './sandbox';
 import { FONT_URL } from '../constants';
 
-const htmlCode = /* js */ `
+const jsxCode = /* js */ `
 import { Suspense } from 'react';
 import satori from 'satori/dist';
 import SVG from 'react-inlinesvg';
@@ -59,7 +59,7 @@ const markup = (
 );
 
 
-const HTMLSuspend = () => {
+const RoughJSX = () => {
   const font = useFont('${FONT_URL}');
   const svg = useSatori(
     markup,
@@ -91,21 +91,20 @@ const HTMLSuspend = () => {
 export default function App() {
   return (
     <Suspense fallback={<div>loading...</div>}>
-      <HTMLSuspend />
+      <RoughJSX />
     </Suspense>
   )
 }
 `.trim();
 
-export const HTMLSandbox = () => {
+export const JSXSandbox = () => {
   return (
     <Sandbox
-      code={htmlCode}
+      code={jsxCode}
       dependencies={{
         satori: '0.4.7',
         'suspend-react': '0.0.9',
         'react-inlinesvg': '^3.0.2',
-        'yoga-wasm-web': '0.3.3',
       }}
       direction="vertical"
       font

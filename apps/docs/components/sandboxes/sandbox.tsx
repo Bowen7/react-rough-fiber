@@ -8,9 +8,9 @@ type Props = {
   code: string;
   dependencies?: Dependencies;
   editorHeight?: number;
-  tailwind?: boolean;
   font?: boolean;
   direction?: 'horizontal' | 'vertical';
+  cssCode?: string;
 };
 
 const baseDependencies: Dependencies = {
@@ -18,12 +18,12 @@ const baseDependencies: Dependencies = {
   'react-reconciler': '^0.29.0',
 };
 
-const cssCode = /* css */ `
+const fontCode = /* css */ `
   @font-face {
     font-family: HandDrawnFont;
     src: url(${FONT_URL});
   }
-`.trim();
+`.trimStart();
 
 export const Sandbox = ({
   code,
@@ -31,11 +31,14 @@ export const Sandbox = ({
   editorHeight = 300,
   font = false,
   direction = 'horizontal',
+  cssCode,
 }: Props) => {
   const { resolvedTheme } = useTheme();
   const files = useMemo(() => {
-    return font ? { 'App.js': code, 'style.css': cssCode } : { 'App.js': code };
-  }, [code, font]);
+    let css = font ? fontCode : '';
+    css += cssCode ? cssCode : '';
+    return css ? { 'App.js': code, 'style.css': css } : { 'App.js': code };
+  }, [code, font, cssCode]);
 
   const options = useMemo(() => {
     const classes: Classes =
