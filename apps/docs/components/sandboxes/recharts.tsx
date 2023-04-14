@@ -45,7 +45,7 @@ const data = [
 export default function App() {
   return (
     <RoughSVG>
-      <BarChart width={730} height={250} data={data} style={{fontFamily: 'HandDrawnFont'}}>
+      <BarChart width={730} height={250} data={data} style={{fontFamily: "'Caveat'"}}>
         <XAxis dataKey="name" />
         <YAxis />
         <Tooltip />

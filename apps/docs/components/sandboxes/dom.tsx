@@ -5,11 +5,11 @@ const css = /* css */ `
   display: flex;
   flex-direction: column;
   justify-content: center;
-  font-family: HandDrawnFont;
   padding: 24px 36px;
   border: 1px solid #13c2c2;
   border-radius: 6px;
   height: 150px;
+  margin-bottom: 24px;
 }
 .title {
   border: 1px solid #eb2f96;
@@ -25,11 +25,14 @@ const css = /* css */ `
   padding: 6px 36px;
   border-radius: 6px;
 }
+text {
+  font-family: 'Caveat'!important;
+}
 `;
 
 const code = /* js */ `
 import { useEffect, useRef, useState } from 'react';
-import * as htmlToImage from 'html-to-image';
+import { elementToSVG } from 'dom-to-svg';
 import SVG from 'react-inlinesvg';
 import { RoughSVG } from 'react-rough-fiber';
 import './style.css';
@@ -39,10 +42,9 @@ export default function App() {
   const ref = useRef();
   useEffect(() => {
     if (ref.current) {
-      htmlToImage.toSvg(ref.current).then((dataUrl) => {
-        const svg = decodeURIComponent(dataUrl.split(',')[1])
-        console.log(svg)
-      });
+      const svgDocument = elementToSVG(ref.current);
+      const svgString = new XMLSerializer().serializeToString(svgDocument)
+      setSVG(svgString);
     }
   }, [])
   return (
@@ -60,11 +62,8 @@ export default function App() {
           </span>
         </div>
       </div>
-      <RoughSVG
-        style={{ color: 'currentColor' }}
-        roughOptions={{ roughness: 1, simplification: 1 }}
-      >
-        <SVG src={""} />
+      <RoughSVG>
+        <SVG src={svg} />
       </RoughSVG>
     </>
   );
@@ -79,7 +78,7 @@ export const DOMSandbox = () => {
       editorHeight={500}
       dependencies={{
         'react-inlinesvg': '3.0.2',
-        'html-to-image': '1.11.11',
+        'dom-to-svg': '0.12.2',
       }}
       direction="vertical"
       font

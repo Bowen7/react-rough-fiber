@@ -1,5 +1,5 @@
 import { Sandbox } from './sandbox';
-import { FONT_URL } from '../constants';
+import { CAVEAT_FONT_URL } from '../constants';
 
 const jsxCode = /* js */ `
 import { Suspense } from 'react';
@@ -23,7 +23,7 @@ const markup = (
       justifyContent: 'center',
       width: '100%',
       height: '100%',
-      fontFamily: 'HandDrawnFont',
+      fontFamily: "'Caveat'",
       padding: '24px 36px',
       border: '1px solid #13c2c2',
       borderRadius: '6px',
@@ -60,7 +60,7 @@ const markup = (
 
 
 const RoughJSX = () => {
-  const font = useFont('${FONT_URL}');
+  const font = useFont('${CAVEAT_FONT_URL}');
   const svg = useSatori(
     markup,
     {
@@ -68,7 +68,7 @@ const RoughJSX = () => {
       height: 300,
       fonts: [
         {
-          name: 'HandDrawnFont',
+          name: ''Caveat'',
           data: font,
           weight: 400,
           style: 'normal',

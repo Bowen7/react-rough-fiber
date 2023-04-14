@@ -24,7 +24,7 @@ const JSXSuspend = () => {
         justifyContent: 'center',
         width: '100%',
         height: '100%',
-        fontFamily: 'HandDrawnFont',
+        fontFamily: "'Caveat'",
         padding: '24px 36px',
         border: '1px solid #13c2c2',
         borderRadius: '6px',
@@ -62,7 +62,7 @@ const JSXSuspend = () => {
       height: 300,
       fonts: [
         {
-          name: 'HandDrawnFont',
+          name: "'Caveat'",
           data: font as ArrayBuffer,
           weight: 400,
           style: 'normal',

@@ -43,7 +43,7 @@ export const ChartDemo = () => (
   <RoughSVG
     className="my-4"
     roughOptions={{ fillStyle: 'zigzag' }}
-    style={{ fontFamily: 'HandDrawnFont' }}
+    style={{ fontFamily: "'Caveat'" }}
   >
     <BarChart width={730} height={250} data={data}>
       <XAxis dataKey="name" />
