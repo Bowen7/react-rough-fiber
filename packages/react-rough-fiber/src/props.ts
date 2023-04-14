@@ -126,6 +126,11 @@ export function normalizeProps(
       props['className' as keyof typeof props];
   }
 
+  // a trick for roughjs to set fill
+  // when fillStyle !== solid, roughjs will use stroke to draw the shape fill content
+  // In this situation, we need to set the fill color to be the same as the stroke color.
+  // we use CSS variable to set the fill color
+  // if an svg/g element has a fill color, we set it to css variable FILL_CSS_VARIABLE
   let fill = normalizedProps.fill;
   if (Object.prototype.hasOwnProperty.call(normalizeProps, 'style')) {
     const style = normalizedProps.style;
@@ -134,7 +139,10 @@ export function normalizeProps(
       svgProps.fill = style.fill;
     }
   }
-
+  // the default value for "fill" is black
+  if (type === 'svg') {
+    fill = '#000';
+  }
   if (!isShapeType && fill) {
     normalizedProps.style = {
       ...normalizedProps.style,
@@ -182,6 +190,7 @@ export function diffProps(
   roughOptions: RoughOptions,
   inDefs: boolean
 ) {
+  type = type.toLowerCase();
   const [nextProps, nextSVGProps] = normalizeProps(type, newProps, inDefs);
   const [prevProps] = normalizeProps(type, oldProps, inDefs);
   if (!inDefs && SVG_SHAPE_PROPS.hasOwnProperty(type)) {
