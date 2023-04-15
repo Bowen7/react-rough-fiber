@@ -78,6 +78,7 @@ export type SVGShapeType = SVGShape['type'];
 export type SVGShapeProps = SVGShape & {
   fill?: string;
   stroke?: string;
+  fillOpacity?: number;
 };
 
 export type RoughSVGProps = PropsWithChildren<

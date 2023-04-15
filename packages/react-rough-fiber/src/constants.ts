@@ -60,3 +60,4 @@ export const SVG_SHAPE_MAP: { [key in SVGShape['type']]: SVGShape } = {
 };
 
 export const FILL_CSS_VARIABLE = '--rrf-fill-color';
+export const FILL_OPACITY_CSS_VARIABLE = '--rrf-fill-opacity';

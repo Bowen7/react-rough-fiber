@@ -87,6 +87,7 @@ export interface Drawable {
 }
 
 export interface PathInfo {
+  type: OpSetType;
   d: string;
   stroke: string;
   strokeWidth: number;

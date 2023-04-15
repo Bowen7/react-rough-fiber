@@ -1,10 +1,11 @@
 import { roughGenerator } from './rough';
-import { SVG_NAMESPACE } from './constants';
+import { SVG_NAMESPACE, FILL_OPACITY_CSS_VARIABLE } from './constants';
 import {
   SVGShapeProps,
   InstanceWithListeners,
   RoughOptions,
   Options,
+  InstanceProps,
 } from './types';
 import { shallowEqual, parsePoints } from './utils';
 import { diffNormalizedProps } from './props';
@@ -89,10 +90,22 @@ const getRoughOptions = (
   shapeProps: SVGShapeProps
 ): RoughOptions => {
   if (typeof options === 'function') {
-    const { stroke, fill, ...shape } = shapeProps;
+    const { stroke, fill, fillOpacity, ...shape } = shapeProps;
     return options(shape);
   }
   return options;
+};
+
+const normalizePathInfo = (pathInfo: PathInfo, shapeProps: SVGShapeProps) => {
+  const { type, strokeWidth, ...rest } = pathInfo;
+  const pathProps: InstanceProps = { ...rest, 'stroke-width': strokeWidth };
+  if (type === 'fillSketch') {
+    const { fillOpacity } = shapeProps;
+    pathProps['fill-opacity'] = fillOpacity
+      ? fillOpacity
+      : `var(${FILL_OPACITY_CSS_VARIABLE})`;
+  }
+  return pathProps;
 };
 
 export const diffShape = (
@@ -133,12 +146,12 @@ export const diffShape = (
       );
     }
     const child = children[i];
-    const pathInfo = pathInfos[i];
+    const pathProps = normalizePathInfo(pathInfos[i], nextShapeProps);
     diffNormalizedProps(
       child as InstanceWithListeners,
       (child as any)._pathProps || {},
-      pathInfo
+      pathProps
     );
-    (child as any)._pathProps = pathInfo;
+    (child as any)._pathProps = pathProps;
   }
 };

@@ -36,6 +36,7 @@ import {
   CAMEL_PROPS,
   SVG_SHAPE_MAP,
   FILL_CSS_VARIABLE,
+  FILL_OPACITY_CSS_VARIABLE,
 } from './constants';
 import { diffShape } from './shape';
 
@@ -66,7 +67,11 @@ export function normalizeProps(
         shapeProps[propName as keyof SVGShape] = propValue;
         continue;
       }
-      if (propName === 'fill' || propName === 'stroke') {
+      if (
+        propName === 'fill' ||
+        propName === 'stroke' ||
+        propName === 'fillOpacity'
+      ) {
         shapeProps[propName] = value;
       }
     }
@@ -148,12 +153,18 @@ export function normalizeProps(
   // we use CSS variable to set the fill color
   // if an svg/g element has a fill color, we set it to css variable FILL_CSS_VARIABLE
   let fill = normalizedProps.fill;
+  let fillOpacity = normalizedProps['fill-opacity'];
   if ('style' in normalizedProps) {
     const style = normalizedProps.style;
-    if (style && 'fill' in style) {
-      fill = style.fill;
-      if (shapeProps) {
-        shapeProps.fill = style.fill;
+    if (style) {
+      if ('fill' in style) {
+        fill = style.fill;
+        if (shapeProps) {
+          shapeProps.fill = style.fill;
+        }
+      }
+      if ('fillOpacity' in style) {
+        fillOpacity = style.fillOpacity;
       }
     }
   }
@@ -161,10 +172,14 @@ export function normalizeProps(
   if (!fill && type === 'svg') {
     fill = '#000';
   }
+  if (!fillOpacity && type === 'svg') {
+    fillOpacity = 1;
+  }
   if (!isShapeType && fill) {
     normalizedProps.style = {
       ...normalizedProps.style,
       [FILL_CSS_VARIABLE]: fill,
+      [FILL_OPACITY_CSS_VARIABLE]: fillOpacity,
     };
   }
 

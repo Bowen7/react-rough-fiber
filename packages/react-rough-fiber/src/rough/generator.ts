@@ -307,6 +307,7 @@ export class RoughGenerator {
       switch (type) {
         case 'path':
           path = {
+            type,
             d: this.opsToPath(drawing, o.fixedDecimalPlaceDigits),
             stroke: o.stroke,
             strokeWidth: o.strokeWidth,
@@ -315,6 +316,7 @@ export class RoughGenerator {
           break;
         case 'fillPath':
           path = {
+            type,
             d: this.opsToPath(drawing, o.fixedDecimalPlaceDigits),
             stroke: NOS,
             strokeWidth: 0,
@@ -338,6 +340,7 @@ export class RoughGenerator {
       fweight = o.strokeWidth / 2;
     }
     return {
+      type: 'fillSketch',
       d: this.opsToPath(drawing, o.fixedDecimalPlaceDigits),
       stroke: o.fill || NOS,
       strokeWidth: fweight,
