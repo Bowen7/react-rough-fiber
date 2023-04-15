@@ -3,7 +3,6 @@ import { ROBOTO_FONT_URL } from '../constants';
 
 const code = /* js */ `
 import { Suspense, useMemo } from 'react';
-import SVG from 'react-inlinesvg';
 import opentype from 'opentype.js';
 import { suspend } from 'suspend-react';
 import { RoughSVG } from 'react-rough-fiber';
@@ -26,7 +25,7 @@ const RoughText = () => {
   return (
     <RoughSVG
       style={{ color: 'currentColor' }}
-      roughOptions={{ roughness: 1, simplification: 1 }}
+      options={{ roughness: 1, simplification: 1 }}
     >
       <svg width={width} fill="#82ca9d" stroke="#8884d8" >
         {paths.map((d, i) => <path d={d} key={i} />)}
@@ -52,7 +51,6 @@ export const TextSandbox = () => {
       editorHeight={600}
       dependencies={{
         'suspend-react': '0.0.9',
-        'react-inlinesvg': '^3.0.2',
         'opentype.js': '1.3.4',
       }}
       direction="vertical"

@@ -81,7 +81,7 @@ const RoughJSX = () => {
   return (
     <RoughSVG
       style={{ color: 'currentColor' }}
-      roughOptions={{ roughness: 1, simplification: 1 }}
+      options={{ roughness: 1, simplification: 1 }}
     >
       <SVG src={svg} />
     </RoughSVG>

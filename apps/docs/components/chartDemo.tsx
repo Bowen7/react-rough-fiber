@@ -42,7 +42,7 @@ const data = [
 export const ChartDemo = () => (
   <RoughSVG
     className="my-4"
-    roughOptions={{ fillStyle: 'zigzag' }}
+    options={{ fillStyle: 'zigzag' }}
     style={{ fontFamily: "'Caveat'" }}
   >
     <BarChart width={730} height={250} data={data}>

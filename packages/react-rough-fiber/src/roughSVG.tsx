@@ -1,19 +1,18 @@
 import { useEffect, useRef, useState, createElement } from 'react';
 import { LegacyRoot } from 'react-reconciler/constants';
 import { createReconciler } from './renderer';
-import { RoughSVGProps } from './types';
+import { RoughSVGProps, Options, SVGShape } from './types';
 
 export const RoughSVG = ({
   containerType = 'div',
   children,
-  roughOptions,
+  options = {},
   ...restProps
 }: RoughSVGProps) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const mountNodeRef = useRef<any>(null);
-  const [[reconciler, setRoughOptions]] = useState(() =>
-    createReconciler(roughOptions)
-  );
+  const optionsRef = useRef<Options>(options);
+  const [reconciler] = useState(() => createReconciler(optionsRef));
 
   useEffect(() => {
     if (containerRef.current && !mountNodeRef.current) {
@@ -28,11 +27,11 @@ export const RoughSVG = ({
         null
       );
     }
-    roughOptions && setRoughOptions(roughOptions);
+    optionsRef.current = options || {};
     if (mountNodeRef.current) {
       reconciler.updateContainer(children, mountNodeRef.current, null);
     }
-  }, [children, reconciler, roughOptions]);
+  }, [children, reconciler, options]);
 
   useEffect(() => {
     return () => {

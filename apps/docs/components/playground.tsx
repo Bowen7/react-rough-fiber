@@ -94,7 +94,7 @@ export const Playground = () => {
           </div>
           <RoughSVG
             className="flex-1"
-            roughOptions={{
+            options={{
               preserveVertices: true,
               hachureAngle: -43.50668311367565,
               hachureGap: 2.5,

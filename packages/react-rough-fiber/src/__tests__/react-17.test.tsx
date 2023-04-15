@@ -471,7 +471,7 @@ describe('receive props', () => {
 
   it('receive the rough options', () => {
     render(
-      <RoughSVG roughOptions={{ seed: 2 }}>
+      <RoughSVG options={{ seed: 2 }}>
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="24"
@@ -485,7 +485,7 @@ describe('receive props', () => {
     const d = screen.getByTestId('path').children[0].getAttribute('d');
     cleanup();
     render(
-      <RoughSVG roughOptions={{ seed: 2 }}>
+      <RoughSVG options={{ seed: 2 }}>
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="24"

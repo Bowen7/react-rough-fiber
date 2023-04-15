@@ -25,14 +25,16 @@ import {
   InstanceWithListeners,
   SVGShapeProps,
   InstanceProps,
-  RoughOptions,
+  Options,
+  SVGShapeType,
+  SVGShape,
 } from './types';
 import {
   IS_NON_DIMENSIONAL,
   ON_ANI,
   CAMEL_REPLACE,
   CAMEL_PROPS,
-  SVG_SHAPE_PROPS,
+  SVG_SHAPE_MAP,
   FILL_CSS_VARIABLE,
 } from './constants';
 import { diffShape } from './shape';
@@ -41,42 +43,56 @@ export function normalizeProps(
   type: string,
   props: InstanceProps,
   inDefs: boolean
-): [InstanceProps, SVGShapeProps] {
+): [InstanceProps, SVGShapeProps | null] {
   const normalizedProps: InstanceProps = {};
-  const svgProps: SVGShapeProps = {};
-  const isShapeType = SVG_SHAPE_PROPS.hasOwnProperty(type);
+  const isShapeType = type in SVG_SHAPE_MAP;
+  const shapeProps: SVGShapeProps | null = isShapeType
+    ? {
+        fill: `var(${FILL_CSS_VARIABLE})`,
+        ...SVG_SHAPE_MAP[type as SVGShapeType],
+      }
+    : null;
 
-  for (let i in props) {
-    let value: any = props[i as keyof typeof props];
-    if (!inDefs && isShapeType) {
+  for (let propName in props) {
+    let value: any = props[propName as keyof typeof props];
+
+    if (!inDefs && shapeProps) {
       if (
-        SVG_SHAPE_PROPS[type as keyof typeof SVG_SHAPE_PROPS].hasOwnProperty(i)
+        propName !== 'type' &&
+        propName in SVG_SHAPE_MAP[type as SVGShapeType]
       ) {
-        svgProps[i as keyof typeof svgProps] = value;
+        const propValue =
+          propName === 'd' || propName === 'points' ? value : Number(value);
+        shapeProps[propName as keyof SVGShape] = propValue;
         continue;
       }
-      if (i === 'fill' || i === 'stroke') {
-        svgProps[i] = value;
+      if (propName === 'fill' || propName === 'stroke') {
+        shapeProps[propName] = value;
       }
     }
+
     if (
-      (i === 'value' && 'defaultValue' in props && value == null) ||
+      (propName === 'value' && 'defaultValue' in props && value == null) ||
       // Emulate React's behavior of not rendering the contents of noscript tags on the client.
-      (i === 'children' && type === 'noscript') ||
-      i === 'class' ||
-      i === 'className'
+      (propName === 'children' && type === 'noscript') ||
+      propName === 'class' ||
+      propName === 'className'
     ) {
       // Skip applying value if it is null/undefined and we already set
       // a default value
       continue;
     }
 
-    let lowerCased = i.toLowerCase();
-    if (i === 'defaultValue' && 'value' in props && props.value == null) {
+    let lowerCased = propName.toLowerCase();
+    if (
+      propName === 'defaultValue' &&
+      'value' in props &&
+      props.value == null
+    ) {
       // `defaultValue` is treated as a fallback `value` when a value prop is present but null/undefined.
       // `defaultValue` for Elements with no value prop is the same as the DOM defaultValue property.
-      i = 'value';
-    } else if (i === 'download' && value === true) {
+      propName = 'value';
+    } else if (propName === 'download' && value === true) {
       // Calling `setAttribute` with a truthy value will lead to it being
       // passed as a stringified value, e.g. `download="true"`. React
       // converts it to an empty string instead, otherwise the attribute
@@ -84,20 +100,20 @@ export function normalizeProps(
       // "true" upon downloading it.
       value = '';
     } else if (lowerCased === 'ondoubleclick') {
-      i = 'ondblclick';
+      propName = 'ondblclick';
     } else if (lowerCased === 'onfocus') {
-      i = 'onfocusin';
+      propName = 'onfocusin';
     } else if (lowerCased === 'onblur') {
-      i = 'onfocusout';
-    } else if (ON_ANI.test(i)) {
-      i = lowerCased;
-    } else if (type.indexOf('-') === -1 && CAMEL_PROPS.test(i)) {
-      i = i.replace(CAMEL_REPLACE, '-$&').toLowerCase();
+      propName = 'onfocusout';
+    } else if (ON_ANI.test(propName)) {
+      propName = lowerCased;
+    } else if (type.indexOf('-') === -1 && CAMEL_PROPS.test(propName)) {
+      propName = propName.replace(CAMEL_REPLACE, '-$&').toLowerCase();
     } else if (value === null) {
       value = undefined;
     }
 
-    normalizedProps[i] = value;
+    normalizedProps[propName] = value;
   }
 
   if (
@@ -132,15 +148,17 @@ export function normalizeProps(
   // we use CSS variable to set the fill color
   // if an svg/g element has a fill color, we set it to css variable FILL_CSS_VARIABLE
   let fill = normalizedProps.fill;
-  if (Object.prototype.hasOwnProperty.call(normalizeProps, 'style')) {
+  if ('style' in normalizedProps) {
     const style = normalizedProps.style;
-    if (Object.prototype.hasOwnProperty.call(style, 'fill')) {
+    if (style && 'fill' in style) {
       fill = style.fill;
-      svgProps.fill = style.fill;
+      if (shapeProps) {
+        shapeProps.fill = style.fill;
+      }
     }
   }
   // the default value for "fill" is black
-  if (type === 'svg') {
+  if (!fill && type === 'svg') {
     fill = '#000';
   }
   if (!isShapeType && fill) {
@@ -150,7 +168,7 @@ export function normalizeProps(
     };
   }
 
-  return [normalizedProps, svgProps];
+  return [normalizedProps, shapeProps];
 }
 
 export function diffNormalizedProps(
@@ -158,26 +176,35 @@ export function diffNormalizedProps(
   prevProps: InstanceProps,
   nextProps: InstanceProps
 ) {
-  for (const i in prevProps) {
-    if (i !== 'children' && i !== 'key' && !(i in nextProps)) {
-      setProperty(domElement, i, null, prevProps[i as keyof typeof prevProps]);
+  for (const propName in prevProps) {
+    if (
+      propName !== 'children' &&
+      propName !== 'key' &&
+      !(propName in nextProps)
+    ) {
+      setProperty(
+        domElement,
+        propName,
+        null,
+        prevProps[propName as keyof typeof prevProps]
+      );
     }
   }
 
-  for (const i in nextProps) {
-    const prevProp = prevProps[i as keyof typeof prevProps];
-    const nextProp = nextProps[i as keyof typeof nextProps];
-    if (i === 'children') {
+  for (const propName in nextProps) {
+    const prevProp = prevProps[propName as keyof typeof prevProps];
+    const nextProp = nextProps[propName as keyof typeof nextProps];
+    if (propName === 'children') {
       if (typeof nextProp === 'number' || typeof nextProp === 'string') {
         domElement.textContent = nextProp.toString();
       }
     } else if (
-      i !== 'key' &&
-      i !== 'value' &&
-      i !== 'checked' &&
+      propName !== 'key' &&
+      propName !== 'value' &&
+      propName !== 'checked' &&
       prevProp !== nextProp
     ) {
-      setProperty(domElement, i, nextProp, prevProp);
+      setProperty(domElement, propName, nextProp, prevProp);
     }
   }
 }
@@ -186,15 +213,23 @@ export function diffProps(
   type: string,
   domElement: InstanceWithListeners,
   newProps: InstanceProps,
-  oldProps: InstanceProps,
-  roughOptions: RoughOptions,
+  oldProps: InstanceProps | null,
+  options: Options,
   inDefs: boolean
 ) {
   type = type.toLowerCase();
-  const [nextProps, nextSVGProps] = normalizeProps(type, newProps, inDefs);
-  const [prevProps] = normalizeProps(type, oldProps, inDefs);
-  if (!inDefs && SVG_SHAPE_PROPS.hasOwnProperty(type)) {
-    diffShape(type, domElement as SVGElement, nextSVGProps, roughOptions);
+  const [nextProps, nextShapeProps] = normalizeProps(type, newProps, inDefs);
+  const [prevProps, prevShapeProps] = oldProps
+    ? normalizeProps(type, oldProps, inDefs)
+    : [{}, null];
+
+  if (!inDefs && type in SVG_SHAPE_MAP) {
+    diffShape(
+      domElement as SVGElement,
+      prevShapeProps,
+      nextShapeProps!,
+      options
+    );
   }
 
   diffNormalizedProps(domElement, prevProps, nextProps);
@@ -253,8 +288,8 @@ export function setProperty(
     if (name.toLowerCase() in domElement) name = name.toLowerCase().slice(2);
     else name = name.slice(2);
 
-    if (!domElement._listeners) domElement._listeners = {};
-    domElement._listeners[name + useCapture] = value;
+    if (!domElement._rrf_listeners) domElement._rrf_listeners = {};
+    domElement._rrf_listeners[name + useCapture] = value;
 
     if (value) {
       if (!oldValue) {
@@ -302,9 +337,9 @@ export function setProperty(
 }
 
 function eventProxy(this: InstanceWithListeners, e: Event) {
-  return this._listeners[e.type + false](e);
+  return this._rrf_listeners[e.type + false](e);
 }
 
 function eventProxyCapture(this: InstanceWithListeners, e: Event) {
-  return this._listeners[e.type + true](e);
+  return this._rrf_listeners[e.type + true](e);
 }

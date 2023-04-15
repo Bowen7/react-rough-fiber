@@ -2,6 +2,8 @@ import { PropsWithChildren, HTMLAttributes } from 'react';
 import type { Options as RoughOptions } from './rough/core';
 
 export { RoughOptions };
+export type Options = RoughOptions | ((shape: SVGShape) => RoughOptions);
+
 export type InstanceProps = {
   [name: string]: any;
 };
@@ -29,32 +31,58 @@ export interface HostConfig {
 export type Style = { [name: string]: string | number };
 
 export type InstanceWithListeners = Instance & {
-  _listeners: { [name: string]: (e: Event) => void };
+  _rrf_listeners: { [name: string]: (e: Event) => void };
 };
 
-export type SVGShapeProps = {
+export type SVGShape =
+  | {
+      type: 'path';
+      d: string;
+    }
+  | {
+      type: 'circle';
+      cx: number;
+      cy: number;
+      r: number;
+    }
+  | {
+      type: 'line';
+      x1: number;
+      y1: number;
+      x2: number;
+      y2: number;
+    }
+  | {
+      type: 'rect';
+      x: number;
+      y: number;
+      width: number;
+      height: number;
+    }
+  | {
+      type: 'ellipse';
+      cx: number;
+      cy: number;
+      rx: number;
+      ry: number;
+    }
+  | {
+      type: 'polygon';
+      points: string;
+    }
+  | {
+      type: 'polyline';
+      points: string;
+    };
+export type SVGShapeType = SVGShape['type'];
+export type SVGShapeProps = SVGShape & {
   fill?: string;
   stroke?: string;
-  d?: string;
-  cx?: number;
-  cy?: number;
-  r?: number;
-  x1?: number;
-  y1?: number;
-  x2?: number;
-  y2?: number;
-  x?: number;
-  y?: number;
-  width?: number;
-  height?: number;
-  rx?: number;
-  ry?: number;
-  points?: string;
 };
 
 export type RoughSVGProps = PropsWithChildren<
   {
     containerType?: string;
-    roughOptions?: RoughOptions;
+    options?: Options;
   } & HTMLAttributes<HTMLOrSVGElement>
 >;

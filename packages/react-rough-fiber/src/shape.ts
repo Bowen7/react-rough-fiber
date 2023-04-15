@@ -1,21 +1,10 @@
 import { roughGenerator } from './rough';
-import {
-  SVG_PATH_TAG,
-  SVG_CIRCLE_TAG,
-  SVG_LINE_TAG,
-  SVG_RECT_TAG,
-  SVG_ELLIPSE_TAG,
-  SVG_POLYGON_TAG,
-  SVG_POLYLINE_TAG,
-  SVG_SHAPE_PROPS,
-  FILL_CSS_VARIABLE,
-  SVG_NAMESPACE,
-} from './constants';
+import { SVG_NAMESPACE } from './constants';
 import {
   SVGShapeProps,
   InstanceWithListeners,
-  InstanceProps,
   RoughOptions,
+  Options,
 } from './types';
 import { shallowEqual, parsePoints } from './utils';
 import { diffNormalizedProps } from './props';
@@ -26,67 +15,66 @@ type Drawable = ReturnType<Generator['path']>;
 
 const getDrawable = (
   generator: Generator,
-  type: string,
   props: SVGShapeProps,
-  roughOptions: RoughOptions
+  options: RoughOptions
 ): Drawable | null => {
-  switch (type) {
-    case SVG_PATH_TAG: {
+  switch (props.type) {
+    case 'path': {
       const { d, fill, stroke } = props;
       if (!d) {
         return null;
       }
       return generator.path(d, {
-        ...roughOptions,
+        ...options,
         fill,
         stroke,
       });
     }
-    case SVG_CIRCLE_TAG: {
+    case 'circle': {
       const { cx, cy, r, fill, stroke } = props;
-      return generator.circle(+cx!, +cy!, +r!, {
-        ...roughOptions,
+      return generator.circle(cx, cy, r, {
+        ...options,
         fill,
         stroke,
       });
     }
-    case SVG_LINE_TAG: {
+    case 'line': {
       const { x1, y1, x2, y2, stroke } = props;
-      return generator.line(+x1!, +y1!, +x2!, +y2!, {
-        ...roughOptions,
+      return generator.line(x1, y1, x2, y2, {
+        ...options,
         stroke,
       });
     }
-    case SVG_RECT_TAG: {
+    case 'rect': {
       const { x, y, width, height, fill, stroke } = props;
-      return generator.rectangle(+x!, +y!, +width!, +height!, {
-        ...roughOptions,
+      return generator.rectangle(x, y, width, height, {
+        ...options,
         fill,
         stroke,
       });
     }
-    case SVG_ELLIPSE_TAG: {
+    case 'ellipse': {
       const { cx, cy, rx, ry, fill, stroke } = props;
-      return generator.ellipse(+cx!, +cy!, +rx!, +ry!, {
-        ...roughOptions,
+      return generator.ellipse(cx, cy, rx, ry, {
+        ...options,
         fill,
         stroke,
       });
     }
-    case SVG_POLYGON_TAG: {
+    case 'polygon': {
       const { points, fill, stroke } = props;
-      const pts = parsePoints(points!);
+      const pts = parsePoints(points);
       return generator.polygon(pts, {
-        ...roughOptions,
+        ...options,
         fill,
         stroke,
       });
     }
-    case SVG_POLYLINE_TAG: {
+    case 'polyline': {
       const { points, fill, stroke } = props;
-      const pts = parsePoints(points!);
+      const pts = parsePoints(points);
       return generator.linearPath(pts, {
-        ...roughOptions,
+        ...options,
         fill,
         stroke,
       });
@@ -96,29 +84,34 @@ const getDrawable = (
   }
 };
 
+const getRoughOptions = (
+  options: Options,
+  shapeProps: SVGShapeProps
+): RoughOptions => {
+  if (typeof options === 'function') {
+    const { stroke, fill, ...shape } = shapeProps;
+    return options(shape);
+  }
+  return options;
+};
+
 export const diffShape = (
-  type: string,
   domElement: SVGElement,
-  props: SVGShapeProps,
-  roughOptions: RoughOptions
+  prevShapeProps: SVGShapeProps | null,
+  nextShapeProps: SVGShapeProps,
+  options: Options
 ) => {
-  props = {
-    fill: `var(${FILL_CSS_VARIABLE})`,
-    ...SVG_SHAPE_PROPS[type as keyof typeof SVG_SHAPE_PROPS],
-    ...props,
-  };
-  const prevProps = (<any>domElement)._svgProps;
-  const prevRoughOptions = (<any>domElement)._roughOptions;
+  const roughOptions = getRoughOptions(options, nextShapeProps);
+  const prevRoughOptions = (<any>domElement)._rrf_options;
   if (
-    shallowEqual(prevProps, props) &&
-    shallowEqual(prevRoughOptions, roughOptions)
+    shallowEqual(prevShapeProps, nextShapeProps) &&
+    shallowEqual(prevRoughOptions, options)
   ) {
     return;
   }
-  (<any>domElement)._svgProps = props;
-  (<any>domElement)._roughOptions = roughOptions;
+  (<any>domElement)._rrf_options = roughOptions;
   const generator = roughGenerator();
-  const drawable = getDrawable(generator, type, props, roughOptions);
+  const drawable = getDrawable(generator, nextShapeProps, roughOptions);
   let pathInfos: PathInfo[] = [];
   if (drawable) {
     pathInfos = generator

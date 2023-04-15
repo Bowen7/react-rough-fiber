@@ -5,7 +5,7 @@ import { RoughSVG } from 'react-rough-fiber';
 import { Bell, Battery, Coffee, Twitter, Camera, Edit, Image } from "react-feather"
 export default function App() {
   return (
-    <RoughSVG roughOptions={{roughness: 0.6, seed: 2, bowing: 15}}>
+    <RoughSVG options={{roughness: 0.6, seed: 2, bowing: 15}}>
       <Image size={48} />
     </RoughSVG>
   )
@@ -35,7 +35,7 @@ export default function App() {
     setSeed(Math.floor(time / 0.5));
   });
   return (
-    <RoughSVG roughOptions={{roughness: 8, seed, fillStyle: 'solid'}}>
+    <RoughSVG options={{roughness: 8, seed, fillStyle: 'solid'}}>
       <AlertOutlined style={{fontSize: '64px'}} />
     </RoughSVG>
   )
@@ -59,7 +59,7 @@ import { RoughSVG } from 'react-rough-fiber';
 import { MoonIcon } from '@heroicons/react/24/solid'
 export default function App() {
   return (
-    <RoughSVG roughOptions={{roughness: 0, fillStyle: 'dashed', dashOffset: 1, dashGap: 0.5, hachureGap: 2}}>
+    <RoughSVG options={{roughness: 0, fillStyle: 'dashed', dashOffset: 1, dashGap: 0.5, hachureGap: 2}}>
       <MoonIcon style={{ width: '64px', height: '64px', color: '#ffa940'}} />
     </RoughSVG>
   )

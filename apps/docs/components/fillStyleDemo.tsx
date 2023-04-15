@@ -22,7 +22,7 @@ export const FilStyleDemo = () => {
           <option key={style}>{style}</option>
         ))}
       </select>
-      <RoughSVG roughOptions={{ fillStyle }}>
+      <RoughSVG options={{ fillStyle }}>
         <svg viewBox="0 0 64 64" width="128" height="128">
           <rect
             x={12}

@@ -1,3 +1,4 @@
+import { MutableRefObject } from 'react';
 import Reconciler from 'react-reconciler';
 import { DefaultEventPriority } from 'react-reconciler/constants';
 import {
@@ -6,9 +7,10 @@ import {
   HostContext,
   HostConfig,
   InstanceWithListeners,
-  RoughOptions,
+  SVGShape,
+  Options,
 } from './types';
-import { SVG_NAMESPACE, HTML_NAMESPACE, SVG_SHAPE_PROPS } from './constants';
+import { SVG_NAMESPACE, HTML_NAMESPACE, SVG_SHAPE_MAP } from './constants';
 import { isFun } from './utils';
 import { diffProps } from './props';
 
@@ -24,7 +26,7 @@ const createInstance = (
   if (namespace === SVG_NAMESPACE || type === 'svg') {
     // roughjs renders a shape as a fill path(if fill is not none) and a stroke path(if stroke is not none)
     // so we need to wrap the shape in a g element
-    if (!inDefs && SVG_SHAPE_PROPS.hasOwnProperty(type)) {
+    if (!inDefs && type in SVG_SHAPE_MAP) {
       type = 'g';
     }
     domElement = ownerDocument.createElementNS(SVG_NAMESPACE, type);
@@ -47,18 +49,9 @@ const insertBefore = (
 ) => parent.insertBefore(child, beforeChild);
 
 export const createReconciler = (
-  roughOptions: RoughOptions = {}
-): [
-  Reconciler.Reconciler<Instance, Instance, void, Instance, Instance>,
-  (options: RoughOptions) => void
-] => {
-  let _roughOptions = roughOptions;
-
-  const setRoughOptions = (options: RoughOptions) => {
-    _roughOptions = options;
-  };
-
-  const reconciler = Reconciler<
+  optionsRef: MutableRefObject<Options>
+): Reconciler.Reconciler<Instance, Instance, void, Instance, Instance> =>
+  Reconciler<
     HostConfig['type'],
     HostConfig['props'],
     HostConfig['container'],
@@ -114,8 +107,8 @@ export const createReconciler = (
         type,
         instance as InstanceWithListeners,
         props,
-        {},
-        _roughOptions,
+        null,
+        optionsRef.current,
         inDefs
       );
       return false;
@@ -136,7 +129,7 @@ export const createReconciler = (
         instance as InstanceWithListeners,
         newProps,
         oldProps,
-        _roughOptions,
+        optionsRef.current,
         inDefs
       );
     },
@@ -166,5 +159,3 @@ export const createReconciler = (
     prepareScopeUpdate: () => {},
     getInstanceFromScope: () => null,
   });
-  return [reconciler, setRoughOptions];
-};

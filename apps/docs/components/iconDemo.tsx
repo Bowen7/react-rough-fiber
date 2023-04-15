@@ -30,7 +30,7 @@ export const useAnimationFrame = (callback: (time: number) => void) => {
 const BasicIconDemo = () => (
   <RoughSVG
     className="flex gap-4 my-4"
-    roughOptions={{ roughness: 0.5, seed: 2, bowing: 15 }}
+    options={{ roughness: 0.5, seed: 2, bowing: 15 }}
   >
     <Battery size={36} />
     <Bell size={36} />
@@ -47,7 +47,7 @@ const AnimatedIconDemo = () => {
   return (
     <RoughSVG
       className="flex gap-4 my-4"
-      roughOptions={{
+      options={{
         roughness: 0.6,
         seed,
         disableMultiStroke: true,
@@ -65,7 +65,7 @@ const FillIconDemo = () => (
   <div className="flex gap-4 my-4">
     <div className="flex flex-col items-center">
       <RoughSVG
-        roughOptions={{
+        options={{
           roughness: 0,
           dashOffset: 1,
           dashGap: 0.5,
@@ -78,7 +78,7 @@ const FillIconDemo = () => (
     </div>
     <div className="flex flex-col items-center">
       <RoughSVG
-        roughOptions={{
+        options={{
           fillStyle: 'dashed',
           roughness: 0,
           dashOffset: 1,
@@ -92,7 +92,7 @@ const FillIconDemo = () => (
     </div>
     <div className="flex flex-col items-center">
       <RoughSVG
-        roughOptions={{
+        options={{
           fillStyle: 'zigzag',
           roughness: 0,
           hachureGap: 1.5,
