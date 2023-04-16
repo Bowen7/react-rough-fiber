@@ -98,12 +98,13 @@ const getRoughOptions = (
 
 const normalizePathInfo = (pathInfo: PathInfo, shapeProps: SVGShapeProps) => {
   const { type, strokeWidth, ...rest } = pathInfo;
-  const pathProps: InstanceProps = { ...rest, 'stroke-width': strokeWidth };
+  const pathProps: InstanceProps = rest;
   if (type === 'fillSketch') {
     const { fillOpacity } = shapeProps;
     pathProps['fill-opacity'] = fillOpacity
       ? fillOpacity
       : `var(${FILL_OPACITY_CSS_VARIABLE})`;
+    pathProps['stroke-width'] = strokeWidth;
   }
   return pathProps;
 };

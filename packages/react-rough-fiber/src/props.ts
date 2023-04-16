@@ -63,7 +63,9 @@ export function normalizeProps(
         propName in SVG_SHAPE_MAP[type as SVGShapeType]
       ) {
         const propValue =
-          propName === 'd' || propName === 'points' ? value : Number(value);
+          propName === 'd' || propName === 'points'
+            ? value
+            : Number(value) || 0;
         shapeProps[propName as keyof SVGShape] = propValue;
         continue;
       }

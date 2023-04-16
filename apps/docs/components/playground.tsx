@@ -1,4 +1,10 @@
-import { useEffect, useRef, useState } from 'react';
+import {
+  useEffect,
+  useRef,
+  useState,
+  Component,
+  PropsWithChildren,
+} from 'react';
 import CodeMirror from '@uiw/react-codemirror';
 import { javascript } from '@codemirror/lang-javascript';
 import { xml } from '@codemirror/lang-xml';
@@ -9,7 +15,8 @@ import SVG from 'react-inlinesvg';
 import JSXParser from 'react-jsx-parser';
 import xmlFormat from 'xml-formatter';
 import { EditorState } from '@codemirror/state';
-import { ErrorBoundary } from 'react-error-boundary';
+
+type Extension = typeof githubLight;
 
 const jsxExtension = [javascript({ jsx: true })];
 const xmlExtension = [xml()];
@@ -28,22 +35,45 @@ const SVG_INITIAL_VALUE = `
 </svg>
 `.trim();
 
-export const Playground = () => {
-  const [lang, setLang] = useState<'jsx' | 'svg'>('svg');
-  const [value, setValue] = useState(
-    lang === 'jsx' ? JSX_INITIAL_VALUE : SVG_INITIAL_VALUE
-  );
+type ErrorBoundaryProps = PropsWithChildren<{
+  value: string;
+}>;
+class ErrorBoundary extends Component<
+  ErrorBoundaryProps,
+  { hasError: boolean }
+> {
+  constructor(props: ErrorBoundaryProps) {
+    super(props);
+    this.state = { hasError: false };
+  }
+
+  static getDerivedStateFromError() {
+    return { hasError: true };
+  }
+
+  componentDidUpdate(prevProps: Readonly<ErrorBoundaryProps>): void {
+    if (prevProps.value !== this.props.value) {
+      this.setState({ hasError: false });
+    }
+  }
+
+  render() {
+    if (this.state.hasError) {
+      return <div>Something went wrong.</div>;
+    }
+
+    return this.props.children;
+  }
+}
+
+type PreviewProps = {
+  lang: 'jsx' | 'svg';
+  value: string;
+  theme: Extension;
+};
+const Preview = ({ lang, value, theme }: PreviewProps) => {
   const [output, setOutput] = useState('');
   const previewRef = useRef<HTMLDivElement>(null);
-
-  const { resolvedTheme } = useTheme();
-  const theme = resolvedTheme === 'dark' ? githubDark : githubLight;
-
-  const onLangChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const lang = e.target.value as 'jsx' | 'svg';
-    setLang(lang);
-    setValue(lang === 'jsx' ? JSX_INITIAL_VALUE : SVG_INITIAL_VALUE);
-  };
 
   useEffect(() => {
     if (previewRef.current) {
@@ -61,6 +91,58 @@ export const Playground = () => {
       }
     }
   }, [value, lang]);
+  return (
+    <>
+      <div className="flex px-4">
+        <div className="flex-1">
+          <p className="my-4">Input Preview:</p>
+          {/* @ts-ignore */}
+          {lang === 'jsx' ? <JSXParser jsx={value} /> : <SVG src={value} />}
+        </div>
+        <RoughSVG
+          className="flex-1"
+          options={{
+            preserveVertices: true,
+            hachureAngle: -43.50668311367565,
+            hachureGap: 1,
+            fillWeight: 0.5,
+            disableMultiStrokeFill: true,
+            disableMultiStroke: true,
+            roughness: 0,
+          }}
+        >
+          <p className="my-4">Output Preview:</p>
+          <div ref={previewRef}>
+            {/* @ts-ignore */}
+            {lang === 'jsx' ? <JSXParser jsx={value} /> : <SVG src={value} />}
+          </div>
+        </RoughSVG>
+      </div>
+      <p className="my-4">Output:</p>
+      <CodeMirror
+        value={output}
+        height="400px"
+        theme={theme}
+        extensions={readOnlyExtension}
+      />
+    </>
+  );
+};
+
+export const Playground = () => {
+  const [lang, setLang] = useState<'jsx' | 'svg'>('svg');
+  const [value, setValue] = useState(
+    lang === 'jsx' ? JSX_INITIAL_VALUE : SVG_INITIAL_VALUE
+  );
+
+  const { resolvedTheme } = useTheme();
+  const theme = resolvedTheme === 'dark' ? githubDark : githubLight;
+
+  const onLangChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const lang = e.target.value as 'jsx' | 'svg';
+    setLang(lang);
+    setValue(lang === 'jsx' ? JSX_INITIAL_VALUE : SVG_INITIAL_VALUE);
+  };
 
   return (
     <div className="mt-4">
@@ -85,40 +167,9 @@ export const Playground = () => {
           onChange={(value) => setValue(value)}
         />
       )}
-      <ErrorBoundary fallback={<div>Parsing error</div>}>
-        <div className="flex px-4">
-          <div className="flex-1">
-            <p className="my-4">Input Preview:</p>
-            {/* @ts-ignore */}
-            {lang === 'jsx' ? <JSXParser jsx={value} /> : <SVG src={value} />}
-          </div>
-          <RoughSVG
-            className="flex-1"
-            options={{
-              preserveVertices: true,
-              hachureAngle: -43.50668311367565,
-              hachureGap: 2.5,
-              fillWeight: 1.2654732452735349,
-              disableMultiStrokeFill: true,
-              disableMultiStroke: true,
-              roughness: 0,
-            }}
-          >
-            <p className="my-4">Output Preview:</p>
-            <div ref={previewRef}>
-              {/* @ts-ignore */}
-              {lang === 'jsx' ? <JSXParser jsx={value} /> : <SVG src={value} />}
-            </div>
-          </RoughSVG>
-        </div>
+      <ErrorBoundary value={value}>
+        <Preview lang={lang} value={value} theme={theme} />
       </ErrorBoundary>
-      <p className="my-4">Output:</p>
-      <CodeMirror
-        value={output}
-        height="400px"
-        theme={theme}
-        extensions={readOnlyExtension}
-      />
     </div>
   );
 };
