@@ -28,8 +28,6 @@
     "react-reconciler": "^0.29.0",
     "react-rough-fiber": "workspace:*",
     "recharts": "^2.4.3",
-    "satori": "^0.4.7",
-    "suspend-react": "^0.0.9",
     "xml-formatter": "^3.3.2"
   },
   "devDependencies": {

@@ -62,6 +62,7 @@ export const RechartsSandbox = () => {
     <Sandbox
       code={rechartsCode}
       editorHeight={500}
+      previewHeight={350}
       dependencies={{ recharts: '2.4.3' }}
       direction="vertical"
       font

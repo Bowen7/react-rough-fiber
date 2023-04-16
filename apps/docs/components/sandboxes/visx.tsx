@@ -9,7 +9,7 @@ import * as topojson from 'topojson-client';
 const background = '#EBF4F3';
 const colors = ['#744DCA', '#3D009C', '#9020FF', '#C630FD'];
 const topoUrl = 'https://cdn.jsdelivr.net/npm/us-atlas@3/states-10m.json'
-const width = 900;
+const width = 800;
 const height = 500;
 const useTopo = (url) =>
   suspend(() => fetch(url).then((res) => res.json()), [url]);

@@ -47,6 +47,7 @@ export const TextSandbox = () => {
     <Sandbox
       code={code}
       editorHeight={600}
+      previewHeight={200}
       dependencies={{
         'opentype.js': '1.3.4',
       }}

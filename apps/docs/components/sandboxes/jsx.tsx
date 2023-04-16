@@ -93,6 +93,7 @@ export const JSXSandbox = () => {
     <Sandbox
       code={jsxCode}
       editorHeight={500}
+      previewHeight={400}
       dependencies={{
         satori: '0.4.7',
         'react-inlinesvg': '^3.0.2',

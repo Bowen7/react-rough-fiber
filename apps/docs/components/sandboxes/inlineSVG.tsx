@@ -48,6 +48,7 @@ export const InlineSVGSandbox = () => {
   return (
     <Sandbox
       code={inlineSVGCode}
+      previewHeight={200}
       dependencies={{
         'react-inlinesvg': '3.0.2',
       }}

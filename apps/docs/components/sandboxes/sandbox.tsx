@@ -1,5 +1,13 @@
 import { useMemo } from 'react';
-import { Sandpack, SandpackSetup, Classes } from '@codesandbox/sandpack-react';
+import {
+  SandpackFiles,
+  SandpackSetup,
+  Classes,
+  SandpackProvider,
+  SandpackLayout,
+  SandpackCodeEditor,
+  SandpackPreview,
+} from '@codesandbox/sandpack-react';
 import { useTheme } from 'nextra-theme-docs';
 import { CAVEAT_FONT_URL } from '../constants';
 
@@ -8,13 +16,14 @@ type Props = {
   code: string;
   dependencies?: Dependencies;
   editorHeight?: number;
+  previewHeight?: number;
   font?: boolean;
   direction?: 'horizontal' | 'vertical';
   cssCode?: string;
 };
 
 const baseDependencies: Dependencies = {
-  'react-rough-fiber': '0.0.2-experimental-f9dda59',
+  'react-rough-fiber': '0.0.2-experimental-d4bb9b2',
   'react-reconciler': '^0.29.0',
 };
 
@@ -33,6 +42,7 @@ export const Sandbox = ({
   code,
   dependencies,
   editorHeight = 300,
+  previewHeight,
   font = false,
   direction = 'horizontal',
   cssCode,
@@ -56,23 +66,27 @@ export const Sandbox = ({
             'sp-layout': 'mt-6',
           };
     return {
-      editorHeight,
       resizablePanels: direction === 'horizontal',
       classes,
     };
-  }, [direction, editorHeight]);
+  }, [direction]);
   return (
-    <Sandpack
+    <SandpackProvider
       theme={resolvedTheme === 'dark' ? 'dark' : 'light'}
       template="react"
       options={options}
-      files={files}
+      files={files as SandpackFiles}
       customSetup={{
         dependencies: {
           ...baseDependencies,
           ...dependencies,
         },
       }}
-    />
+    >
+      <SandpackLayout>
+        <SandpackCodeEditor style={{ height: editorHeight }} />
+        <SandpackPreview style={{ height: previewHeight || editorHeight }} />
+      </SandpackLayout>
+    </SandpackProvider>
   );
 };

@@ -1,13 +1,8 @@
 import { Tab, Tabs, Callout } from 'nextra-theme-docs'
 import { RoughSVG } from 'react-rough-fiber'
-import dynamic from "next/dynamic";
 import { IconDemo } from "components/iconDemo"
 import { ChartDemo } from "components/chartDemo"
-
-export const ClientJSXDemo = dynamic(
-    () => import("../components/htmlDemo"),
-    { ssr: false }
-  );
+import { TextDemo } from "components/textDemo"
 
 # Get Started
  
@@ -81,10 +76,10 @@ export default function App() {
 
 <ChartDemo />
 
-[Code](/examples/chart)
+[Code](/examples/chart/recharts)
 
-### Even HTML!
+### Text
 
-<ClientJSXDemo />
+<TextDemo />
 
-[Code](/examples/html)
+[Code](/examples/text)
