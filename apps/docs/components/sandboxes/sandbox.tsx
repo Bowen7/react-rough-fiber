@@ -14,7 +14,7 @@ type Props = {
 };
 
 const baseDependencies: Dependencies = {
-  'react-rough-fiber': '0.0.2-alpha.2',
+  'react-rough-fiber': '0.0.2-experimental-f9dda59',
   'react-reconciler': '^0.29.0',
 };
 
