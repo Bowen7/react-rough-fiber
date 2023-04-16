@@ -2,25 +2,32 @@ import { Sandbox } from './sandbox';
 import { ROBOTO_FONT_URL } from '../constants';
 
 const code = /* js */ `
-import { Suspense, useMemo } from 'react';
+import { useEffect, useState } from 'react';
 import opentype from 'opentype.js';
-import { suspend } from 'suspend-react';
 import { RoughSVG } from 'react-rough-fiber';
 import './style.css';
 
-const usePaths = (url, text) =>
-  suspend(async () => {
-    const res = await fetch(url);
-    const buffer = await res.arrayBuffer();
-    const font = opentype.parse(buffer);
-    return [
-      font.getPaths(text, 0, 100, 100).map((path) => path.toPathData()),
-      font.getAdvanceWidth(text, 100),
-    ];
-  }, [url, text]);
-
-const RoughText = () => {
-  const [paths, width] = usePaths('${ROBOTO_FONT_URL}', 'React Rough Fiber');
+const TEXT = 'React Rough Fiber';
+export default function App() {
+  const [paths, setPaths] = useState([]);
+  const [width, setWidth] = useState(0);
+  useEffect(() => {
+    let ignore = false;
+    const loadSVG = async () => {
+      const res = await fetch('${ROBOTO_FONT_URL}');
+      const buffer = await res.arrayBuffer();
+      if(ignore) return;
+      const font = opentype.parse(buffer);
+      const paths = font.getPaths(TEXT, 0, 100, 100).map((path) => path.toPathData());
+      const width = font.getAdvanceWidth(TEXT, 100);
+      setPaths(paths);
+      setWidth(width);
+    }
+    loadSVG();
+    return () => {
+      ignore = true;
+    }
+  }, []);
 
   return (
     <RoughSVG
@@ -32,15 +39,6 @@ const RoughText = () => {
       </svg>
     </RoughSVG>
   );
-};
-
-
-export default function App() {
-  return (
-    <Suspense fallback={<div>loading...</div>}>
-      <RoughText />
-    </Suspense>
-  )
 }
 `.trim();
 
@@ -50,7 +48,6 @@ export const TextSandbox = () => {
       code={code}
       editorHeight={600}
       dependencies={{
-        'suspend-react': '0.0.9',
         'opentype.js': '1.3.4',
       }}
       direction="vertical"

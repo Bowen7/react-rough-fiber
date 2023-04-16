@@ -2,18 +2,11 @@ import { Sandbox } from './sandbox';
 import { CAVEAT_FONT_URL } from '../constants';
 
 const jsxCode = /* js */ `
-import { Suspense } from 'react';
+import { useState, useEffect } from 'react';
 import satori from 'satori/dist';
 import SVG from 'react-inlinesvg';
-import { suspend } from 'suspend-react';
 import { RoughSVG } from 'react-rough-fiber';
 import './style.css';
-
-const useFont = (url) =>
-  suspend(() => fetch(url).then((res) => res.arrayBuffer()), [url]);
-
-const useSatori = (markup, options) =>
-  suspend(() => satori(markup, options), []);
 
 const markup = (
   <div
@@ -58,41 +51,39 @@ const markup = (
   </div>
 );
 
+export default function App() {
+  const [svg, setSVG] = useState('');
+  useEffect(() => {
+    let ignore = false;
 
-const RoughJSX = () => {
-  const font = useFont('${CAVEAT_FONT_URL}');
-  const svg = useSatori(
-    markup,
-    {
-      width: 500,
-      height: 300,
-      fonts: [
-        {
-          name: ''Caveat'',
-          data: font,
-          weight: 400,
-          style: 'normal',
-        },
-      ],
-      embedFont: false,
+    const loadSVG = async () => {
+      const res = await fetch('${CAVEAT_FONT_URL}');
+      const font = await res.arrayBuffer();
+      const svg = await satori(markup, {
+        width: 500,
+        height: 300,
+        fonts: [
+          {
+            name: "'Caveat'",
+            data: font,
+            weight: 400,
+            style: 'normal',
+          },
+        ],
+        embedFont: false,
+      });
+      if (ignore) return;
+      setSVG(svg);
     }
-  );
-
+    loadSVG();
+    return () => {
+      ignore = true;
+    }
+  }, [])
   return (
-    <RoughSVG
-      style={{ color: 'currentColor' }}
-      options={{ roughness: 1, simplification: 1 }}
-    >
+    <RoughSVG>
       <SVG src={svg} />
     </RoughSVG>
-  );
-};
-
-export default function App() {
-  return (
-    <Suspense fallback={<div>loading...</div>}>
-      <RoughJSX />
-    </Suspense>
   )
 }
 `.trim();
@@ -103,7 +94,6 @@ export const JSXSandbox = () => {
       code={jsxCode}
       dependencies={{
         satori: '0.4.7',
-        'suspend-react': '0.0.9',
         'react-inlinesvg': '^3.0.2',
       }}
       direction="vertical"

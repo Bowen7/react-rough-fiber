@@ -62,7 +62,7 @@ export default function App() {
           </span>
         </div>
       </div>
-      <RoughSVG>
+      <RoughSVG options={{seed: 2}}>
         <SVG src={svg} />
       </RoughSVG>
     </>
@@ -75,7 +75,7 @@ export const DOMSandbox = () => {
     <Sandbox
       code={code}
       cssCode={css}
-      editorHeight={500}
+      editorHeight={550}
       dependencies={{
         'react-inlinesvg': '3.0.2',
         'dom-to-svg': '0.12.2',

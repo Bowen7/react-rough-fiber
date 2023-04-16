@@ -1,22 +1,36 @@
 import { Sandbox } from './sandbox';
 
 const visxCode = /* js */ `
-import { Suspense, useMemo, Fragment } from 'react';
+import { useState, useEffect } from 'react';
 import { RoughSVG } from 'react-rough-fiber';
 import { AlbersUsa } from '@visx/geo';
-import { suspend } from 'suspend-react';
 import * as topojson from 'topojson-client';
 
 const background = '#EBF4F3';
 const colors = ['#744DCA', '#3D009C', '#9020FF', '#C630FD'];
 const topoUrl = 'https://cdn.jsdelivr.net/npm/us-atlas@3/states-10m.json'
-
+const width = 900;
+const height = 500;
 const useTopo = (url) =>
   suspend(() => fetch(url).then((res) => res.json()), [url]);
 
-const RoughMap = ({ width, height }) => {
-  const topology = useTopo(topoUrl);
-  const { features: unitedStates } = useMemo(() => topojson.feature(topology, topology.objects.states), [topology]);
+export default function App() {
+  const [unitedStates, setUnitedStates] = useState([]);
+
+  useEffect(() => {
+    let ignore = false;
+    const loadUnitedStates = async () => {
+      const res = await fetch(topoUrl);
+      const topology = await res.json();
+      if (ignore) return;
+      const { features: unitedStates } = topojson.feature(topology, topology.objects.states);
+      setUnitedStates(unitedStates);
+    }
+    loadUnitedStates();
+    return () => {
+      ignore = true;
+    }
+  })
 
   const centerX = width / 2;
   const centerY = height / 2;
@@ -47,14 +61,6 @@ const RoughMap = ({ width, height }) => {
     </RoughSVG>
   );
 }
-
-export default function App() {
-  return (
-    <Suspense fallback={<div>loading...</div>}>
-      <RoughMap width={900} height={500} />
-    </Suspense>
-  )
-}
 `.trim();
 
 export const VisxSandbox = () => {
@@ -63,7 +69,6 @@ export const VisxSandbox = () => {
       code={visxCode}
       editorHeight={600}
       dependencies={{
-        'suspend-react': '0.0.9',
         'topojson-client': '3.1.0',
         '@visx/geo': '3.0.0',
       }}
