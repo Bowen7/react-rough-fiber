@@ -167,6 +167,9 @@ export function normalizeProps(
       }
       if ('fillOpacity' in style) {
         fillOpacity = style.fillOpacity;
+        if (shapeProps) {
+          shapeProps.fillOpacity = style.fillOpacity;
+        }
       }
     }
   }
@@ -177,12 +180,16 @@ export function normalizeProps(
   if (!fillOpacity && type === 'svg') {
     fillOpacity = 1;
   }
-  if (!isShapeType && fill) {
+  if (!isShapeType) {
     normalizedProps.style = {
       ...normalizedProps.style,
-      [FILL_CSS_VARIABLE]: fill,
-      [FILL_OPACITY_CSS_VARIABLE]: fillOpacity,
     };
+    if (fill) {
+      normalizedProps.style[FILL_CSS_VARIABLE] = fill;
+    }
+    if (fillOpacity) {
+      normalizedProps.style[FILL_OPACITY_CSS_VARIABLE] = fillOpacity;
+    }
   }
 
   return [normalizedProps, shapeProps];

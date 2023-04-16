@@ -1,5 +1,9 @@
 import { roughGenerator } from './rough';
-import { SVG_NAMESPACE, FILL_OPACITY_CSS_VARIABLE } from './constants';
+import {
+  SVG_NAMESPACE,
+  FILL_OPACITY_CSS_VARIABLE,
+  FILL_CSS_VARIABLE,
+} from './constants';
 import {
   SVGShapeProps,
   InstanceWithListeners,
@@ -26,58 +30,58 @@ const getDrawable = (
         return null;
       }
       return generator.path(d, {
-        ...options,
         fill,
         stroke,
+        ...options,
       });
     }
     case 'circle': {
       const { cx, cy, r, fill, stroke } = props;
       return generator.circle(cx, cy, r, {
-        ...options,
         fill,
         stroke,
+        ...options,
       });
     }
     case 'line': {
       const { x1, y1, x2, y2, stroke } = props;
       return generator.line(x1, y1, x2, y2, {
-        ...options,
         stroke,
+        ...options,
       });
     }
     case 'rect': {
       const { x, y, width, height, fill, stroke } = props;
       return generator.rectangle(x, y, width, height, {
-        ...options,
         fill,
         stroke,
+        ...options,
       });
     }
     case 'ellipse': {
       const { cx, cy, rx, ry, fill, stroke } = props;
       return generator.ellipse(cx, cy, rx, ry, {
-        ...options,
         fill,
         stroke,
+        ...options,
       });
     }
     case 'polygon': {
       const { points, fill, stroke } = props;
       const pts = parsePoints(points);
       return generator.polygon(pts, {
-        ...options,
         fill,
         stroke,
+        ...options,
       });
     }
     case 'polyline': {
       const { points, fill, stroke } = props;
       const pts = parsePoints(points);
       return generator.linearPath(pts, {
-        ...options,
         fill,
         stroke,
+        ...options,
       });
     }
     default:
@@ -97,14 +101,17 @@ const getRoughOptions = (
 };
 
 const normalizePathInfo = (pathInfo: PathInfo, shapeProps: SVGShapeProps) => {
-  const { type, strokeWidth, ...rest } = pathInfo;
+  const { type, strokeWidth, fill, ...rest } = pathInfo;
   const pathProps: InstanceProps = rest;
   if (type === 'fillSketch') {
     const { fillOpacity } = shapeProps;
-    pathProps['fill-opacity'] = fillOpacity
+    pathProps['stroke-opacity'] = fillOpacity
       ? fillOpacity
       : `var(${FILL_OPACITY_CSS_VARIABLE})`;
     pathProps['stroke-width'] = strokeWidth;
+    pathProps['fill'] = fill;
+  } else if (fill !== `var(${FILL_CSS_VARIABLE})`) {
+    pathProps['fill'] = fill;
   }
   return pathProps;
 };
