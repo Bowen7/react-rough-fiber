@@ -132,4 +132,25 @@ describe('receive props', () => {
       'container'
     );
   });
+
+  it('support strokeLineDash and strokeLineDashOffset', () => {
+    render(
+      <RoughSVG
+        options={{ strokeLineDash: [5, 10], strokeLineDashOffset: 3 }}
+        data-testid="container"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="24"
+          height="24"
+          viewBox="0 0 24 24"
+        >
+          <rect width={10} height={10} data-testid="rect"></rect>
+        </svg>
+      </RoughSVG>
+    );
+    const rect = screen.getByTestId('rect');
+    expect(rect.children[1].getAttribute('stroke-dasharray')).toBe('5 10');
+    expect(rect.children[1].getAttribute('stroke-dashoffset')).toBe('3');
+  });
 });

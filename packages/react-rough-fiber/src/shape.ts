@@ -100,7 +100,11 @@ const getRoughOptions = (
   return options;
 };
 
-const normalizePathInfo = (pathInfo: PathInfo, shapeProps: SVGShapeProps) => {
+const normalizePathInfo = (
+  pathInfo: PathInfo,
+  shapeProps: SVGShapeProps,
+  options: RoughOptions
+) => {
   const { type, strokeWidth, fill, ...rest } = pathInfo;
   const pathProps: InstanceProps = rest;
   if (type === 'fillSketch') {
@@ -110,8 +114,19 @@ const normalizePathInfo = (pathInfo: PathInfo, shapeProps: SVGShapeProps) => {
       : `var(${FILL_OPACITY_CSS_VARIABLE})`;
     pathProps['stroke-width'] = strokeWidth;
     pathProps['fill'] = fill;
-  } else if (fill !== `var(${FILL_CSS_VARIABLE})`) {
-    pathProps['fill'] = fill;
+  } else {
+    if (type === 'path') {
+      const { strokeLineDash, strokeLineDashOffset } = options;
+      if (strokeLineDash) {
+        pathProps['stroke-dasharray'] = strokeLineDash.join(' ');
+      }
+      if (strokeLineDashOffset) {
+        pathProps['stroke-dashoffset'] = strokeLineDashOffset;
+      }
+    }
+    if (fill !== `var(${FILL_CSS_VARIABLE})`) {
+      pathProps['fill'] = fill;
+    }
   }
   return pathProps;
 };
@@ -126,7 +141,7 @@ export const diffShape = (
   const prevRoughOptions = (<any>domElement)._rrf_options;
   if (
     shallowEqual(prevShapeProps, nextShapeProps) &&
-    shallowEqual(prevRoughOptions, options)
+    shallowEqual(prevRoughOptions, roughOptions)
   ) {
     return;
   }
@@ -154,7 +169,11 @@ export const diffShape = (
       );
     }
     const child = children[i];
-    const pathProps = normalizePathInfo(pathInfos[i], nextShapeProps);
+    const pathProps = normalizePathInfo(
+      pathInfos[i],
+      nextShapeProps,
+      roughOptions
+    );
     diffNormalizedProps(
       child as InstanceWithListeners,
       (child as any)._pathProps || {},
