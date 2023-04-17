@@ -37,7 +37,7 @@ const getDrawable = (
     }
     case 'circle': {
       const { cx, cy, r, fill, stroke } = props;
-      return generator.circle(cx, cy, r, {
+      return generator.circle(cx, cy, r * 2, {
         fill,
         stroke,
         ...options,
@@ -60,7 +60,7 @@ const getDrawable = (
     }
     case 'ellipse': {
       const { cx, cy, rx, ry, fill, stroke } = props;
-      return generator.ellipse(cx, cy, rx, ry, {
+      return generator.ellipse(cx, cy, rx * 2, ry * 2, {
         fill,
         stroke,
         ...options,
@@ -91,11 +91,12 @@ const getDrawable = (
 
 const getRoughOptions = (
   options: Options,
-  shapeProps: SVGShapeProps
+  shapeProps: SVGShapeProps,
+  props: InstanceProps
 ): RoughOptions => {
   if (typeof options === 'function') {
     const { stroke, fill, fillOpacity, ...shape } = shapeProps;
-    return options(shape);
+    return options(shape, props);
   }
   return options;
 };
@@ -135,9 +136,10 @@ export const diffShape = (
   domElement: SVGElement,
   prevShapeProps: SVGShapeProps | null,
   nextShapeProps: SVGShapeProps,
+  props: InstanceProps,
   options: Options
 ) => {
-  const roughOptions = getRoughOptions(options, nextShapeProps);
+  const roughOptions = getRoughOptions(options, nextShapeProps, props);
   const prevRoughOptions = (<any>domElement)._rrf_options;
   if (
     shallowEqual(prevShapeProps, nextShapeProps) &&

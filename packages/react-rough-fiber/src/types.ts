@@ -2,7 +2,9 @@ import { PropsWithChildren, HTMLAttributes } from 'react';
 import type { Options as RoughOptions } from './rough/core';
 
 export { RoughOptions };
-export type Options = RoughOptions | ((shape: SVGShape) => RoughOptions);
+export type Options =
+  | RoughOptions
+  | ((shape: SVGShape, props: HTMLAttributes<SVGElement>) => RoughOptions);
 
 export type InstanceProps = {
   [name: string]: any;

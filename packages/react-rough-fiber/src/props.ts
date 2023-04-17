@@ -252,6 +252,7 @@ export function diffProps(
       domElement as SVGElement,
       prevShapeProps,
       nextShapeProps!,
+      newProps,
       options
     );
   }
