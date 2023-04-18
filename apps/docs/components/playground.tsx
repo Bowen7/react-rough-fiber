@@ -103,12 +103,8 @@ const Preview = ({ lang, value, theme }: PreviewProps) => {
           className="flex-1"
           options={{
             preserveVertices: true,
-            hachureAngle: -43.50668311367565,
             hachureGap: 1,
             fillWeight: 0.5,
-            disableMultiStrokeFill: true,
-            disableMultiStroke: true,
-            roughness: 0,
           }}
         >
           <p className="my-4">Output Preview:</p>

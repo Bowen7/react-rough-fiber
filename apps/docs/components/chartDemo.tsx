@@ -1,5 +1,6 @@
 import { RoughSVG } from 'react-rough-fiber';
 import { BarChart, XAxis, YAxis, Tooltip, Legend, Bar } from 'recharts';
+import useDimensions from 'react-cool-dimensions';
 
 const data = [
   {
@@ -39,19 +40,24 @@ const data = [
   },
 ];
 
-export const ChartDemo = () => (
-  <RoughSVG
-    className="my-4"
-    options={{ fillStyle: 'zigzag' }}
-    style={{ fontFamily: "'Caveat'" }}
-  >
-    <BarChart width={730} height={250} data={data}>
-      <XAxis dataKey="name" />
-      <YAxis />
-      <Tooltip />
-      <Legend />
-      <Bar dataKey="pv" fill="#8884d8" stroke="currentColor" />
-      <Bar dataKey="uv" fill="#82ca9d" stroke="currentColor" />
-    </BarChart>
-  </RoughSVG>
-);
+export const ChartDemo = () => {
+  const { observe, width } = useDimensions();
+  return (
+    <div ref={observe}>
+      <RoughSVG
+        className="my-4"
+        options={{ fillStyle: 'zigzag' }}
+        style={{ fontFamily: "'Caveat'" }}
+      >
+        <BarChart width={width} height={width / 5 + 100} data={data}>
+          <XAxis dataKey="name" />
+          <YAxis />
+          <Tooltip />
+          <Legend />
+          <Bar dataKey="pv" fill="#8884d8" stroke="currentColor" />
+          <Bar dataKey="uv" fill="#82ca9d" stroke="currentColor" />
+        </BarChart>
+      </RoughSVG>
+    </div>
+  );
+};

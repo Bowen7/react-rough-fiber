@@ -10,16 +10,6 @@ const config: DocsThemeConfig = {
   footer: {
     text: 'React Rough Fiber Docs',
   },
-  chat: {
-    link: 'https://ko-fi.com/Q5Q0JBEEF',
-    icon: (
-      <img
-        style={{ height: 36 }}
-        src="https://storage.ko-fi.com/cdn/kofi3.png?v=3"
-        alt="Buy Me a Coffee at ko-fi.com"
-      />
-    ),
-  },
 };
 
 export default config;

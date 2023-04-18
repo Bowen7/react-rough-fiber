@@ -1,4 +1,5 @@
 {
   "recharts": "Recharts",
-  "visx": "Visx"
+  "visx": "Visx",
+  "react-d3-tree": "React D3 Tree"
 }

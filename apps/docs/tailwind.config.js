@@ -7,5 +7,5 @@ module.exports = {
     './sandboxes/**/*.{js,ts,jsx,tsx}',
     './theme.config.tsx',
   ],
-  plugins: [],
+  plugins: [require('daisyui')],
 };

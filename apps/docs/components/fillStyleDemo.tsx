@@ -29,7 +29,7 @@ export const FilStyleDemo = () => {
             y={12}
             width={48}
             height={48}
-            stroke="#000"
+            stroke="currentColor"
             fill="#82ca9d"
           />
         </svg>

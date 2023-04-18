@@ -8,8 +8,10 @@ import {
   Youtube,
   Zap,
   Video,
+  ChevronsDown,
 } from 'react-feather';
 import { MoonIcon, HeartIcon, FlagIcon } from '@heroicons/react/24/solid';
+import { Comparison } from './comparison';
 
 export const useAnimationFrame = (callback: (time: number) => void) => {
   const requestRef = useRef<number>(0);
@@ -28,15 +30,12 @@ export const useAnimationFrame = (callback: (time: number) => void) => {
 };
 
 const BasicIconDemo = () => (
-  <RoughSVG
-    className="flex gap-4 my-4"
-    options={{ roughness: 0.5, seed: 2, bowing: 15 }}
-  >
+  <Comparison options={{ roughness: 0.5, seed: 2, bowing: 15 }}>
     <Battery size={36} />
     <Bell size={36} />
     <Coffee size={36} />
     <Image size={36} />
-  </RoughSVG>
+  </Comparison>
 );
 
 const AnimatedIconDemo = () => {
@@ -45,8 +44,7 @@ const AnimatedIconDemo = () => {
     setSeed(Math.floor(time / 0.5));
   });
   return (
-    <RoughSVG
-      className="flex gap-4 my-4"
+    <Comparison
       options={{
         roughness: 0.6,
         seed,
@@ -57,13 +55,23 @@ const AnimatedIconDemo = () => {
       <Zap size={36} />
       <Video size={36} />
       <Coffee size={36} />
-    </RoughSVG>
+    </Comparison>
   );
 };
 
 const FillIconDemo = () => (
-  <div className="flex gap-4 my-4">
-    <div className="flex flex-col items-center">
+  <div className="flex gap-4 my-4 flex-col items-center">
+    <div className="flex gap-4">
+      <MoonIcon style={{ width: '48px', height: '48px' }} color="#ffa940" />
+      <HeartIcon style={{ width: '48px', height: '48px' }} color="#f5222d" />
+      <FlagIcon
+        style={{ width: '48px', height: '48px' }}
+        stroke="none"
+        fill="#ffa940"
+      />
+    </div>
+    <ChevronsDown size={32} />
+    <div className="flex gap-4">
       <RoughSVG
         options={{
           roughness: 0,
@@ -74,23 +82,17 @@ const FillIconDemo = () => (
       >
         <MoonIcon style={{ width: '48px', height: '48px' }} color="#ffa940" />
       </RoughSVG>
-      Moon
-    </div>
-    <div className="flex flex-col items-center">
       <RoughSVG
         options={{
           fillStyle: 'dashed',
           roughness: 0,
           dashOffset: 1,
-          dashGap: 0.5,
+          dashGap: 1,
           hachureGap: 1.75,
         }}
       >
         <HeartIcon style={{ width: '48px', height: '48px' }} color="#f5222d" />
       </RoughSVG>
-      Heart
-    </div>
-    <div className="flex flex-col items-center">
       <RoughSVG
         options={{
           fillStyle: 'zigzag',
@@ -104,18 +106,17 @@ const FillIconDemo = () => (
           fill="#ffa940"
         />
       </RoughSVG>
-      Flag
     </div>
   </div>
 );
 
 export const IconDemo = () => (
   <>
-    <p>Basic</p>
+    <strong>Basic</strong>
     <BasicIconDemo />
-    <p>Animated</p>
+    <strong>Animated</strong>
     <AnimatedIconDemo />
-    <p>Fill</p>
+    <strong>Fill</strong>
     <FillIconDemo />
   </>
 );

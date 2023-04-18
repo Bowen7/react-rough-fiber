@@ -3,12 +3,16 @@ import { RoughSVG } from 'react-rough-fiber'
 import { IconDemo } from "components/iconDemo"
 import { ChartDemo } from "components/chartDemo"
 import { TextDemo } from "components/textDemo"
+import { EmojiDemo } from "components/emojiDemo"
+import { Banner } from "components/banner"
 
 # Get Started
  
 ## Introduction
 
 `react-rough-fiber` is a React renderer for rendering hand-drawn SVGs.
+
+<Banner />
 
 ## Install
 
@@ -36,28 +40,27 @@ import { TextDemo } from "components/textDemo"
 
 ## Quick Start
 
-To render the SVG in a hand-drawn style, you only need to add three lines of code:
+To render the SVG in a hand-drawn style, you only need to add **three lines** of code:
 
 ```jsx {1,4,8}
 import { RoughSVG } from 'react-rough-fiber'
 export default function App() {
   return (
     <RoughSVG>
-      <svg viewBox="0 0 64 64" width="256" height="256">
-        <rect x={12} y={12} width={48} height={48} stroke="#000" fill="#82ca9d" />
+      <svg viewBox="0 0 128 128" width="128" height="128">
+        <circle cx={64} cy={64} r={48} stroke="currentColor" fill="#82ca9d" />
       </svg>
     </RoughSVG>
   )
 }
 ```
 
-<RoughSVG>
-  <svg viewBox="0 0 48 48" width="128" height="128">
-    <rect
-      x={6}
-      y={6}
-      width={36}
-      height={36}
+<RoughSVG className="flex justify-center">
+  <svg viewBox="0 0 128 128" width="128" height="128">
+    <circle
+      cx={64}
+      cy={64}
+      r={48}
       stroke="currentColor"
       fill="#82ca9d"
     />
@@ -71,6 +74,10 @@ export default function App() {
 <IconDemo />
 
 [Code](/examples/icon)
+
+### Emoji
+
+<EmojiDemo />
 
 ### Chart
 

@@ -1,0 +1,18 @@
+.highlight-ltr {
+  stroke-dasharray: 250;
+  stroke-dashoffset: 250;
+  animation: 0.5s ease-in 0.5s dash forwards;
+}
+
+.highlight-rtl {
+  stroke-dasharray: 250;
+  stroke-dashoffset: 250;
+  animation: 0.5s ease-out 1s dash forwards;
+}
+
+@keyframes dash {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+

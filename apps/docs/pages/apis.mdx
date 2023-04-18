@@ -5,56 +5,17 @@ import { FilStyleDemo } from "../components/fillStyleDemo"
 
 ## RoughSVG
 
+``` jsx
+<RougSVG containerType="div" options={options}>
+{/* your SVG */}
+</RoughSVG>
+```
+
 ### Parameters
 
 - `containerType = 'div'{:ts}`: The type of container to use for the `RoughSVG`.
-- `options: RoughOptions | ((shape: SVGShape) => RoughOptions) = {}{:ts}`: It can be a `RoughOptions` for [Rough.js](https://github.com/rough-stuff/rough/wiki#options).
+- `options: RoughOptions | ((shape: SVGShape, props: React.HTMLAttributes<SVGElement>) => RoughOptions) = {}{:ts}`: It can be a `RoughOptions` for [Rough.js](https://github.com/rough-stuff/rough/wiki#options).
   Also support a function that returns `RoughOptions`.
-
-#### Shape
-
-```ts
-type SVGShape =
-  | {
-      type: 'path';
-      d: string;
-    }
-  | {
-      type: 'circle';
-      cx: number;
-      cy: number;
-      r: number;
-    }
-  | {
-      type: 'line';
-      x1: number;
-      y1: number;
-      x2: number;
-      y2: number;
-    }
-  | {
-      type: 'rect';
-      x: number;
-      y: number;
-      width: number;
-      height: number;
-    }
-  | {
-      type: 'ellipse';
-      cx: number;
-      cy: number;
-      rx: number;
-      ry: number;
-    }
-  | {
-      type: 'polygon';
-      points: string;
-    }
-  | {
-      type: 'polyline';
-      points: string;
-    };
-```
 
 #### RoughOptions
 
@@ -103,6 +64,51 @@ You can view every fillStyle effect through the demo:
 - **dashGap**: When filling a shape using the dashed style, this property indicates the nominal gap between dashes (in pixels). If not set, it defaults to the hachureGap value.
 - **zigzagOffset**: When filling a shape using the zigzag-line style, this property indicates the nominal width of the zig-zag triangle in each line. If not set, it defaults to the hachureGap value.
 - **preserveVertices**: When randomizing shapes do not randomize locations of the end points. e.g. end points of line or a curve. Boolean value, defaults to `false`
+
+#### Shape
+
+```ts
+type SVGShape =
+  | {
+      type: 'path';
+      d: string;
+    }
+  | {
+      type: 'circle';
+      cx: number;
+      cy: number;
+      r: number;
+    }
+  | {
+      type: 'line';
+      x1: number;
+      y1: number;
+      x2: number;
+      y2: number;
+    }
+  | {
+      type: 'rect';
+      x: number;
+      y: number;
+      width: number;
+      height: number;
+    }
+  | {
+      type: 'ellipse';
+      cx: number;
+      cy: number;
+      rx: number;
+      ry: number;
+    }
+  | {
+      type: 'polygon';
+      points: string;
+    }
+  | {
+      type: 'polyline';
+      points: string;
+    };
+```
 
 ## WCRoughSVG
 

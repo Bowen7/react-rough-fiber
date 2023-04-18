@@ -1,5 +1,5 @@
 import { Sandbox } from './sandbox';
-import { ROBOTO_FONT_URL } from '../constants';
+import { CAVEAT_FONT_URL } from '../constants';
 
 const code = /* js */ `
 import { useEffect, useState } from 'react';
@@ -14,7 +14,7 @@ export default function App() {
   useEffect(() => {
     let ignore = false;
     const loadSVG = async () => {
-      const res = await fetch('${ROBOTO_FONT_URL}');
+      const res = await fetch('${CAVEAT_FONT_URL}');
       const buffer = await res.arrayBuffer();
       if(ignore) return;
       const font = opentype.parse(buffer);
@@ -32,9 +32,9 @@ export default function App() {
   return (
     <RoughSVG
       style={{ color: 'currentColor' }}
-      options={{ roughness: 1, simplification: 1 }}
+      options={{ roughness: 0 }}
     >
-      <svg width={width} fill="#82ca9d" stroke="#8884d8" >
+      <svg width="100%" viewBox={\`0 0 \${width + 25} 200\`} fill="#82ca9d" stroke="#8884d8" >
         {paths.map((d, i) => <path d={d} key={i} />)}
       </svg>
     </RoughSVG>
