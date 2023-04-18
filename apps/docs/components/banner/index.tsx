@@ -1,6 +1,6 @@
 import { HTMLAttributes } from 'react';
 import { RoughOptions, RoughSVG, SVGShape } from 'react-rough-fiber';
-import { textPaths } from '../textDemo';
+import { textPaths } from '../demos/text';
 import styles from './index.module.css';
 
 const options = (

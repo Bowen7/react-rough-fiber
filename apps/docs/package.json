@@ -17,6 +17,7 @@
     "@heroicons/react": "^2.0.17",
     "@uiw/codemirror-theme-github": "^4.19.15",
     "@uiw/react-codemirror": "^4.19.15",
+    "clsx": "^1.2.1",
     "daisyui": "^2.51.5",
     "next": "^13.0.6",
     "nextra": "latest",
@@ -30,6 +31,7 @@
     "react-reconciler": "^0.29.0",
     "react-rough-fiber": "workspace:*",
     "recharts": "^2.4.3",
+    "stable-hash": "^0.0.3",
     "xml-formatter": "^3.3.2"
   },
   "devDependencies": {

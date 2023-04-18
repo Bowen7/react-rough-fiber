@@ -1,11 +1,13 @@
 import { Callout } from 'nextra-theme-docs'
-import { FilStyleDemo } from "../components/fillStyleDemo"
+import { FilStyleDemo } from "../components/demos/fillStyle"
 
 # API
 
 ## RoughSVG
 
 ``` jsx
+import { RoughSVG } from "react-rough-fiber";
+// ... your component code
 <RougSVG containerType="div" options={options}>
 {/* your SVG */}
 </RoughSVG>
@@ -13,8 +15,11 @@ import { FilStyleDemo } from "../components/fillStyleDemo"
 
 ### Parameters
 
-- `containerType = 'div'{:ts}`: The type of container to use for the `RoughSVG`.
-- `options: RoughOptions | ((shape: SVGShape, props: React.HTMLAttributes<SVGElement>) => RoughOptions) = {}{:ts}`: It can be a `RoughOptions` for [Rough.js](https://github.com/rough-stuff/rough/wiki#options).
+- **containerType**:
+  `string: = 'div'{:ts}` The type of container to use for the `RoughSVG`.
+- **options**: 
+  `RoughOptions | ((shape: SVGShape, props: React.HTMLAttributes<SVGElement>) => RoughOptions) = {}{:ts}`
+  It can be a `RoughOptions` for [Rough.js](https://github.com/rough-stuff/rough/wiki#options).
   Also support a function that returns `RoughOptions`.
 
 #### RoughOptions

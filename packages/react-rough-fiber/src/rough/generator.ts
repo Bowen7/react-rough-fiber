@@ -33,8 +33,6 @@ export class RoughGenerator {
   defaultOptions: ResolvedOptions = {
     maxRandomnessOffset: 2,
     roughness: 1,
-    fillRoughness: 1,
-    strokeRoughness: 1,
     bowing: 1,
     stroke: '#000',
     strokeWidth: 1,

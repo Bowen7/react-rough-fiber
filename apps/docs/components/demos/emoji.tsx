@@ -1,5 +1,5 @@
 import SVG from 'react-inlinesvg';
-import { TWEMOJI_URL } from './constants';
+import { TWEMOJI_URL } from '../constants';
 import { Comparison } from './comparison';
 
 const U200D = String.fromCharCode(0x200d);

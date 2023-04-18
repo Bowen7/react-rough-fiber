@@ -17,7 +17,7 @@ const random = (candidates) =>
 
 const options = () => {
   return {
-    hachureGap: 6,
+    hachureGap: 4,
     hachureAngle: Math.random() * 360,
     fillStyle: random(fillStyles),
   }
