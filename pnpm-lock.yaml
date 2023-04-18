@@ -22,6 +22,7 @@ importers:
       '@heroicons/react': ^2.0.17
       '@types/node': 18.11.10
       '@types/react': ^18.0.22
+      '@types/react-copy-to-clipboard': ^5.0.4
       '@types/react-dom': ^18.0.7
       '@uiw/codemirror-theme-github': ^4.19.15
       '@uiw/react-codemirror': ^4.19.15
@@ -36,6 +37,7 @@ importers:
       postcss: ^8.4.21
       react: ^18.2.0
       react-cool-dimensions: ^3.0.1
+      react-copy-to-clipboard: ^5.1.0
       react-dom: ^18.2.0
       react-feather: ^2.0.10
       react-inlinesvg: ^3.0.2
@@ -63,6 +65,7 @@ importers:
       nextra-theme-docs: 2.4.0_fyrvd4nl4dkj6lddxdvnm3x55e
       react: 18.2.0
       react-cool-dimensions: 3.0.1_react@18.2.0
+      react-copy-to-clipboard: 5.1.0_react@18.2.0
       react-dom: 18.2.0_react@18.2.0
       react-feather: 2.0.10_react@18.2.0
       react-inlinesvg: 3.0.2_react@18.2.0
@@ -76,6 +79,7 @@ importers:
       '@babel/core': 7.21.3
       '@types/node': 18.11.10
       '@types/react': 18.0.28
+      '@types/react-copy-to-clipboard': 5.0.4
       '@types/react-dom': 18.0.11
       autoprefixer: 10.4.14_postcss@8.4.21
       eslint: 7.32.0
@@ -2762,6 +2766,12 @@ packages:
   /@types/prop-types/15.7.5:
     resolution: {integrity: sha512-JCB8C6SnDoQf0cNycqd/35A7MjcnK+ZTqE7judS6o7utxUCg6imJg3QK2qzHKszlTjcj2cn+NwMB2i96ubpj7w==}
 
+  /@types/react-copy-to-clipboard/5.0.4:
+    resolution: {integrity: sha512-otTJsJpofYAeaIeOwV5xBUGpo6exXG2HX7X4nseToCB2VgPEBxGBHCm/FecZ676doNR7HCSTVtmohxfG2b3/yQ==}
+    dependencies:
+      '@types/react': 18.0.28
+    dev: true
+
   /@types/react-dom/17.0.19:
     resolution: {integrity: sha512-PiYG40pnQRdPHnlf7tZnp0aQ6q9tspYr72vD61saO6zFCybLfMqwUCN0va1/P+86DXn18ZWeW30Bk7xlC5eEAQ==}
     requiresBuild: true
@@ -3586,6 +3596,12 @@ packages:
   /convert-source-map/2.0.0:
     resolution: {integrity: sha512-Kvp459HrV2FEJ1CAsi1Ku+MY3kasH19TFykTz2xWmMeq6bk2NU3XXvfJ+Q61m0xktWwt+1HSYf3JZsTms3aRJg==}
     dev: true
+
+  /copy-to-clipboard/3.3.3:
+    resolution: {integrity: sha512-2KV8NhB5JqC3ky0r9PMCAZKbUHSwtEo4CwCs0KXgruG43gX5PMqDEBbVU4OUzw2MuAWUfsuFmWvEKG5QRfSnJA==}
+    dependencies:
+      toggle-selection: 1.0.6
+    dev: false
 
   /core-js-compat/3.29.1:
     resolution: {integrity: sha512-QmchCua884D8wWskMX8tW5ydINzd8oSJVx38lx/pVkFGqztxt73GYre3pm/hyYq8bPf+MW5In4I/uRShFDsbrA==}
@@ -7354,6 +7370,16 @@ packages:
       react: 18.2.0
     dev: false
 
+  /react-copy-to-clipboard/5.1.0_react@18.2.0:
+    resolution: {integrity: sha512-k61RsNgAayIJNoy9yDsYzDe/yAZAzEbEgcz3DZMhF686LEyukcE1hzurxe85JandPUG+yTfGVFzuEw3xt8WP/A==}
+    peerDependencies:
+      react: ^15.3.0 || 16 || 17 || 18
+    dependencies:
+      copy-to-clipboard: 3.3.3
+      prop-types: 15.8.1
+      react: 18.2.0
+    dev: false
+
   /react-devtools-inline/4.4.0:
     resolution: {integrity: sha512-ES0GolSrKO8wsKbsEkVeiR/ZAaHQTY4zDh1UW8DImVmm8oaGLl3ijJDvSGe+qDRKPZdPRnDtWWnSvvrgxXdThQ==}
     dependencies:
@@ -8265,6 +8291,10 @@ packages:
     engines: {node: '>=8.0'}
     dependencies:
       is-number: 7.0.0
+
+  /toggle-selection/1.0.6:
+    resolution: {integrity: sha512-BiZS+C1OS8g/q2RRbJmy59xpyghNBqrr6k5L/uKBGRsTfxmu3ffiRnd8mlGPUVayg8pvfi5urfnu8TU7DVOkLQ==}
+    dev: false
 
   /tough-cookie/4.1.2:
     resolution: {integrity: sha512-G9fqXWoYFZgTc2z8Q5zaHy/vJMjm+WV0AkAeHxVCQiEB1b+dGvWzFW6QV07cY5jQ5gRkeid2qIkzkxUnmoQZUQ==}

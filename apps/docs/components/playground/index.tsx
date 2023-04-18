@@ -1,10 +1,11 @@
-import { useState, Component, PropsWithChildren } from 'react';
+import { useState, Component, PropsWithChildren, useMemo } from 'react';
 import CodeMirror from '@uiw/react-codemirror';
 import { javascript } from '@codemirror/lang-javascript';
 import { xml } from '@codemirror/lang-xml';
 import { githubLight, githubDark } from '@uiw/codemirror-theme-github';
 import { useTheme } from 'nextra-theme-docs';
 import { RoughOptions } from 'react-rough-fiber';
+import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { OptionsForm } from './optionsForm';
 import { Preview } from './preview';
 
@@ -91,10 +92,25 @@ export const Playground = () => {
   };
 
   const [options, setOptions] = useState(DEFAULT_OPTIONS);
+  const optionsText = useMemo(
+    () => JSON.stringify(options, null, 2),
+    [options]
+  );
 
   return (
     <div className="mt-4">
       <OptionsForm options={options} onChange={setOptions} />
+      <div className="flex gap-4 flex-wrap my-4 justify-end">
+        <CopyToClipboard text={optionsText}>
+          <button className="btn btn-sm">Copy Options</button>
+        </CopyToClipboard>
+        <button
+          className="btn btn-sm btn-ghost"
+          onClick={() => setOptions(DEFAULT_OPTIONS)}
+        >
+          Reset
+        </button>
+      </div>
       <select
         value={lang}
         onChange={onLangChange}
