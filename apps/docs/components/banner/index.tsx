@@ -45,6 +45,7 @@ export const Banner = () => {
     <>
       <RoughSVG options={options} className="mt-12">
         <svg
+          xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 760 200"
           width="100%"
           fill="#82ca9d"

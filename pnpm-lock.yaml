@@ -24,8 +24,6 @@ importers:
       '@types/react': ^18.0.22
       '@types/react-copy-to-clipboard': ^5.0.4
       '@types/react-dom': ^18.0.7
-      '@uiw/codemirror-theme-duotone': ^4.19.16
-      '@uiw/codemirror-theme-github': ^4.19.15
       '@uiw/codemirror-theme-material': ^4.19.16
       '@uiw/react-codemirror': ^4.19.15
       autoprefixer: ^10.4.14
@@ -58,8 +56,6 @@ importers:
       '@codemirror/state': 6.2.0
       '@codesandbox/sandpack-react': 2.2.9_biqbaboplfbrettd7655fr4n2y
       '@heroicons/react': 2.0.17_react@18.2.0
-      '@uiw/codemirror-theme-duotone': 4.19.16_@codemirror+state@6.2.0
-      '@uiw/codemirror-theme-github': 4.19.15_@codemirror+state@6.2.0
       '@uiw/codemirror-theme-material': 4.19.16_@codemirror+state@6.2.0
       '@uiw/react-codemirror': 4.19.15_ehqzn5xbnrltqhpj6mb2k26b6i
       clsx: 1.2.1
@@ -105,7 +101,7 @@ importers:
       eslint: 7.32.0
       eslint-config-next: 13.0.0_jofidmxrjzhj7l6vknpw5ecvfe
       eslint-config-prettier: 8.7.0_eslint@7.32.0
-      eslint-config-turbo: 1.9.1_eslint@7.32.0
+      eslint-config-turbo: 1.9.3_eslint@7.32.0
       eslint-plugin-react: 7.31.8_eslint@7.32.0
     devDependencies:
       typescript: 4.9.5
@@ -2914,38 +2910,12 @@ packages:
       '@codemirror/view': 6.9.3
     dev: false
 
-  /@uiw/codemirror-theme-duotone/4.19.16_@codemirror+state@6.2.0:
-    resolution: {integrity: sha512-FDGVN0rM2+VRmV+O9Rd1Q0p3c/ongLkSqgblQxkcr3lUY5M/Tj/mIxuxJGrkDIlxauJAz5p7ia7HSlicX0TPTw==}
-    dependencies:
-      '@uiw/codemirror-themes': 4.19.16_@codemirror+state@6.2.0
-    transitivePeerDependencies:
-      - '@codemirror/state'
-    dev: false
-
-  /@uiw/codemirror-theme-github/4.19.15_@codemirror+state@6.2.0:
-    resolution: {integrity: sha512-HLDP0D0tGbIomODIWEK6SMy+DEHS0SDwwq8AGpDbNIZ9qIim6OX8Zbd0gBX9yPpSVZ8afsOMJ3cB1SDczXvhwg==}
-    dependencies:
-      '@uiw/codemirror-themes': 4.19.15_@codemirror+state@6.2.0
-    transitivePeerDependencies:
-      - '@codemirror/state'
-    dev: false
-
   /@uiw/codemirror-theme-material/4.19.16_@codemirror+state@6.2.0:
     resolution: {integrity: sha512-Ur5khZLOhhcHXkFsNwcT4v0zijTnEvPAN9jJRXoXwuNR+JR5izYKlBGSPrjy71Vc9fjPHVAl4i3M/uZbQjDuhA==}
     dependencies:
       '@uiw/codemirror-themes': 4.19.16_@codemirror+state@6.2.0
     transitivePeerDependencies:
       - '@codemirror/state'
-    dev: false
-
-  /@uiw/codemirror-themes/4.19.15_@codemirror+state@6.2.0:
-    resolution: {integrity: sha512-53jwVHF0vo+VbfowMQGmXW5NnmqsYQvvLgst5UiiHomaZQ2pn4e09yqOWDM1xaMFZy8QYbAcf1FFP/ensNTUbw==}
-    peerDependencies:
-      '@codemirror/state': '>=6.0.0'
-    dependencies:
-      '@codemirror/language': 6.6.0
-      '@codemirror/state': 6.2.0
-      '@codemirror/view': 6.9.3
     dev: false
 
   /@uiw/codemirror-themes/4.19.16_@codemirror+state@6.2.0:
@@ -4210,13 +4180,13 @@ packages:
       eslint: 7.32.0
     dev: false
 
-  /eslint-config-turbo/1.9.1_eslint@7.32.0:
-    resolution: {integrity: sha512-tUqm5TxI5bpbDEgClbw+UygVPAwYB20FIpAiQsZI8imJNDz30E40TZkp6uWpAKmxykU8T0+t3jwkYokvXmXc0Q==}
+  /eslint-config-turbo/1.9.3_eslint@7.32.0:
+    resolution: {integrity: sha512-QG6jxFQkrGSpQqlFKefPdtgUfr20EbU0s4tGGIuGFOcPuJEdsY6VYZpZUxNJvmMcTGqPgMyOPjAFBKhy/DPHLA==}
     peerDependencies:
       eslint: '>6.6.0'
     dependencies:
       eslint: 7.32.0
-      eslint-plugin-turbo: 1.9.1_eslint@7.32.0
+      eslint-plugin-turbo: 1.9.3_eslint@7.32.0
     dev: false
 
   /eslint-import-resolver-node/0.3.7:
@@ -4367,8 +4337,8 @@ packages:
       string.prototype.matchall: 4.0.8
     dev: false
 
-  /eslint-plugin-turbo/1.9.1_eslint@7.32.0:
-    resolution: {integrity: sha512-QPd0EG0xkoDkXJLwPQKULxHjkR27VmvJtILW4C9aIrqauLZ+Yc/V7R+A9yVwAi6nkMHxUlCSUsBxmiQP9TIlPw==}
+  /eslint-plugin-turbo/1.9.3_eslint@7.32.0:
+    resolution: {integrity: sha512-ZsRtksdzk3v+z5/I/K4E50E4lfZ7oYmLX395gkrUMBz4/spJlYbr+GC8hP9oVNLj9s5Pvnm9rLv/zoj5PVYaVw==}
     peerDependencies:
       eslint: '>6.6.0'
     dependencies:
