@@ -10,7 +10,24 @@ const Head = () => {
       .querySelector('html')!
       .setAttribute('data-theme', resolvedTheme || 'light');
   }, [resolvedTheme]);
-  return null;
+  return (
+    <>
+      <meta
+        name="description"
+        content="A React renderer for rendering hand-drawn SVGs"
+      />
+      <meta name="og:title" content="React Rough Fiber" />
+      <meta
+        name="og:image"
+        content="https://react-rough-fiber.amind.app/og.png"
+      />
+      <meta
+        name="og:description"
+        content="A React renderer for rendering hand-drawn SVGs"
+      />
+      <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    </>
+  );
 };
 
 const config: DocsThemeConfig = {

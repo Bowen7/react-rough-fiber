@@ -24,7 +24,9 @@ importers:
       '@types/react': ^18.0.22
       '@types/react-copy-to-clipboard': ^5.0.4
       '@types/react-dom': ^18.0.7
+      '@uiw/codemirror-theme-duotone': ^4.19.16
       '@uiw/codemirror-theme-github': ^4.19.15
+      '@uiw/codemirror-theme-material': ^4.19.16
       '@uiw/react-codemirror': ^4.19.15
       autoprefixer: ^10.4.14
       clsx: ^1.2.1
@@ -56,7 +58,9 @@ importers:
       '@codemirror/state': 6.2.0
       '@codesandbox/sandpack-react': 2.2.9_biqbaboplfbrettd7655fr4n2y
       '@heroicons/react': 2.0.17_react@18.2.0
+      '@uiw/codemirror-theme-duotone': 4.19.16_@codemirror+state@6.2.0
       '@uiw/codemirror-theme-github': 4.19.15_@codemirror+state@6.2.0
+      '@uiw/codemirror-theme-material': 4.19.16_@codemirror+state@6.2.0
       '@uiw/react-codemirror': 4.19.15_ehqzn5xbnrltqhpj6mb2k26b6i
       clsx: 1.2.1
       daisyui: 2.51.5_j7yt3jd32cwenjqavrrga47yr4
@@ -2910,6 +2914,14 @@ packages:
       '@codemirror/view': 6.9.3
     dev: false
 
+  /@uiw/codemirror-theme-duotone/4.19.16_@codemirror+state@6.2.0:
+    resolution: {integrity: sha512-FDGVN0rM2+VRmV+O9Rd1Q0p3c/ongLkSqgblQxkcr3lUY5M/Tj/mIxuxJGrkDIlxauJAz5p7ia7HSlicX0TPTw==}
+    dependencies:
+      '@uiw/codemirror-themes': 4.19.16_@codemirror+state@6.2.0
+    transitivePeerDependencies:
+      - '@codemirror/state'
+    dev: false
+
   /@uiw/codemirror-theme-github/4.19.15_@codemirror+state@6.2.0:
     resolution: {integrity: sha512-HLDP0D0tGbIomODIWEK6SMy+DEHS0SDwwq8AGpDbNIZ9qIim6OX8Zbd0gBX9yPpSVZ8afsOMJ3cB1SDczXvhwg==}
     dependencies:
@@ -2918,8 +2930,26 @@ packages:
       - '@codemirror/state'
     dev: false
 
+  /@uiw/codemirror-theme-material/4.19.16_@codemirror+state@6.2.0:
+    resolution: {integrity: sha512-Ur5khZLOhhcHXkFsNwcT4v0zijTnEvPAN9jJRXoXwuNR+JR5izYKlBGSPrjy71Vc9fjPHVAl4i3M/uZbQjDuhA==}
+    dependencies:
+      '@uiw/codemirror-themes': 4.19.16_@codemirror+state@6.2.0
+    transitivePeerDependencies:
+      - '@codemirror/state'
+    dev: false
+
   /@uiw/codemirror-themes/4.19.15_@codemirror+state@6.2.0:
     resolution: {integrity: sha512-53jwVHF0vo+VbfowMQGmXW5NnmqsYQvvLgst5UiiHomaZQ2pn4e09yqOWDM1xaMFZy8QYbAcf1FFP/ensNTUbw==}
+    peerDependencies:
+      '@codemirror/state': '>=6.0.0'
+    dependencies:
+      '@codemirror/language': 6.6.0
+      '@codemirror/state': 6.2.0
+      '@codemirror/view': 6.9.3
+    dev: false
+
+  /@uiw/codemirror-themes/4.19.16_@codemirror+state@6.2.0:
+    resolution: {integrity: sha512-c16zrvMEEfNkYydjwa6Eq+aDrYCbtmt4O0jBWPX1P4CxFATCn59aeW9HFZ4uqMko8aYOiTupOsizxlJ+MBwW2Q==}
     peerDependencies:
       '@codemirror/state': '>=6.0.0'
     dependencies:

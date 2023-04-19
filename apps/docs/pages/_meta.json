@@ -3,9 +3,5 @@
   "apis": "API",
   "examples": "Examples",
   "playground": "Playground",
-  "faq": "FAQ",
-  "about": {
-    "title": "About",
-    "type": "page"
-  }
+  "faq": "FAQ"
 }

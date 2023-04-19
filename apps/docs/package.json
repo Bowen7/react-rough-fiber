@@ -15,7 +15,7 @@
     "@codemirror/state": "^6.2.0",
     "@codesandbox/sandpack-react": "^2.2.9",
     "@heroicons/react": "^2.0.17",
-    "@uiw/codemirror-theme-github": "^4.19.15",
+    "@uiw/codemirror-theme-material": "^4.19.16",
     "@uiw/react-codemirror": "^4.19.15",
     "clsx": "^1.2.1",
     "daisyui": "^2.51.5",

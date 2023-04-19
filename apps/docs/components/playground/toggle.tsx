@@ -15,7 +15,7 @@ export const Toggle = (props: Props) => {
         <span className="label-text mr-2">{label}</span>
         <input
           type="checkbox"
-          className="toggle"
+          className="toggle toggle-sm"
           checked={value}
           onChange={() => onChange(!value)}
         />
