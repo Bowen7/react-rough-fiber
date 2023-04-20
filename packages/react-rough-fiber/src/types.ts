@@ -1,5 +1,5 @@
 import { PropsWithChildren, HTMLAttributes } from 'react';
-import type { Options as RoughOptions } from './rough/core';
+import type { Options as RoughOptions } from 'roughjs/bin/core';
 
 export { RoughOptions };
 export type Options =

@@ -53,7 +53,7 @@ export const Banner = () => {
           strokeOpacity={0.5}
         >
           <rect width={760} height={200} stroke="none" fill="currentColor" />
-          <g transform="translate(60, 25)">
+          <g transform="translate(55, 25)">
             {textPaths.map((d, i) => (
               <path d={d} key={i} data-index={i} />
             ))}

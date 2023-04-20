@@ -4,7 +4,9 @@ const commonConfig = {
   transform: {
     '^.+\\.[jt]sx?$': ['babel-jest', { configFile: './test/.babelrc.js' }],
   },
-  transformIgnorePatterns: ['node_modules/(?!.*(@bowen7))'],
+  transformIgnorePatterns: [
+    'node_modules/(?!.*(roughjs|path-data-parser|points-on-curve|points-on-path))',
+  ],
 };
 
 const react18Config = {
@@ -25,12 +27,6 @@ const react17Config = {
     '^react-reconciler$': 'react-reconciler-26',
   },
 };
-
-// const normalConfig = {
-//   displayName: 'normal tests',
-//   testRegex: '.*(?<!(-16)|(-17)|(-18))\\.test\\.(j|t)sx?$',
-//   ...commonConfig,
-// };
 
 module.exports = {
   projects: [react18Config, react17Config],

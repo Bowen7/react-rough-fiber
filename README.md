@@ -1,3 +1,3 @@
 # React Rough Fiber
 
-![banner](https://user-images.githubusercontent.com/27432981/233131378-c768be2b-834d-4900-8a9c-cfe338426929.png)
+![banner](https://user-images.githubusercontent.com/27432981/233389273-eca849a7-12e2-42be-993e-5161e4ffe2dd.png)

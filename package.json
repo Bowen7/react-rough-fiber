@@ -21,6 +21,11 @@
   "engines": {
     "node": ">=14.0.0"
   },
-  "dependencies": {},
-  "packageManager": "pnpm@7.29.1"
+  "packageManager": "pnpm@7.29.1",
+  "pnpm": {
+    "patchedDependencies": {
+      "roughjs@4.5.2": "patches/roughjs@4.5.2.patch",
+      "path-data-parser@0.1.0": "patches/path-data-parser@0.1.0.patch"
+    }
+  }
 }

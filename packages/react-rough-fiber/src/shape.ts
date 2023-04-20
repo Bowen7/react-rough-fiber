@@ -1,4 +1,5 @@
-import { roughGenerator } from './rough';
+import { RoughGenerator } from 'roughjs/bin/generator';
+import { PathInfo } from 'roughjs/bin/core';
 import {
   SVG_NAMESPACE,
   FILL_OPACITY_CSS_VARIABLE,
@@ -13,13 +14,11 @@ import {
 } from './types';
 import { shallowEqual, parsePoints } from './utils';
 import { diffNormalizedProps } from './props';
-import { PathInfo } from './rough/core';
 
-type Generator = ReturnType<typeof roughGenerator>;
-type Drawable = ReturnType<Generator['path']>;
+type Drawable = ReturnType<RoughGenerator['path']>;
 
 const getDrawable = (
-  generator: Generator,
+  generator: RoughGenerator,
   props: SVGShapeProps,
   options: RoughOptions
 ): Drawable | null => {
@@ -148,7 +147,7 @@ export const diffShape = (
     return;
   }
   (<any>domElement)._rrf_options = roughOptions;
-  const generator = roughGenerator();
+  const generator = new RoughGenerator();
   const drawable = getDrawable(generator, nextShapeProps, roughOptions);
   let pathInfos: PathInfo[] = [];
   if (drawable) {

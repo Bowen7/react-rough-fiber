@@ -1,5 +1,13 @@
 lockfileVersion: 5.4
 
+patchedDependencies:
+  roughjs@4.5.2:
+    hash: kdqqllhuwnoe6gr6emjx5bxuyu
+    path: patches/roughjs@4.5.2.patch
+  path-data-parser@0.1.0:
+    hash: 4rhp5kl5f7kwcibkmwkhuggxfy
+    path: patches/path-data-parser@0.1.0.patch
+
 importers:
 
   .:
@@ -126,6 +134,9 @@ importers:
       jest: ^29.5.0
       jest-environment-jsdom: ^29.5.0
       jsdom: latest
+      path-data-parser: ^0.1.0
+      points-on-curve: ^1.0.0
+      points-on-path: ^0.2.1
       react: ^18.2.0
       react-17: npm:react@^17.0.2
       react-dom: ^18.2.0
@@ -133,6 +144,7 @@ importers:
       react-reconciler: ^0.29.0
       react-reconciler-26: npm:react-reconciler@^0.26.2
       regenerator-runtime: ^0.13.11
+      roughjs: ^4.5.2
       tsconfig: workspace:*
       tsup: ^6.7.0
       typescript: ^4.5.2
@@ -155,6 +167,9 @@ importers:
       jest: 29.5.0
       jest-environment-jsdom: 29.5.0
       jsdom: 21.1.1
+      path-data-parser: 0.1.0_4rhp5kl5f7kwcibkmwkhuggxfy
+      points-on-curve: 1.0.0
+      points-on-path: 0.2.1
       react: 18.2.0
       react-17: /react/17.0.2
       react-dom: 18.2.0_react@18.2.0
@@ -162,6 +177,7 @@ importers:
       react-reconciler: 0.29.0_react@18.2.0
       react-reconciler-26: /react-reconciler/0.26.2_react@18.2.0
       regenerator-runtime: 0.13.11
+      roughjs: 4.5.2_kdqqllhuwnoe6gr6emjx5bxuyu
       tsconfig: link:../tsconfig
       tsup: 6.7.0_typescript@4.9.5
       typescript: 4.9.5
@@ -7127,6 +7143,11 @@ packages:
       entities: 4.4.0
     dev: true
 
+  /path-data-parser/0.1.0_4rhp5kl5f7kwcibkmwkhuggxfy:
+    resolution: {integrity: sha512-NOnmBpt5Y2RWbuv0LMzsayp3lVylAHLPUTut412ZA3l+C4uw4ZVkQbjShYCQ8TCpUMdPapr4YjUqLYD6v68j+w==}
+    dev: true
+    patched: true
+
   /path-exists/4.0.0:
     resolution: {integrity: sha512-ak9Qy5Q7jYb2Wwcey5Fpvg2KoAc/ZIhLSLOSBmRmygPsGwkVVt0fZa0qrtMz+m6tJTAHfZQ8FnmB4MG4LWy7/w==}
     engines: {node: '>=8'}
@@ -7180,6 +7201,21 @@ packages:
     engines: {node: '>=8'}
     dependencies:
       find-up: 4.1.0
+    dev: true
+
+  /points-on-curve/0.2.0:
+    resolution: {integrity: sha512-0mYKnYYe9ZcqMCWhUjItv/oHjvgEsfKvnUTg8sAtnHr3GVy7rGkXCb6d5cSyqrWqL4k81b9CPg3urd+T7aop3A==}
+    dev: true
+
+  /points-on-curve/1.0.0:
+    resolution: {integrity: sha512-5RXAghb/GI+u96jzhXzHflA2qYgC/mXNsjUGXSlcPSQZHNe+xJSo32L3Kb7XD7tPrmYZOTed5F/7UaWNjY6lwg==}
+    dev: true
+
+  /points-on-path/0.2.1:
+    resolution: {integrity: sha512-25ClnWWuw7JbWZcgqY/gJ4FQWadKxGWk+3kR/7kD0tCaDtPPMj7oHu2ToLaVhfpnHrZzYby2w6tUA0eOIuUg8g==}
+    dependencies:
+      path-data-parser: 0.1.0_4rhp5kl5f7kwcibkmwkhuggxfy
+      points-on-curve: 0.2.0
     dev: true
 
   /postcss-import/14.1.0_postcss@8.4.21:
@@ -7811,6 +7847,15 @@ packages:
     optionalDependencies:
       fsevents: 2.3.2
     dev: true
+
+  /roughjs/4.5.2_kdqqllhuwnoe6gr6emjx5bxuyu:
+    resolution: {integrity: sha512-2xSlLDKdsWyFxrveYWk9YQ/Y9UfK38EAMRNkYkMqYBJvPX8abCa9PN0x3w02H8Oa6/0bcZICJU+U95VumPqseg==}
+    dependencies:
+      path-data-parser: 0.1.0_4rhp5kl5f7kwcibkmwkhuggxfy
+      points-on-curve: 0.2.0
+      points-on-path: 0.2.1
+    dev: true
+    patched: true
 
   /rrweb-cssom/0.6.0:
     resolution: {integrity: sha512-APM0Gt1KoXBz0iIkkdB/kfvGOwC4UuJFeG/c+yV7wSc7q96cG/kJ0HiYCnzivD9SB53cLV1MlHFNfOuPaadYSw==}
