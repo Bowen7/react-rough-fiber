@@ -1,11 +1,10 @@
-import { useState } from 'react';
 import { RoughOptions } from 'react-rough-fiber';
-import { Range } from './range';
 import { Select } from './select';
-import { Toggle } from './toggle';
+import { Switch } from './switch';
 import { Input } from './input';
+import { Slider } from './slider';
 
-type RangeField = {
+type SliderField = {
   key: keyof RoughOptions;
   min: number;
   max: number;
@@ -16,7 +15,7 @@ type SelectField = {
   options: string[];
 };
 
-type ToggleField = {
+type SwitchField = {
   key: keyof RoughOptions;
 };
 
@@ -25,14 +24,14 @@ type InputField = {
 };
 
 type OptionFields = {
-  ranges: RangeField[];
+  sliders: SliderField[];
   selects: SelectField[];
-  toggles: ToggleField[];
+  switches: SwitchField[];
   inputs: InputField[];
 };
 
 const optionFields: OptionFields = {
-  ranges: [
+  sliders: [
     {
       key: 'roughness',
       min: 0,
@@ -62,7 +61,7 @@ const optionFields: OptionFields = {
       ],
     },
   ],
-  toggles: [
+  switches: [
     {
       key: 'disableMultiStroke',
     },
@@ -85,13 +84,13 @@ export const OptionsForm = (props: Props) => {
     onChange({ ...options, [key]: value });
   };
 
-  const { ranges, selects, inputs, toggles } = optionFields;
+  const { sliders, selects, inputs, switches } = optionFields;
 
   return (
     <>
-      <div className="flex gap-4 flex-wrap">
-        {ranges.map(({ key, min, max }) => (
-          <Range
+      <div className="flex gap-x-4 gap-y-6 flex-wrap">
+        {sliders.map(({ key, min, max }) => (
+          <Slider
             key={key}
             min={min}
             max={max}
@@ -103,7 +102,7 @@ export const OptionsForm = (props: Props) => {
           />
         ))}
       </div>
-      <div className="flex gap-4 flex-wrap mt-4">
+      <div className="flex gap-x-4 gap-y-6 flex-wrap mt-6">
         {selects.map(({ key, options: opts }) => (
           <Select
             key={key}
@@ -126,9 +125,9 @@ export const OptionsForm = (props: Props) => {
           />
         ))}
       </div>
-      <div className="flex gap-4 flex-wrap mt-4">
-        {toggles.map(({ key }) => (
-          <Toggle
+      <div className="flex gap-x-4 gap-y-6 flex-wrap mt-6">
+        {switches.map(({ key }) => (
+          <Switch
             key={key}
             label={key}
             value={options[key] as boolean}

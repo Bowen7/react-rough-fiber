@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { RoughSVG, RoughOptions } from 'react-rough-fiber';
+import { Select } from '../playground/select';
 const fillStyles = [
   'hachure',
   'solid',
@@ -12,16 +13,17 @@ const fillStyles = [
 export const FilStyleDemo = () => {
   const [fillStyle, setFillStyle] =
     useState<RoughOptions['fillStyle']>('hachure');
-  const onChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setFillStyle(e.target.value as RoughOptions['fillStyle']);
+  const onChange = (value: string) => {
+    setFillStyle(value as RoughOptions['fillStyle']);
   };
   return (
     <>
-      <select onChange={onChange} value={fillStyle}>
-        {fillStyles.map((style) => (
-          <option key={style}>{style}</option>
-        ))}
-      </select>
+      <Select
+        value={fillStyle!}
+        options={fillStyles}
+        onChange={onChange}
+        className="mt-4"
+      />
       <RoughSVG options={{ fillStyle }}>
         <svg viewBox="0 0 64 64" width="128" height="128">
           <rect

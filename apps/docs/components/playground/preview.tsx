@@ -2,15 +2,18 @@ import { useEffect, useRef, useState, useMemo } from 'react';
 import hash from 'stable-hash';
 import CodeMirror from '@uiw/react-codemirror';
 import { xml } from '@codemirror/lang-xml';
-import { materialDark } from '@uiw/codemirror-theme-material';
+import { githubDark } from '@uiw/codemirror-theme-github';
 import { RoughSVG, RoughOptions } from 'react-rough-fiber';
 import SVG from 'react-inlinesvg';
 import JSXParser from 'react-jsx-parser';
 import xmlFormat from 'xml-formatter';
 import { EditorState } from '@codemirror/state';
 
-type Extension = typeof materialDark;
+type Extension = typeof githubDark;
 const readOnlyExtension = [xml(), EditorState.readOnly.of(true)];
+const basicSetup = {
+  lineNumbers: false,
+};
 
 type PreviewProps = {
   lang: 'jsx' | 'svg';
@@ -65,6 +68,7 @@ export const Preview = ({ lang, value, theme, options }: PreviewProps) => {
         height="400px"
         theme={theme}
         extensions={readOnlyExtension}
+        basicSetup={basicSetup}
       />
     </>
   );

@@ -2,15 +2,20 @@ import { useState, Component, PropsWithChildren, useMemo } from 'react';
 import CodeMirror from '@uiw/react-codemirror';
 import { javascript } from '@codemirror/lang-javascript';
 import { xml } from '@codemirror/lang-xml';
-import { materialDark, materialLight } from '@uiw/codemirror-theme-material';
+import { githubDark, githubLight } from '@uiw/codemirror-theme-github';
 import { useTheme } from 'nextra-theme-docs';
 import { RoughOptions } from 'react-rough-fiber';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import { OptionsForm } from './optionsForm';
 import { Preview } from './preview';
+import { Button } from './button';
+import { Select } from './select';
 
 const jsxExtension = [javascript({ jsx: true })];
 const xmlExtension = [xml()];
+const basicSetup = {
+  lineNumbers: false,
+};
 
 const JSX_INITIAL_VALUE = /* jsx */ `
 <svg xmlns="http://www.w3.org/2000/svg" width={120} height={120} fill="currentColor" stroke="currentColor">
@@ -83,10 +88,10 @@ export const Playground = () => {
   );
 
   const { resolvedTheme } = useTheme();
-  const theme = resolvedTheme === 'dark' ? materialDark : materialLight;
+  const theme = resolvedTheme === 'dark' ? githubDark : githubLight;
 
-  const onLangChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const lang = e.target.value as 'jsx' | 'svg';
+  const onLangChange = (value: string) => {
+    const lang = value as 'jsx' | 'svg';
     setLang(lang);
     setValue(lang === 'jsx' ? JSX_INITIAL_VALUE : SVG_INITIAL_VALUE);
   };
@@ -102,29 +107,31 @@ export const Playground = () => {
       <OptionsForm options={options} onChange={setOptions} />
       <div className="flex gap-4 flex-wrap my-4 justify-end">
         <CopyToClipboard text={optionsText}>
-          <button className="btn btn-sm">Copy Options</button>
+          <Button className="bg-primary text-primary-foreground hover:bg-primary/90">
+            Copy Options
+          </Button>
         </CopyToClipboard>
-        <button
-          className="btn btn-sm btn-ghost"
+        <Button
+          className="hover:bg-accent hover:text-accent-foreground"
           onClick={() => setOptions(DEFAULT_OPTIONS)}
         >
           Reset
-        </button>
+        </Button>
       </div>
-      <select
+      <Select
         value={lang}
         onChange={onLangChange}
-        className="select select-bordered select-xs my-4"
-      >
-        <option value="jsx">JSX</option>
-        <option value="svg">SVG</option>
-      </select>
+        options={['svg', 'jsx']}
+        className="mb-4 w-24"
+        valueClassName="uppercase"
+      />
       {lang === 'jsx' ? (
         <CodeMirror
           value={value}
           height="400px"
           theme={theme}
           extensions={jsxExtension}
+          basicSetup={basicSetup}
           onChange={(value) => setValue(value)}
         />
       ) : (
@@ -133,6 +140,7 @@ export const Playground = () => {
           height="400px"
           theme={theme}
           extensions={xmlExtension}
+          basicSetup={basicSetup}
           onChange={(value) => setValue(value)}
         />
       )}

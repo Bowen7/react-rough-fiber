@@ -1,34 +1,25 @@
-import React, { useEffect } from 'react';
-import { DocsThemeConfig, useTheme } from 'nextra-theme-docs';
+import React from 'react';
+import { DocsThemeConfig } from 'nextra-theme-docs';
 import { RoughSVG } from 'react-rough-fiber';
 
-// make daisyui dark mode work
-const Head = () => {
-  const { resolvedTheme } = useTheme();
-  useEffect(() => {
-    document
-      .querySelector('html')!
-      .setAttribute('data-theme', resolvedTheme || 'light');
-  }, [resolvedTheme]);
-  return (
-    <>
-      <meta
-        name="description"
-        content="A React renderer for rendering hand-drawn SVGs"
-      />
-      <meta name="og:title" content="React Rough Fiber" />
-      <meta
-        name="og:image"
-        content="https://react-rough-fiber.amind.app/og.png"
-      />
-      <meta
-        name="og:description"
-        content="A React renderer for rendering hand-drawn SVGs"
-      />
-      <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
-    </>
-  );
-};
+const Head = () => (
+  <>
+    <meta
+      name="description"
+      content="A React renderer for rendering hand-drawn SVGs"
+    />
+    <meta name="og:title" content="React Rough Fiber" />
+    <meta
+      name="og:image"
+      content="https://react-rough-fiber.amind.app/og.png"
+    />
+    <meta
+      name="og:description"
+      content="A React renderer for rendering hand-drawn SVGs"
+    />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  </>
+);
 
 const config: DocsThemeConfig = {
   logo: <strong>React Rough Fiber</strong>,
