@@ -28,6 +28,9 @@ export default function App() {
 }
 ```
 
+![simply-circle](https://user-images.githubusercontent.com/27432981/233627411-dcc63b21-317c-4b85-8a55-92d39322df10.png)
+
+
 ## Usage
 
 react-rough-fiber can integrate with many existing SVG-based libraries:
@@ -41,6 +44,10 @@ react-rough-fiber can integrate with many existing SVG-based libraries:
 - [SVG string](https://react-rough-fiber.amind.app/examples/svg-string)
 - [Remove SVG](https://react-rough-fiber.amind.app/examples/remote-svg)
 - [Emoji](https://react-rough-fiber.amind.app/examples/emoji)
+
+![image](https://user-images.githubusercontent.com/27432981/233629588-34c66519-1ae0-45de-beaa-f9dfedf635f3.png)
+
+![image](https://user-images.githubusercontent.com/27432981/233627832-7f7a1a87-485c-4220-a483-17bb6b93f4ea.png)
 
 ## API
 
