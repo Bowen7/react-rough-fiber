@@ -38,6 +38,7 @@ importers:
       '@types/react-dom': ^18.0.7
       '@uiw/codemirror-theme-github': ^4.19.16
       '@uiw/react-codemirror': ^4.19.15
+      '@vercel/analytics': ^1.0.0
       autoprefixer: ^10.4.14
       clsx: ^1.2.1
       eslint: 7.32.0
@@ -74,6 +75,7 @@ importers:
       '@radix-ui/react-switch': 1.0.2_biqbaboplfbrettd7655fr4n2y
       '@uiw/codemirror-theme-github': 4.19.16_@codemirror+state@6.2.0
       '@uiw/react-codemirror': 4.19.15_ehqzn5xbnrltqhpj6mb2k26b6i
+      '@vercel/analytics': 1.0.0_react@18.2.0
       clsx: 1.2.1
       lucide-react: 0.171.0_react@18.2.0
       next: 13.2.4_hrdbe576m4w26u2yfpqpvbxyky
@@ -3335,6 +3337,14 @@ packages:
       codemirror: 6.0.1
       react: 18.2.0
       react-dom: 18.2.0_react@18.2.0
+    dev: false
+
+  /@vercel/analytics/1.0.0_react@18.2.0:
+    resolution: {integrity: sha512-RQmj7pv82JwGDHrnKeRc6TtSw2U7rWNubc2IH0ernTzWTj02yr9zvIYiYJeztsBzrJtWv7m8Nz6vxxb+cdEtJw==}
+    peerDependencies:
+      react: ^16.8||^17||^18
+    dependencies:
+      react: 18.2.0
     dev: false
 
   /abab/2.0.6:
