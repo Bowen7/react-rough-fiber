@@ -35,7 +35,7 @@ react-rough-fiber can integrate with many existing SVG-based libraries:
 - [Icon](https://react-rough-fiber.amind.app/examples/icon)
 - Chart
   - [recharts](https://react-rough-fiber.amind.app/examples/chart/recharts)
-  - [vis](https://react-rough-fiber.amind.app/examples/chart/visx)
+  - [visx](https://react-rough-fiber.amind.app/examples/chart/visx)
   - [react-d3-tree](https://react-rough-fiber.amind.app/examples/chart/react-d3-tree)
 - [Text](https://react-rough-fiber.amind.app/examples/text)
 - [SVG string](https://react-rough-fiber.amind.app/examples/svg-string)
@@ -57,11 +57,19 @@ import { RoughSVG } from "react-rough-fiber";
 ```
 
 - containerType = 'div': The type of container to use for the `RoughSVG`. Optional.
-- options: RoughOptions | ((shape: SVGShape, props: React.HTMLAttributes<SVGElement>) => RoughOptions = {}. It can be a `RoughOptions` for [Rough.js](https://github.com/rough-stuff/rough/wiki#options). Also support a function that returns `RoughOptions`. Optional
+- options: RoughOptions | ((shape: SVGShape, props: React.HTMLAttributes<SVGElement>) => RoughOptions = {}. It can be a `RoughOptions` for [Rough.js](https://github.com/rough-stuff/rough/wiki#options). Also support a function that returns `RoughOptions`. Optional.
 
 ### WCRoughSVG
 
 > `WCRoughSVG` is only compatible with React version 18.0.0 or later.
+
+``` jsx
+import { WCRoughSVG } from "react-rough-fiber";
+// ... your component code
+<WCRoughSVG containerType="div" options={options}>
+{/* your SVG */}
+</WCRoughSVG>
+```
 
 If you want to use context in `RoughSVG`, you can use `WCRoughSVG` instead of `RoughSVG`. See [FAQ](https://react-rough-fiber.amind.app/faq) for more details.
 

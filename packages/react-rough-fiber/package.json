@@ -1,6 +1,31 @@
 {
   "name": "react-rough-fiber",
-  "version": "0.0.2",
+  "version": "0.0.3",
+  "description": "A React renderer for rendering hand-drawn SVGs.",
+  "keywords": [
+    "react",
+    "react-renderer",
+    "svg",
+    "svg-icons",
+    "hand-drawn",
+    "roughjs",
+    "hand-drawn-graphs"
+  ],
+  "author": "Bowen <zwxdyx@foxmail.com>(https://github.com/Bowen7)",
+  "bugs": {
+    "url": "https://github.com/Bowen7/react-rough-fiber/issues"
+  },
+  "homepage": "https://react-rough-fiber.amind.app/",
+  "funding": [
+    {
+      "type": "Github Sponsor",
+      "url": "https://github.com/sponsors/Bowen7"
+    },
+    {
+      "type": "ko-fi",
+      "url": "https://ko-fi.com/bowen7"
+    }
+  ],
   "main": "./src/index.tsx",
   "license": "MIT",
   "scripts": {
