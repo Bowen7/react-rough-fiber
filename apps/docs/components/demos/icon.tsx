@@ -29,7 +29,7 @@ export const useAnimationFrame = (callback: (time: number) => void) => {
   }, []);
 };
 
-const BasicIconDemo = () => (
+export const BasicIconDemo = () => (
   <Comparison options={{ roughness: 0.5, seed: 2, bowing: 15 }}>
     <Battery size={36} />
     <Bell size={36} />
@@ -38,7 +38,7 @@ const BasicIconDemo = () => (
   </Comparison>
 );
 
-const AnimatedIconDemo = () => {
+export const AnimatedIconDemo = () => {
   const [seed, setSeed] = useState(0);
   useAnimationFrame((time) => {
     setSeed(Math.floor(time / 0.5));
@@ -59,7 +59,7 @@ const AnimatedIconDemo = () => {
   );
 };
 
-const FillIconDemo = () => (
+export const FillIconDemo = () => (
   <div className="flex gap-4 my-4 flex-col items-center">
     <div className="flex gap-4">
       <MoonIcon style={{ width: '48px', height: '48px' }} color="#ffa940" />
