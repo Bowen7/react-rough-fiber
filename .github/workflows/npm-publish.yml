@@ -23,7 +23,7 @@ jobs:
       - name: Test
         run: pnpm test
       - name: Build
-        run: cd packages/react-rough-fiber && pnpm run pre-publish
+        run: mv README.md packages/react-rough-fiber && cd packages/react-rough-fiber && pnpm run pre-publish
       - name: Publish
         run: cd packages/react-rough-fiber && npm publish --access public
         env:
