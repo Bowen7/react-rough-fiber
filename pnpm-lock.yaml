@@ -1,12 +1,12 @@
 lockfileVersion: 5.4
 
 patchedDependencies:
-  roughjs@4.5.2:
-    hash: kdqqllhuwnoe6gr6emjx5bxuyu
-    path: patches/roughjs@4.5.2.patch
   path-data-parser@0.1.0:
     hash: 4rhp5kl5f7kwcibkmwkhuggxfy
     path: patches/path-data-parser@0.1.0.patch
+  roughjs@4.5.2:
+    hash: ccgdz2z4p5772c6hci3dehxkyq
+    path: patches/roughjs@4.5.2.patch
 
 importers:
 
@@ -185,7 +185,7 @@ importers:
       react-reconciler: 0.29.0_react@18.2.0
       react-reconciler-26: /react-reconciler/0.26.2_react@18.2.0
       regenerator-runtime: 0.13.11
-      roughjs: 4.5.2_kdqqllhuwnoe6gr6emjx5bxuyu
+      roughjs: 4.5.2_ccgdz2z4p5772c6hci3dehxkyq
       tsconfig: link:../tsconfig
       tsup: 6.7.0_typescript@4.9.5
       typescript: 4.9.5
@@ -8294,7 +8294,7 @@ packages:
       fsevents: 2.3.2
     dev: true
 
-  /roughjs/4.5.2_kdqqllhuwnoe6gr6emjx5bxuyu:
+  /roughjs/4.5.2_ccgdz2z4p5772c6hci3dehxkyq:
     resolution: {integrity: sha512-2xSlLDKdsWyFxrveYWk9YQ/Y9UfK38EAMRNkYkMqYBJvPX8abCa9PN0x3w02H8Oa6/0bcZICJU+U95VumPqseg==}
     dependencies:
       path-data-parser: 0.1.0_4rhp5kl5f7kwcibkmwkhuggxfy

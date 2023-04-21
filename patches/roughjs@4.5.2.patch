@@ -11,7 +11,7 @@ index 9d7f6fb8bf7fd305f5ffa51f929198d1d3e2aa46..bd6d1f0f8e7c87b86695a8ab7e581a00
      stroke: string;
      strokeWidth: number;
 diff --git a/bin/generator.js b/bin/generator.js
-index e28cc61c25fc597b30fd0bc57da028235b6e2055..a46b6f4adb3ad5970d0fb3592b35ea2ce91b441c 100644
+index e28cc61c25fc597b30fd0bc57da028235b6e2055..ed5b282d570280a8dc43b2e140d83cbd5aa74a96 100644
 --- a/bin/generator.js
 +++ b/bin/generator.js
 @@ -26,6 +26,7 @@ export class RoughGenerator {
@@ -22,27 +22,33 @@ index e28cc61c25fc597b30fd0bc57da028235b6e2055..a46b6f4adb3ad5970d0fb3592b35ea2c
          };
          this.config = config || {};
          if (this.config.options) {
-@@ -208,6 +209,7 @@ export class RoughGenerator {
+@@ -208,7 +209,8 @@ export class RoughGenerator {
              switch (drawing.type) {
                  case 'path':
                      path = {
+-                        d: this.opsToPath(drawing),
 +                        type: 'path',
-                         d: this.opsToPath(drawing),
++                        d: this.opsToPath(drawing, o.fixedDecimalPlaceDigits),
                          stroke: o.stroke,
                          strokeWidth: o.strokeWidth,
-@@ -216,6 +218,7 @@ export class RoughGenerator {
+                         fill: NOS,
+@@ -216,7 +218,8 @@ export class RoughGenerator {
                      break;
                  case 'fillPath':
                      path = {
+-                        d: this.opsToPath(drawing),
 +                        type: 'fillPath',
-                         d: this.opsToPath(drawing),
++                        d: this.opsToPath(drawing, o.fixedDecimalPlaceDigits),
                          stroke: NOS,
                          strokeWidth: 0,
-@@ -238,6 +241,7 @@ export class RoughGenerator {
+                         fill: o.fill || NOS,
+@@ -238,7 +241,8 @@ export class RoughGenerator {
              fweight = o.strokeWidth / 2;
          }
          return {
+-            d: this.opsToPath(drawing),
 +            type: 'fillSketch',
-             d: this.opsToPath(drawing),
++            d: this.opsToPath(drawing, o.fixedDecimalPlaceDigits),
              stroke: o.fill || NOS,
              strokeWidth: fweight,
+             fill: NOS,
