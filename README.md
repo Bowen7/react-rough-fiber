@@ -93,6 +93,10 @@ This library is a monorepo project. The core package can be found under `/packag
 
 PRs are welcome!
 
+## How does it work?
+
+See [my blog](https://www.bowencodes.com/post/react-rough-fiber).
+
 ## Showcases
 
 - [Add your project by creating a PR](https://github.com/Bowen7/react-rough-fiber/pulls)
