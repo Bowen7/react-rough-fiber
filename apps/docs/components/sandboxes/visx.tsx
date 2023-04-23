@@ -6,7 +6,7 @@ import { RoughSVG } from 'react-rough-fiber';
 import { AlbersUsa } from '@visx/geo';
 import * as topojson from 'topojson-client';
 
-const colors = ['#8884d8', '#82ca9d', '#9020FF', '#C630FD'];
+const colors = ['#f4d35e', '#f5cac3', '#a8dadc', '#457b9d'];
 const fillStyles = ['solid', 'hachure', 'zigzag', 'cross-hatch', 'dashed', 'zigzag-line']
 const topoUrl = 'https://cdn.jsdelivr.net/npm/us-atlas@3/states-10m.json'
 const width = 800;
