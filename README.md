@@ -2,6 +2,11 @@
 
 ![banner](https://user-images.githubusercontent.com/27432981/233581368-3b8bb5e1-5d18-48ff-b0ee-89d78abb7796.png)
 
+[![MIT License](https://img.shields.io/badge/License-MIT-green.svg)](https://choosealicense.com/licenses/mit/)
+[![NPM](https://img.shields.io/npm/v/react-rough-fiber)](https://www.npmjs.com/package/react-rough-fiber)
+[![Build](https://img.shields.io/github/actions/workflow/status/bowen7/react-rough-fiber/npm-publish.yml)](https://github.com/Bowen7/react-rough-fiber/actions/workflows/npm-publish.yml)
+
+
 `react-rough-fiber` -- A React renderer for rendering hand-drawn SVGs.
 
 ## Installation
