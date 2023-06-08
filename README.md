@@ -47,7 +47,7 @@ react-rough-fiber can integrate with many existing SVG-based libraries:
   - [react-d3-tree](https://react-rough-fiber.amind.app/examples/chart/react-d3-tree)
 - [Text](https://react-rough-fiber.amind.app/examples/text)
 - [SVG string](https://react-rough-fiber.amind.app/examples/svg-string)
-- [Remove SVG](https://react-rough-fiber.amind.app/examples/remote-svg)
+- [Remote SVG](https://react-rough-fiber.amind.app/examples/remote-svg)
 - [Emoji](https://react-rough-fiber.amind.app/examples/emoji)
 
 ![image](https://user-images.githubusercontent.com/27432981/233629588-34c66519-1ae0-45de-beaa-f9dfedf635f3.png)
