@@ -40,15 +40,15 @@ export default function App() {
 
 react-rough-fiber can integrate with many existing SVG-based libraries:
 
-- [Icon](https://react-rough-fiber.amind.app/examples/icon)
+- [Icon](https://react-rough-fiber.vercel.app/examples/icon)
 - Chart
-  - [recharts](https://react-rough-fiber.amind.app/examples/chart/recharts)
-  - [visx](https://react-rough-fiber.amind.app/examples/chart/visx)
-  - [react-d3-tree](https://react-rough-fiber.amind.app/examples/chart/react-d3-tree)
-- [Text](https://react-rough-fiber.amind.app/examples/text)
-- [SVG string](https://react-rough-fiber.amind.app/examples/svg-string)
-- [Remote SVG](https://react-rough-fiber.amind.app/examples/remote-svg)
-- [Emoji](https://react-rough-fiber.amind.app/examples/emoji)
+  - [recharts](https://react-rough-fiber.vercel.app/examples/chart/recharts)
+  - [visx](https://react-rough-fiber.vercel.app/examples/chart/visx)
+  - [react-d3-tree](https://react-rough-fiber.vercel.app/examples/chart/react-d3-tree)
+- [Text](https://react-rough-fiber.vercel.app/examples/text)
+- [SVG string](https://react-rough-fiber.vercel.app/examples/svg-string)
+- [Remote SVG](https://react-rough-fiber.vercel.app/examples/remote-svg)
+- [Emoji](https://react-rough-fiber.vercel.app/examples/emoji)
 
 ![image](https://user-images.githubusercontent.com/27432981/233629588-34c66519-1ae0-45de-beaa-f9dfedf635f3.png)
 
@@ -56,7 +56,7 @@ react-rough-fiber can integrate with many existing SVG-based libraries:
 
 ## API
 
-[Full Documentation](https://react-rough-fiber.amind.app/apis).
+[Full Documentation](https://react-rough-fiber.vercel.app/apis).
 
 ### RoughSVG
 
@@ -83,7 +83,7 @@ import { WCRoughSVG } from "react-rough-fiber";
 </WCRoughSVG>
 ```
 
-If you want to use context in `RoughSVG`, you can use `WCRoughSVG` instead of `RoughSVG`. See [FAQ](https://react-rough-fiber.amind.app/faq) for more details.
+If you want to use context in `RoughSVG`, you can use `WCRoughSVG` instead of `RoughSVG`. See [FAQ](https://react-rough-fiber.vercel.app/faq) for more details.
 
 All parameters of `WCRoughSVG` are identical to `RoughSVG`.
 
