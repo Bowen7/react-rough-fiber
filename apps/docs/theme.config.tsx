@@ -11,7 +11,7 @@ const Head = () => (
     <meta name="og:title" content="React Rough Fiber" />
     <meta
       name="og:image"
-      content="https://react-rough-fiber.vercel.app/og.png"
+      content="https://react-rough-fiber.amind.app/og.png"
     />
     <meta
       name="og:description"
