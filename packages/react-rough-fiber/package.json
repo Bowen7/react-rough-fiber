@@ -1,6 +1,6 @@
 {
   "name": "react-rough-fiber",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "A React renderer for rendering hand-drawn SVGs.",
   "keywords": [
     "react",

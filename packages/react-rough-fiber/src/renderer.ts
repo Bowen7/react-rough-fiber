@@ -7,10 +7,9 @@ import {
   HostContext,
   HostConfig,
   InstanceWithListeners,
-  SVGShape,
   Options,
 } from './types';
-import { SVG_NAMESPACE, HTML_NAMESPACE, SVG_SHAPE_MAP } from './constants';
+import { SVG_NAMESPACE, HTML_NAMESPACE, SVG_SHAPE_MAP, DATA_RRF_GROUP } from './constants';
 import { isFun } from './utils';
 import { diffProps } from './props';
 
@@ -27,9 +26,11 @@ const createInstance = (
     // roughjs renders a shape as a fill path(if fill is not none) and a stroke path(if stroke is not none)
     // so we need to wrap the shape in a g element
     if (!inDefs && type in SVG_SHAPE_MAP) {
-      type = 'g';
+      domElement = ownerDocument.createElementNS(SVG_NAMESPACE, 'g');
+      domElement.setAttribute(DATA_RRF_GROUP, '');
+    } else {
+      domElement = ownerDocument.createElementNS(SVG_NAMESPACE, type);
     }
-    domElement = ownerDocument.createElementNS(SVG_NAMESPACE, type);
   } else {
     domElement = ownerDocument.createElement(type);
   }
@@ -137,7 +138,15 @@ export const createReconciler = (
       (<any>textInstance).nodeValue = newText;
     },
     commitMount() {},
-    getPublicInstance: (instance) => instance!,
+    getPublicInstance: (instance) => {
+      if(instance?.hasAttribute(DATA_RRF_GROUP)) {
+        const firstChild = instance.children[0];
+        if(firstChild?.tagName === 'path') {
+          return firstChild as SVGElement;
+        }
+      }
+      return instance!
+    },
     prepareForCommit: () => null,
     preparePortalMount: () => {},
     resetAfterCommit: () => {},
