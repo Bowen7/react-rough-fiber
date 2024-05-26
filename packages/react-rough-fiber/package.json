@@ -64,7 +64,7 @@
     "react-reconciler": "^0.29.0",
     "react-reconciler-26": "npm:react-reconciler@^0.26.2",
     "regenerator-runtime": "^0.13.11",
-    "roughjs": "^4.5.2",
+    "roughjs": "4.5.2",
     "tsconfig": "workspace:*",
     "tsup": "^6.7.0",
     "typescript": "^4.5.2"
