@@ -1,6 +1,6 @@
 import { MutableRefObject } from 'react';
 import Reconciler from 'react-reconciler';
-import { DefaultEventPriority } from 'react-reconciler/constants';
+import * as ReactReconcilerConstants from 'react-reconciler/constants';
 import {
   Instance,
   InstanceProps,
@@ -9,15 +9,23 @@ import {
   InstanceWithListeners,
   Options,
 } from './types';
-import { SVG_NAMESPACE, HTML_NAMESPACE, SVG_SHAPE_MAP, DATA_RRF_GROUP } from './constants';
+import {
+  SVG_NAMESPACE,
+  HTML_NAMESPACE,
+  SVG_SHAPE_MAP,
+  DATA_RRF_GROUP,
+} from './constants';
 import { isFun } from './utils';
 import { diffProps } from './props';
+
+// @ts-ignore
+let currentUpdatePriority: number = ReactReconcilerConstants.NoEventPriority;
 
 const createInstance = (
   type: string,
   _props: InstanceProps,
   root: Element,
-  hostContext: HostContext
+  hostContext: HostContext,
 ) => {
   const ownerDocument = root.ownerDocument;
   const { namespace, inDefs } = hostContext;
@@ -46,11 +54,11 @@ const appendChild = (parent: Instance, child: Instance) =>
 const insertBefore = (
   parent: Instance,
   child: Instance,
-  beforeChild: Instance
+  beforeChild: Instance,
 ) => parent.insertBefore(child, beforeChild);
 
 export const createReconciler = (
-  optionsRef: MutableRefObject<Options>
+  optionsRef: MutableRefObject<Options>,
 ): Reconciler.Reconciler<Instance, Instance, void, Instance, Instance> =>
   Reconciler<
     HostConfig['type'],
@@ -110,7 +118,7 @@ export const createReconciler = (
         props,
         null,
         optionsRef.current,
-        inDefs
+        inDefs,
       );
       return false;
     },
@@ -120,7 +128,7 @@ export const createReconciler = (
       _oldProps,
       _newProps,
       _rootContainer,
-      { inDefs }
+      { inDefs },
     ) {
       return { inDefs };
     },
@@ -131,7 +139,7 @@ export const createReconciler = (
         newProps,
         oldProps,
         optionsRef.current,
-        inDefs
+        inDefs,
       );
     },
     commitTextUpdate(textInstance, _oldText: string, newText: string): void {
@@ -139,13 +147,13 @@ export const createReconciler = (
     },
     commitMount() {},
     getPublicInstance: (instance) => {
-      if(instance?.hasAttribute(DATA_RRF_GROUP)) {
+      if (instance?.hasAttribute(DATA_RRF_GROUP)) {
         const firstChild = instance.children[0];
-        if(firstChild?.tagName === 'path') {
+        if (firstChild?.tagName === 'path') {
           return firstChild as SVGElement;
         }
       }
-      return instance!
+      return instance!;
     },
     prepareForCommit: () => null,
     preparePortalMount: () => {},
@@ -158,7 +166,11 @@ export const createReconciler = (
       container.ownerDocument.createTextNode(text),
     hideTextInstance: () => {},
     unhideTextInstance: () => {},
-    getCurrentEventPriority: () => DefaultEventPriority,
+    getCurrentEventPriority: () => {
+      return typeof currentUpdatePriority === 'number'
+        ? currentUpdatePriority
+        : ReactReconcilerConstants.DefaultEventPriority;
+    },
     beforeActiveInstanceBlur: () => {},
     afterActiveInstanceBlur: () => {},
     detachDeletedInstance: () => {},
@@ -167,4 +179,26 @@ export const createReconciler = (
     getInstanceFromNode: () => null,
     prepareScopeUpdate: () => {},
     getInstanceFromScope: () => null,
+    // React 19, undocumented
+    // @ts-ignore
+    setCurrentUpdatePriority: (newPriority: number) => {
+      currentUpdatePriority = newPriority;
+    },
+    getCurrentUpdatePriority: () => {
+      return currentUpdatePriority;
+    },
+    resolveUpdatePriority: () => {
+      return (
+        currentUpdatePriority || ReactReconcilerConstants.DefaultEventPriority
+      );
+    },
+    shouldAttemptEagerTransition: () => false,
+    requestPostPaintCallback: () => {},
+    maySuspendCommit: () => false,
+    preloadInstance: () => true,
+    startSuspendingCommit: () => {},
+    suspendInstance: () => {},
+    waitForCommitToBeReady: () => null,
+    NotPendingTransition: null,
+    resetFormInstance: () => {},
   });

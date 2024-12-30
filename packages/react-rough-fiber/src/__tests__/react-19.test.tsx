@@ -13,8 +13,8 @@ afterEach(() => {
   jest.clearAllMocks();
 });
 
-test('react version should be 18', () => {
-  expect(reactVersion.slice(0, 2)).toBe('18');
+test('react version should be 19', () => {
+  expect(reactVersion.slice(0, 2)).toBe('19');
 });
 
 it('work with context', () => {

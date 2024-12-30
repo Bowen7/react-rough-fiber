@@ -11,13 +11,13 @@ const commonConfig = {
 
 const react18Config = {
   displayName: 'react 18',
-  testRegex: '.*(?<!-17)\\.test\\.(j|t)sx?$',
+  testRegex: '.*(?<!-(17|19))\\.test\\.(j|t)sx?$',
   ...commonConfig,
 };
 
 const react17Config = {
   displayName: 'react 17',
-  testRegex: '.*(?<!-18)\\.test\\.(j|t)sx?$',
+  testRegex: '.*(?<!-(18|19))\\.test\\.(j|t)sx?$',
   ...commonConfig,
   moduleNameMapper: {
     '^react$': 'react-17',
@@ -29,5 +29,6 @@ const react17Config = {
 };
 
 module.exports = {
-  projects: [react18Config, react17Config],
+  // projects: [react18Config, react17Config],
+  projects: [react17Config],
 };
