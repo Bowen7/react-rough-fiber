@@ -1,20 +1,11 @@
-import {
-  version as reactVersion,
-  useState,
-  createContext,
-  useContext,
-} from 'react';
+import { useState, createContext, useContext } from 'react';
 import { cleanup, render, screen } from '@testing-library/react';
-import { act } from 'react-dom/test-utils';
+import { act } from 'react';
+import { vi, afterEach, it, expect } from 'vitest';
 import { WCRoughSVG } from '../index';
 
 afterEach(() => {
   cleanup();
-  jest.clearAllMocks();
-});
-
-test('react version should be 18', () => {
-  expect(reactVersion.slice(0, 2)).toBe('18');
 });
 
 it('work with context', () => {

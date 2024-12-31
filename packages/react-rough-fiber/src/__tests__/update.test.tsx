@@ -1,11 +1,11 @@
 import { useState, ComponentProps } from 'react';
 import { cleanup, render, screen } from '@testing-library/react';
-import { act } from 'react-dom/test-utils';
+import { act } from 'react';
+import { vi, afterEach, it, expect, describe } from 'vitest';
 import { RoughSVG } from '../index';
 
 afterEach(() => {
   cleanup();
-  jest.clearAllMocks();
 });
 
 describe('update svg paths', () => {

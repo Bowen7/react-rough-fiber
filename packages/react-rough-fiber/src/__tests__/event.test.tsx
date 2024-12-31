@@ -1,19 +1,19 @@
 import { cleanup, render, screen } from '@testing-library/react';
-import { act } from 'react-dom/test-utils';
+import { act } from 'react';
+import { vi, afterEach, it, expect } from 'vitest';
 import { RoughSVG } from '../index';
 
 afterEach(() => {
   cleanup();
-  jest.clearAllMocks();
 });
 
 it('handle event', () => {
-  const props = { onClick: jest.fn() };
-  const spy = jest.spyOn(props, 'onClick');
+  const props = { onClick: vi.fn() };
+  const spy = vi.spyOn(props, 'onClick');
   render(
     <RoughSVG>
       <button onClick={props.onClick}>click</button>
-    </RoughSVG>
+    </RoughSVG>,
   );
   act(() => {
     const button = screen.getByText('click');

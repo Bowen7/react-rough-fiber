@@ -6,7 +6,7 @@ import {
   InstanceProps,
   HostContext,
   HostConfig,
-  InstanceWithListeners,
+  InstanceWithRRF,
   Options,
 } from './types';
 import {
@@ -15,7 +15,7 @@ import {
   SVG_SHAPE_MAP,
   DATA_RRF_GROUP,
 } from './constants';
-import { isFun } from './utils';
+import { isFun, isReact19 } from './utils';
 import { diffProps } from './props';
 
 // @ts-ignore
@@ -38,6 +38,9 @@ const createInstance = (
       domElement.setAttribute(DATA_RRF_GROUP, '');
     } else {
       domElement = ownerDocument.createElementNS(SVG_NAMESPACE, type);
+    }
+    if (inDefs) {
+      (domElement as InstanceWithRRF)._rrf_inDefs = true;
     }
   } else {
     domElement = ownerDocument.createElement(type);
@@ -111,35 +114,42 @@ export const createReconciler = (
       }
       return parentHostContext;
     },
-    finalizeInitialChildren(instance, type, props, rootContainer, { inDefs }) {
+    finalizeInitialChildren(...args) {
+      let [instance, type, props, rootContainer, hostContext] = args;
+      if (isReact19()) {
+        hostContext = rootContainer as any as HostContext;
+      }
       diffProps(
         type,
-        instance as InstanceWithListeners,
+        instance as InstanceWithRRF,
         props,
         null,
         optionsRef.current,
-        inDefs,
+        hostContext.inDefs,
       );
       return false;
     },
-    prepareUpdate(
-      _instance,
-      _type,
-      _oldProps,
-      _newProps,
-      _rootContainer,
-      { inDefs },
-    ) {
-      return { inDefs };
+    prepareUpdate(_instance, _type, _oldProps, _newProps, _rootContainer) {
+      return null;
     },
-    commitUpdate(instance, { inDefs }, type, oldProps, newProps) {
+    commitUpdate(...args) {
+      let instance;
+      let type;
+      let oldProps;
+      let newProps;
+      let _;
+      if (isReact19()) {
+        [instance, type, oldProps, newProps] = args;
+      } else {
+        [instance, _, type, oldProps, newProps] = args;
+      }
       diffProps(
-        type,
-        instance as InstanceWithListeners,
+        type as string,
+        instance as InstanceWithRRF,
         newProps,
-        oldProps,
+        oldProps as InstanceProps | null,
         optionsRef.current,
-        inDefs,
+        (instance as InstanceWithRRF)._rrf_inDefs,
       );
     },
     commitTextUpdate(textInstance, _oldText: string, newText: string): void {
@@ -179,7 +189,7 @@ export const createReconciler = (
     getInstanceFromNode: () => null,
     prepareScopeUpdate: () => {},
     getInstanceFromScope: () => null,
-    // React 19, undocumented
+    // These hooks are undocumented, remove @ts-ignore in the future
     // @ts-ignore
     setCurrentUpdatePriority: (newPriority: number) => {
       currentUpdatePriority = newPriority;

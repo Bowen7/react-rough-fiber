@@ -22,7 +22,7 @@
 
 // almost all code is from preact, modified for react-rough-fiber
 import {
-  InstanceWithListeners,
+  InstanceWithRRF,
   SVGShapeProps,
   InstanceProps,
   Options,
@@ -43,7 +43,7 @@ import { diffShape } from './shape';
 export function normalizeProps(
   type: string,
   props: InstanceProps,
-  inDefs: boolean
+  inDefs: boolean,
 ): [InstanceProps, SVGShapeProps | null] {
   const normalizedProps: InstanceProps = {};
   const isShapeType = type in SVG_SHAPE_MAP;
@@ -196,9 +196,9 @@ export function normalizeProps(
 }
 
 export function diffNormalizedProps(
-  domElement: InstanceWithListeners,
+  domElement: InstanceWithRRF,
   prevProps: InstanceProps,
-  nextProps: InstanceProps
+  nextProps: InstanceProps,
 ) {
   for (const propName in prevProps) {
     if (
@@ -210,7 +210,7 @@ export function diffNormalizedProps(
         domElement,
         propName,
         null,
-        prevProps[propName as keyof typeof prevProps]
+        prevProps[propName as keyof typeof prevProps],
       );
     }
   }
@@ -235,11 +235,11 @@ export function diffNormalizedProps(
 
 export function diffProps(
   type: string,
-  domElement: InstanceWithListeners,
+  domElement: InstanceWithRRF,
   newProps: InstanceProps,
   oldProps: InstanceProps | null,
   options: Options,
-  inDefs: boolean
+  inDefs: boolean,
 ) {
   type = type.toLowerCase();
   const [nextProps, nextShapeProps] = normalizeProps(type, newProps, inDefs);
@@ -253,7 +253,7 @@ export function diffProps(
       prevShapeProps,
       nextShapeProps!,
       newProps,
-      options
+      options,
     );
   }
 
@@ -273,10 +273,10 @@ function setStyle(style: CSSStyleDeclaration, key: string, value: any) {
 }
 
 export function setProperty(
-  domElement: InstanceWithListeners,
+  domElement: InstanceWithRRF,
   name: string,
   value: any,
-  oldValue: any
+  oldValue: any,
 ) {
   let useCapture;
 
@@ -361,10 +361,10 @@ export function setProperty(
   }
 }
 
-function eventProxy(this: InstanceWithListeners, e: Event) {
+function eventProxy(this: InstanceWithRRF, e: Event) {
   return this._rrf_listeners[e.type + false](e);
 }
 
-function eventProxyCapture(this: InstanceWithListeners, e: Event) {
+function eventProxyCapture(this: InstanceWithRRF, e: Event) {
   return this._rrf_listeners[e.type + true](e);
 }

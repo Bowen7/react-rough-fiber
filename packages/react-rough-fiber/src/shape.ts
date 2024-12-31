@@ -7,7 +7,7 @@ import {
 } from './constants';
 import {
   SVGShapeProps,
-  InstanceWithListeners,
+  InstanceWithRRF,
   RoughOptions,
   Options,
   InstanceProps,
@@ -20,7 +20,7 @@ type Drawable = ReturnType<RoughGenerator['path']>;
 const getDrawable = (
   generator: RoughGenerator,
   props: SVGShapeProps,
-  options: RoughOptions
+  options: RoughOptions,
 ): Drawable | null => {
   switch (props.type) {
     case 'path': {
@@ -91,7 +91,7 @@ const getDrawable = (
 const getRoughOptions = (
   options: Options,
   shapeProps: SVGShapeProps,
-  props: InstanceProps
+  props: InstanceProps,
 ): RoughOptions => {
   if (typeof options === 'function') {
     const { stroke, fill, fillOpacity, ...shape } = shapeProps;
@@ -103,7 +103,7 @@ const getRoughOptions = (
 const normalizePathInfo = (
   pathInfo: PathInfo,
   shapeProps: SVGShapeProps,
-  options: RoughOptions
+  options: RoughOptions,
 ) => {
   const { type, strokeWidth, fill, ...rest } = pathInfo;
   const pathProps: InstanceProps = rest;
@@ -136,7 +136,7 @@ export const diffShape = (
   prevShapeProps: SVGShapeProps | null,
   nextShapeProps: SVGShapeProps,
   props: InstanceProps,
-  options: Options
+  options: Options,
 ) => {
   const roughOptions = getRoughOptions(options, nextShapeProps, props);
   const prevRoughOptions = (<any>domElement)._rrf_options;
@@ -166,19 +166,19 @@ export const diffShape = (
     }
     if (i >= children.length) {
       domElement.appendChild(
-        domElement.ownerDocument.createElementNS(SVG_NAMESPACE, 'path')
+        domElement.ownerDocument.createElementNS(SVG_NAMESPACE, 'path'),
       );
     }
     const child = children[i];
     const pathProps = normalizePathInfo(
       pathInfos[i],
       nextShapeProps,
-      roughOptions
+      roughOptions,
     );
     diffNormalizedProps(
-      child as InstanceWithListeners,
+      child as InstanceWithRRF,
       (child as any)._pathProps || {},
-      pathProps
+      pathProps,
     );
     (child as any)._pathProps = pathProps;
   }

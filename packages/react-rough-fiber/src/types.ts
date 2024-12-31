@@ -24,7 +24,7 @@ export interface HostConfig {
   hydratableInstance: Instance;
   publicInstance: Instance;
   hostContext: HostContext;
-  updatePayload: { inDefs: boolean };
+  updatePayload: null;
   childSet: never;
   timeoutHandle: number | undefined;
   noTimeout: -1;
@@ -32,8 +32,9 @@ export interface HostConfig {
 
 export type Style = { [name: string]: string | number };
 
-export type InstanceWithListeners = Instance & {
+export type InstanceWithRRF = Instance & {
   _rrf_listeners: { [name: string]: (e: Event) => void };
+  _rrf_inDefs: boolean;
 };
 
 export type SVGShape =

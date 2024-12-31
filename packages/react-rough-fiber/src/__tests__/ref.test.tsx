@@ -1,9 +1,9 @@
-import { cleanup, render, screen } from '@testing-library/react';
+import { cleanup, render } from '@testing-library/react';
+import { vi, afterEach, it, expect, describe } from 'vitest';
 import { RoughSVG } from '../index';
 
 afterEach(() => {
   cleanup();
-  jest.clearAllMocks();
 });
 
 describe('return correct ref', () => {
@@ -18,9 +18,9 @@ describe('return correct ref', () => {
           viewBox="0 0 24 24"
         >
           <path d="M0 0 L 10 10" data-testid="path" />
-          <g ref={_ref => ref = _ref}/>
+          <g ref={(_ref) => (ref = _ref)} />
         </svg>
-      </RoughSVG>
+      </RoughSVG>,
     );
     expect(ref!.tagName).toBe('g');
   });
@@ -35,10 +35,14 @@ describe('return correct ref', () => {
           height="24"
           viewBox="0 0 24 24"
         >
-          <path d="M0 0 L 10 10" data-testid="path" ref={_ref => ref = _ref} />
-          <g/>
+          <path
+            d="M0 0 L 10 10"
+            data-testid="path"
+            ref={(_ref) => (ref = _ref)}
+          />
+          <g />
         </svg>
-      </RoughSVG>
+      </RoughSVG>,
     );
     expect(ref!.tagName).toBe('path');
   });

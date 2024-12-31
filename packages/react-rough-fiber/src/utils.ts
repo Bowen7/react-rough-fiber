@@ -1,9 +1,10 @@
+import React from 'react';
 import { InstanceProps } from './types';
 export const isFun = (val: any) => typeof val === 'function';
 
 export const shallowEqual = (
   options1: InstanceProps | undefined | null,
-  options2: InstanceProps | undefined | null
+  options2: InstanceProps | undefined | null,
 ) => {
   if (options1 === options2) {
     return true;
@@ -29,4 +30,8 @@ export const parsePoints = (points: string) => {
     pts.push([+coord[i], +coord[i + 1]]);
   }
   return pts;
+};
+
+export const isReact19 = () => {
+  return React.version.startsWith('19.');
 };
