@@ -2,7 +2,6 @@ import { useMemo } from 'react';
 import {
   SandpackFiles,
   SandpackSetup,
-  Classes,
   SandpackProvider,
   SandpackLayout,
   SandpackCodeEditor,
@@ -55,7 +54,7 @@ export const Sandbox = ({
   }, [code, font, cssCode]);
 
   const options = useMemo(() => {
-    const classes: Classes =
+    const classes: Record<string, string> =
       direction === 'vertical'
         ? {
             'sp-layout': '!block divide-y mt-6',
