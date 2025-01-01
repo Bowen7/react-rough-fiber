@@ -1,11 +1,9 @@
-import { useState, ComponentProps } from 'react';
 import { cleanup, render, screen } from '@testing-library/react';
-import { act } from 'react-dom/test-utils';
+import { vi, afterEach, it, expect, describe } from 'vitest';
 import { RoughSVG } from '../index';
 
 afterEach(() => {
   cleanup();
-  jest.clearAllMocks();
 });
 
 describe('render svg element', () => {
@@ -20,7 +18,7 @@ describe('render svg element', () => {
         >
           <path d="M0 0 L 10 10" data-testid="path" />
         </svg>
-      </RoughSVG>
+      </RoughSVG>,
     );
     const path = screen.getByTestId('path');
     expect(path.tagName).toBe('g');
@@ -37,7 +35,7 @@ describe('render svg element', () => {
         >
           <circle cx={10} cy={10} r={5} data-testid="circle"></circle>
         </svg>
-      </RoughSVG>
+      </RoughSVG>,
     );
     const circle = screen.getByTestId('circle');
     expect(circle.tagName).toBe('g');
@@ -54,7 +52,7 @@ describe('render svg element', () => {
         >
           <line x1={0} y1={0} x2={10} y2={10} data-testid="line"></line>
         </svg>
-      </RoughSVG>
+      </RoughSVG>,
     );
     const line = screen.getByTestId('line');
     expect(line.tagName).toBe('g');
@@ -71,7 +69,7 @@ describe('render svg element', () => {
         >
           <rect width={10} height={10} data-testid="rect"></rect>
         </svg>
-      </RoughSVG>
+      </RoughSVG>,
     );
     const rect = screen.getByTestId('rect');
     expect(rect.tagName).toBe('g');
@@ -88,7 +86,7 @@ describe('render svg element', () => {
         >
           <ellipse cx="5" cy="5" rx="10" ry="5" data-testid="ellipse"></ellipse>
         </svg>
-      </RoughSVG>
+      </RoughSVG>,
     );
     const ellipse = screen.getByTestId('ellipse');
     expect(ellipse.tagName).toBe('g');
@@ -105,7 +103,7 @@ describe('render svg element', () => {
         >
           <polygon points="0,10 5,20 5,15 10,0" data-testid="polygon"></polygon>
         </svg>
-      </RoughSVG>
+      </RoughSVG>,
     );
     const polygon = screen.getByTestId('polygon');
     expect(polygon.tagName).toBe('g');
@@ -125,7 +123,7 @@ describe('render svg element', () => {
             data-testid="polyline"
           ></polyline>
         </svg>
-      </RoughSVG>
+      </RoughSVG>,
     );
     const polyline = screen.getByTestId('polyline');
     expect(polyline.tagName).toBe('g');
@@ -144,13 +142,13 @@ describe('render fill and stroke', () => {
         >
           <path d="M0 0 L 10 10" data-testid="path" />
         </svg>
-      </RoughSVG>
+      </RoughSVG>,
     );
     const pathGroup = screen.getByTestId('path');
     expect(pathGroup.children.length).toBe(2);
     expect(pathGroup.children[0].getAttribute('fill')).toBe('none');
     expect(pathGroup.children[0].getAttribute('stroke')).toBe(
-      'var(--rrf-fill-color)'
+      'var(--rrf-fill-color)',
     );
     expect(pathGroup.children[1].getAttribute('fill')).toBe('none');
     expect(pathGroup.children[1].getAttribute('stroke')).toBe(null);
@@ -167,7 +165,7 @@ describe('render fill and stroke', () => {
         >
           <path d="M0 0 L 10 10" fill="none" data-testid="path" />
         </svg>
-      </RoughSVG>
+      </RoughSVG>,
     );
     const pathGroup = screen.getByTestId('path');
     expect(pathGroup.children.length).toBe(1);
@@ -186,12 +184,12 @@ describe('render fill and stroke', () => {
         >
           <path d="M0 0 L 10 10" stroke="none" data-testid="path" />
         </svg>
-      </RoughSVG>
+      </RoughSVG>,
     );
     const pathGroup = screen.getByTestId('path');
     expect(pathGroup.children[0].getAttribute('fill')).toBe('none');
     expect(pathGroup.children[0].getAttribute('stroke')).toBe(
-      'var(--rrf-fill-color)'
+      'var(--rrf-fill-color)',
     );
   });
 
@@ -206,13 +204,13 @@ describe('render fill and stroke', () => {
         >
           <path d="M0 0 L 10 10" stroke="#000" data-testid="path" />
         </svg>
-      </RoughSVG>
+      </RoughSVG>,
     );
     const pathGroup = screen.getByTestId('path');
     expect(pathGroup.children.length).toBe(2);
     expect(pathGroup.children[0].getAttribute('fill')).toBe('none');
     expect(pathGroup.children[0].getAttribute('stroke')).toBe(
-      'var(--rrf-fill-color)'
+      'var(--rrf-fill-color)',
     );
     expect(pathGroup.children[1].getAttribute('fill')).toBe('none');
     expect(pathGroup.children[1].getAttribute('stroke')).toBe('#000');
@@ -229,7 +227,7 @@ describe('render fill and stroke', () => {
         >
           <path d="M0 0 L 10 10" fill="#000" data-testid="path" />
         </svg>
-      </RoughSVG>
+      </RoughSVG>,
     );
     const pathGroup = screen.getByTestId('path');
     expect(pathGroup.children.length).toBe(2);
@@ -250,7 +248,7 @@ describe('render fill and stroke', () => {
         >
           <path d="M0 0 L 10 10" style={{ fill: '#000' }} data-testid="path" />
         </svg>
-      </RoughSVG>
+      </RoughSVG>,
     );
     const pathGroup = screen.getByTestId('path');
     expect(pathGroup.children.length).toBe(2);
@@ -272,7 +270,7 @@ describe('render fill and stroke', () => {
         >
           <g data-testid="g" />
         </svg>
-      </RoughSVG>
+      </RoughSVG>,
     );
     const svg = screen.getByTestId('svg');
     const g = screen.getByTestId('g');
@@ -294,7 +292,7 @@ describe('render fill and stroke', () => {
           <g data-testid="g" style={{ fill: 'red' }} />
           <path d="M0 0 L 10 10" data-testid="path" style={{ fill: 'red' }} />
         </svg>
-      </RoughSVG>
+      </RoughSVG>,
     );
     const svg = screen.getByTestId('svg');
     const g = screen.getByTestId('g');
@@ -319,7 +317,7 @@ describe('render fill opacity', () => {
         >
           <g data-testid="g" />
         </svg>
-      </RoughSVG>
+      </RoughSVG>,
     );
     const svg = screen.getByTestId('svg');
     const g = screen.getByTestId('g');
@@ -345,7 +343,7 @@ describe('render fill opacity', () => {
             style={{ fillOpacity: 0.2 }}
           />
         </svg>
-      </RoughSVG>
+      </RoughSVG>,
     );
     const svg = screen.getByTestId('svg');
     const g = screen.getByTestId('g');

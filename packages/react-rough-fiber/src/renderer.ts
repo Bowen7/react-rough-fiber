@@ -1,23 +1,33 @@
 import { MutableRefObject } from 'react';
 import Reconciler from 'react-reconciler';
-import { DefaultEventPriority } from 'react-reconciler/constants';
+import * as ReactReconcilerConstants from 'react-reconciler/constants';
 import {
   Instance,
   InstanceProps,
   HostContext,
   HostConfig,
-  InstanceWithListeners,
+  InstanceWithRRF,
   Options,
 } from './types';
-import { SVG_NAMESPACE, HTML_NAMESPACE, SVG_SHAPE_MAP, DATA_RRF_GROUP } from './constants';
-import { isFun } from './utils';
+import {
+  SVG_NAMESPACE,
+  HTML_NAMESPACE,
+  SVG_SHAPE_MAP,
+  DATA_RRF_GROUP,
+} from './constants';
+import { isFun, isReact19 } from './utils';
 import { diffProps } from './props';
+
+const UPDATE_SIGNAL = {};
+
+// @ts-ignore for React 19
+let currentUpdatePriority: number = ReactReconcilerConstants.NoEventPriority;
 
 const createInstance = (
   type: string,
   _props: InstanceProps,
   root: Element,
-  hostContext: HostContext
+  hostContext: HostContext,
 ) => {
   const ownerDocument = root.ownerDocument;
   const { namespace, inDefs } = hostContext;
@@ -34,6 +44,7 @@ const createInstance = (
   } else {
     domElement = ownerDocument.createElement(type);
   }
+  (domElement as InstanceWithRRF)._rrf_inDefs = inDefs;
   return domElement;
 };
 
@@ -46,11 +57,11 @@ const appendChild = (parent: Instance, child: Instance) =>
 const insertBefore = (
   parent: Instance,
   child: Instance,
-  beforeChild: Instance
+  beforeChild: Instance,
 ) => parent.insertBefore(child, beforeChild);
 
 export const createReconciler = (
-  optionsRef: MutableRefObject<Options>
+  optionsRef: MutableRefObject<Options>,
 ): Reconciler.Reconciler<Instance, Instance, void, Instance, Instance> =>
   Reconciler<
     HostConfig['type'],
@@ -103,35 +114,36 @@ export const createReconciler = (
       }
       return parentHostContext;
     },
-    finalizeInitialChildren(instance, type, props, rootContainer, { inDefs }) {
+    finalizeInitialChildren(instance, type, props) {
       diffProps(
         type,
-        instance as InstanceWithListeners,
+        instance as InstanceWithRRF,
         props,
         null,
         optionsRef.current,
-        inDefs
       );
       return false;
     },
-    prepareUpdate(
-      _instance,
-      _type,
-      _oldProps,
-      _newProps,
-      _rootContainer,
-      { inDefs }
-    ) {
-      return { inDefs };
+    prepareUpdate(_instance, _type, _oldProps, _newProps, _rootContainer) {
+      return UPDATE_SIGNAL;
     },
-    commitUpdate(instance, { inDefs }, type, oldProps, newProps) {
+    commitUpdate(...args) {
+      let instance;
+      let type;
+      let oldProps;
+      let newProps;
+      let _;
+      if (isReact19()) {
+        [instance, type, oldProps, newProps] = args;
+      } else {
+        [instance, _, type, oldProps, newProps] = args;
+      }
       diffProps(
-        type,
-        instance as InstanceWithListeners,
+        type as string,
+        instance as InstanceWithRRF,
         newProps,
-        oldProps,
+        oldProps as InstanceProps | null,
         optionsRef.current,
-        inDefs
       );
     },
     commitTextUpdate(textInstance, _oldText: string, newText: string): void {
@@ -139,13 +151,13 @@ export const createReconciler = (
     },
     commitMount() {},
     getPublicInstance: (instance) => {
-      if(instance?.hasAttribute(DATA_RRF_GROUP)) {
+      if (instance?.hasAttribute(DATA_RRF_GROUP)) {
         const firstChild = instance.children[0];
-        if(firstChild?.tagName === 'path') {
+        if (firstChild?.tagName === 'path') {
           return firstChild as SVGElement;
         }
       }
-      return instance!
+      return instance!;
     },
     prepareForCommit: () => null,
     preparePortalMount: () => {},
@@ -158,7 +170,11 @@ export const createReconciler = (
       container.ownerDocument.createTextNode(text),
     hideTextInstance: () => {},
     unhideTextInstance: () => {},
-    getCurrentEventPriority: () => DefaultEventPriority,
+    getCurrentEventPriority: () => {
+      return typeof currentUpdatePriority === 'number'
+        ? currentUpdatePriority
+        : ReactReconcilerConstants.DefaultEventPriority;
+    },
     beforeActiveInstanceBlur: () => {},
     afterActiveInstanceBlur: () => {},
     detachDeletedInstance: () => {},
@@ -167,4 +183,26 @@ export const createReconciler = (
     getInstanceFromNode: () => null,
     prepareScopeUpdate: () => {},
     getInstanceFromScope: () => null,
+    // These hooks are undocumented, remove @ts-ignore in the future
+    // @ts-ignore
+    setCurrentUpdatePriority: (newPriority: number) => {
+      currentUpdatePriority = newPriority;
+    },
+    getCurrentUpdatePriority: () => {
+      return currentUpdatePriority;
+    },
+    resolveUpdatePriority: () => {
+      return (
+        currentUpdatePriority || ReactReconcilerConstants.DefaultEventPriority
+      );
+    },
+    shouldAttemptEagerTransition: () => false,
+    requestPostPaintCallback: () => {},
+    maySuspendCommit: () => false,
+    preloadInstance: () => true,
+    startSuspendingCommit: () => {},
+    suspendInstance: () => {},
+    waitForCommitToBeReady: () => null,
+    NotPendingTransition: null,
+    resetFormInstance: () => {},
   });

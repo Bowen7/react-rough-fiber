@@ -1,11 +1,11 @@
 import { useState, ComponentProps } from 'react';
 import { cleanup, render, screen } from '@testing-library/react';
-import { act } from 'react-dom/test-utils';
+import { act } from 'react';
+import { vi, afterEach, it, expect, describe } from 'vitest';
 import { RoughSVG } from '../index';
 
 afterEach(() => {
   cleanup();
-  jest.clearAllMocks();
 });
 
 describe('render html element', () => {
@@ -18,7 +18,7 @@ describe('render html element', () => {
     render(
       <RoughSVG>
         <span>123</span>
-      </RoughSVG>
+      </RoughSVG>,
     );
     expect(screen.getByText('123').tagName).toBe('SPAN');
     cleanup();
@@ -26,7 +26,7 @@ describe('render html element', () => {
     render(
       <RoughSVG>
         <h1>123</h1>
-      </RoughSVG>
+      </RoughSVG>,
     );
     expect(screen.getByText('123').tagName).toBe('H1');
   });
@@ -37,7 +37,7 @@ describe('render html element', () => {
         <div data-testid="div">
           <span>123</span>
         </div>
-      </RoughSVG>
+      </RoughSVG>,
     );
     const ele = screen.getByTestId('div');
     expect(ele.children[0].textContent).toBe('123');
@@ -45,12 +45,12 @@ describe('render html element', () => {
 });
 
 it('handle event', () => {
-  const props = { onClick: jest.fn() };
-  const spy = jest.spyOn(props, 'onClick');
+  const props = { onClick: vi.fn() };
+  const spy = vi.spyOn(props, 'onClick');
   render(
     <RoughSVG>
       <button onClick={props.onClick}>click</button>
-    </RoughSVG>
+    </RoughSVG>,
   );
   act(() => {
     const button = screen.getByText('click');
@@ -91,7 +91,7 @@ describe('render svg element', () => {
         >
           <path d="M0 0 L 10 10" data-testid="path" />
         </svg>
-      </RoughSVG>
+      </RoughSVG>,
     );
     const path = screen.getByTestId('path');
     expect(path.tagName).toBe('g');
@@ -108,7 +108,7 @@ describe('render svg element', () => {
         >
           <circle cx={10} cy={10} r={5} data-testid="circle"></circle>
         </svg>
-      </RoughSVG>
+      </RoughSVG>,
     );
     const circle = screen.getByTestId('circle');
     expect(circle.tagName).toBe('g');
@@ -125,7 +125,7 @@ describe('render svg element', () => {
         >
           <line x1={0} y1={0} x2={10} y2={10} data-testid="line"></line>
         </svg>
-      </RoughSVG>
+      </RoughSVG>,
     );
     const line = screen.getByTestId('line');
     expect(line.tagName).toBe('g');
@@ -142,7 +142,7 @@ describe('render svg element', () => {
         >
           <rect width={10} height={10} data-testid="rect"></rect>
         </svg>
-      </RoughSVG>
+      </RoughSVG>,
     );
     const rect = screen.getByTestId('rect');
     expect(rect.tagName).toBe('g');
@@ -159,7 +159,7 @@ describe('render svg element', () => {
         >
           <ellipse cx="5" cy="5" rx="10" ry="5" data-testid="ellipse"></ellipse>
         </svg>
-      </RoughSVG>
+      </RoughSVG>,
     );
     const ellipse = screen.getByTestId('ellipse');
     expect(ellipse.tagName).toBe('g');
@@ -176,7 +176,7 @@ describe('render svg element', () => {
         >
           <polygon points="0,10 5,20 5,15 10,0" data-testid="polygon"></polygon>
         </svg>
-      </RoughSVG>
+      </RoughSVG>,
     );
     const polygon = screen.getByTestId('polygon');
     expect(polygon.tagName).toBe('g');
@@ -196,7 +196,7 @@ describe('render svg element', () => {
             data-testid="polyline"
           ></polyline>
         </svg>
-      </RoughSVG>
+      </RoughSVG>,
     );
     const polyline = screen.getByTestId('polyline');
     expect(polyline.tagName).toBe('g');
@@ -215,13 +215,13 @@ describe('render fill and stroke', () => {
         >
           <path d="M0 0 L 10 10" data-testid="path" />
         </svg>
-      </RoughSVG>
+      </RoughSVG>,
     );
     const pathGroup = screen.getByTestId('path');
     expect(pathGroup.children.length).toBe(2);
     expect(pathGroup.children[0].getAttribute('fill')).toBe('none');
     expect(pathGroup.children[0].getAttribute('stroke')).toBe(
-      'var(--rrf-fill-color)'
+      'var(--rrf-fill-color)',
     );
     expect(pathGroup.children[1].getAttribute('fill')).toBe('none');
     expect(pathGroup.children[1].getAttribute('stroke')).toBe(null);
@@ -238,7 +238,7 @@ describe('render fill and stroke', () => {
         >
           <path d="M0 0 L 10 10" fill="none" data-testid="path" />
         </svg>
-      </RoughSVG>
+      </RoughSVG>,
     );
     const pathGroup = screen.getByTestId('path');
     expect(pathGroup.children.length).toBe(1);
@@ -257,12 +257,12 @@ describe('render fill and stroke', () => {
         >
           <path d="M0 0 L 10 10" stroke="none" data-testid="path" />
         </svg>
-      </RoughSVG>
+      </RoughSVG>,
     );
     const pathGroup = screen.getByTestId('path');
     expect(pathGroup.children[0].getAttribute('fill')).toBe('none');
     expect(pathGroup.children[0].getAttribute('stroke')).toBe(
-      'var(--rrf-fill-color)'
+      'var(--rrf-fill-color)',
     );
   });
 
@@ -277,13 +277,13 @@ describe('render fill and stroke', () => {
         >
           <path d="M0 0 L 10 10" stroke="#000" data-testid="path" />
         </svg>
-      </RoughSVG>
+      </RoughSVG>,
     );
     const pathGroup = screen.getByTestId('path');
     expect(pathGroup.children.length).toBe(2);
     expect(pathGroup.children[0].getAttribute('fill')).toBe('none');
     expect(pathGroup.children[0].getAttribute('stroke')).toBe(
-      'var(--rrf-fill-color)'
+      'var(--rrf-fill-color)',
     );
     expect(pathGroup.children[1].getAttribute('fill')).toBe('none');
     expect(pathGroup.children[1].getAttribute('stroke')).toBe('#000');
@@ -300,7 +300,7 @@ describe('render fill and stroke', () => {
         >
           <path d="M0 0 L 10 10" fill="#000" data-testid="path" />
         </svg>
-      </RoughSVG>
+      </RoughSVG>,
     );
     const pathGroup = screen.getByTestId('path');
     expect(pathGroup.children.length).toBe(2);
@@ -451,7 +451,7 @@ describe('receive props', () => {
     render(
       <RoughSVG data-testid="container">
         <svg />
-      </RoughSVG>
+      </RoughSVG>,
     );
     expect(screen.getByTestId('container').tagName).toBe('DIV');
   });
@@ -460,7 +460,7 @@ describe('receive props', () => {
     render(
       <RoughSVG containerType="span" data-testid="container">
         <svg />
-      </RoughSVG>
+      </RoughSVG>,
     );
     expect(screen.getByTestId('container').tagName).toBe('SPAN');
   });
@@ -476,7 +476,7 @@ describe('receive props', () => {
         >
           <path d="M0 0 L 10 10" fill="#000" data-testid="path" />
         </svg>
-      </RoughSVG>
+      </RoughSVG>,
     );
     const d = screen.getByTestId('path').children[0].getAttribute('d');
     cleanup();
@@ -490,7 +490,7 @@ describe('receive props', () => {
         >
           <path d="M0 0 L 10 10" fill="#000" data-testid="path" />
         </svg>
-      </RoughSVG>
+      </RoughSVG>,
     );
     expect(screen.getByTestId('path').children[0].getAttribute('d')).toBe(d);
   });
@@ -506,10 +506,10 @@ describe('receive props', () => {
         >
           <path d="M0 0 L 10 10" fill="#000" data-testid="path" />
         </svg>
-      </RoughSVG>
+      </RoughSVG>,
     );
     expect(screen.getByTestId('container').getAttribute('class')).toBe(
-      'container'
+      'container',
     );
   });
 });

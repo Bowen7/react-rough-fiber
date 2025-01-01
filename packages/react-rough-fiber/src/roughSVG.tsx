@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState, createElement } from 'react';
 import { LegacyRoot } from 'react-reconciler/constants';
 import { createReconciler } from './renderer';
-import { RoughSVGProps, Options, SVGShape } from './types';
+import { RoughSVGProps, Options } from './types';
 
 export const RoughSVG = ({
   containerType = 'div',
@@ -24,7 +24,7 @@ export const RoughSVG = ({
         false,
         '',
         () => {},
-        null
+        null,
       );
     }
     optionsRef.current = options || {};

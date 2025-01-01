@@ -4,7 +4,7 @@
 node_modules
 src
 test
-jest.config.js
+vitest.config.mts
 tsconfig.json
 tsup.config.ts
 scripts

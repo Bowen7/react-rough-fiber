@@ -1,11 +1,11 @@
 import { useState, ComponentProps } from 'react';
 import { cleanup, render, screen } from '@testing-library/react';
-import { act } from 'react-dom/test-utils';
+import { act } from 'react';
+import { vi, afterEach, it, expect, describe } from 'vitest';
 import { RoughOptions, RoughSVG, SVGShape } from '../index';
 
 afterEach(() => {
   cleanup();
-  jest.clearAllMocks();
 });
 
 describe('receive props', () => {
@@ -13,7 +13,7 @@ describe('receive props', () => {
     render(
       <RoughSVG data-testid="container">
         <svg />
-      </RoughSVG>
+      </RoughSVG>,
     );
     expect(screen.getByTestId('container').tagName).toBe('DIV');
   });
@@ -22,7 +22,7 @@ describe('receive props', () => {
     render(
       <RoughSVG containerType="span" data-testid="container">
         <svg />
-      </RoughSVG>
+      </RoughSVG>,
     );
     expect(screen.getByTestId('container').tagName).toBe('SPAN');
   });
@@ -38,7 +38,7 @@ describe('receive props', () => {
         >
           <path d="M0 0 L 10 10" fill="#000" data-testid="path" />
         </svg>
-      </RoughSVG>
+      </RoughSVG>,
     );
     const d = screen.getByTestId('path').children[0].getAttribute('d');
     cleanup();
@@ -52,7 +52,7 @@ describe('receive props', () => {
         >
           <path d="M0 0 L 10 10" fill="#000" data-testid="path" />
         </svg>
-      </RoughSVG>
+      </RoughSVG>,
     );
     expect(screen.getByTestId('path').children[0].getAttribute('d')).toBe(d);
   });
@@ -96,10 +96,10 @@ describe('receive props', () => {
     };
     render(<Rect />);
     expect(screen.getByTestId('rect').children[0].getAttribute('fill')).toBe(
-      'none'
+      'none',
     );
     expect(screen.getByTestId('rect').children[0].getAttribute('stroke')).toBe(
-      'var(--rrf-fill-color)'
+      'var(--rrf-fill-color)',
     );
 
     act(() => {
@@ -108,10 +108,10 @@ describe('receive props', () => {
     });
 
     expect(screen.getByTestId('rect').children[0].getAttribute('fill')).toBe(
-      null
+      null,
     );
     expect(screen.getByTestId('rect').children[0].getAttribute('stroke')).toBe(
-      'none'
+      'none',
     );
   });
 
@@ -126,10 +126,10 @@ describe('receive props', () => {
         >
           <path d="M0 0 L 10 10" fill="#000" data-testid="path" />
         </svg>
-      </RoughSVG>
+      </RoughSVG>,
     );
     expect(screen.getByTestId('container').getAttribute('class')).toBe(
-      'container'
+      'container',
     );
   });
 
@@ -147,7 +147,7 @@ describe('receive props', () => {
         >
           <rect width={10} height={10} data-testid="rect"></rect>
         </svg>
-      </RoughSVG>
+      </RoughSVG>,
     );
     const rect = screen.getByTestId('rect');
     expect(rect.children[1].getAttribute('stroke-dasharray')).toBe('5 10');

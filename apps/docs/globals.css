@@ -93,8 +93,7 @@
 }
 
 .cm-editor {
-  border: 1px solid hsl(var(--border));
-  border-radius: var(--radius);
+  border-radius: var(--radius) var(--radius) 0 0;
   overflow: hidden;
 }
 
