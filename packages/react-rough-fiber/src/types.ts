@@ -24,7 +24,7 @@ export interface HostConfig {
   hydratableInstance: Instance;
   publicInstance: Instance;
   hostContext: HostContext;
-  updatePayload: null;
+  updatePayload: {};
   childSet: never;
   timeoutHandle: number | undefined;
   noTimeout: -1;
@@ -90,3 +90,8 @@ export type RoughSVGProps = PropsWithChildren<
     options?: Options;
   } & HTMLAttributes<HTMLOrSVGElement>
 >;
+
+// TODO: More synthetic event attributes
+export type RRFEvent = Event & {
+  persist: () => void;
+};

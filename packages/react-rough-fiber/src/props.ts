@@ -28,6 +28,7 @@ import {
   Options,
   SVGShapeType,
   SVGShape,
+  RRFEvent,
 } from './types';
 import {
   IS_NON_DIMENSIONAL,
@@ -239,8 +240,8 @@ export function diffProps(
   newProps: InstanceProps,
   oldProps: InstanceProps | null,
   options: Options,
-  inDefs: boolean,
 ) {
+  const inDefs = domElement._rrf_inDefs;
   type = type.toLowerCase();
   const [nextProps, nextShapeProps] = normalizeProps(type, newProps, inDefs);
   const [prevProps, prevShapeProps] = oldProps
@@ -362,9 +363,13 @@ export function setProperty(
 }
 
 function eventProxy(this: InstanceWithRRF, e: Event) {
-  return this._rrf_listeners[e.type + false](e);
+  const event = e as RRFEvent;
+  event.persist = () => {};
+  return this._rrf_listeners[e.type + false](event);
 }
 
 function eventProxyCapture(this: InstanceWithRRF, e: Event) {
-  return this._rrf_listeners[e.type + true](e);
+  const event = e as RRFEvent;
+  event.persist = () => {};
+  return this._rrf_listeners[e.type + true](event);
 }

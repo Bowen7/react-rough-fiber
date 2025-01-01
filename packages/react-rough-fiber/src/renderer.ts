@@ -18,7 +18,9 @@ import {
 import { isFun, isReact19 } from './utils';
 import { diffProps } from './props';
 
-// @ts-ignore
+const UPDATE_SIGNAL = {};
+
+// @ts-ignore for React 19
 let currentUpdatePriority: number = ReactReconcilerConstants.NoEventPriority;
 
 const createInstance = (
@@ -39,12 +41,10 @@ const createInstance = (
     } else {
       domElement = ownerDocument.createElementNS(SVG_NAMESPACE, type);
     }
-    if (inDefs) {
-      (domElement as InstanceWithRRF)._rrf_inDefs = true;
-    }
   } else {
     domElement = ownerDocument.createElement(type);
   }
+  (domElement as InstanceWithRRF)._rrf_inDefs = inDefs;
   return domElement;
 };
 
@@ -114,23 +114,18 @@ export const createReconciler = (
       }
       return parentHostContext;
     },
-    finalizeInitialChildren(...args) {
-      let [instance, type, props, rootContainer, hostContext] = args;
-      if (isReact19()) {
-        hostContext = rootContainer as any as HostContext;
-      }
+    finalizeInitialChildren(instance, type, props) {
       diffProps(
         type,
         instance as InstanceWithRRF,
         props,
         null,
         optionsRef.current,
-        hostContext.inDefs,
       );
       return false;
     },
     prepareUpdate(_instance, _type, _oldProps, _newProps, _rootContainer) {
-      return null;
+      return UPDATE_SIGNAL;
     },
     commitUpdate(...args) {
       let instance;
@@ -149,7 +144,6 @@ export const createReconciler = (
         newProps,
         oldProps as InstanceProps | null,
         optionsRef.current,
-        (instance as InstanceWithRRF)._rrf_inDefs,
       );
     },
     commitTextUpdate(textInstance, _oldText: string, newText: string): void {
