@@ -1,5 +1,5 @@
-import { Sandbox } from './sandbox';
-import { TWEMOJI_URL } from '../constants';
+import { TWEMOJI_URL } from '../constants'
+import { Sandbox } from './sandbox'
 
 const code = /* js */ `
 import { RoughSVG } from 'react-rough-fiber';
@@ -43,8 +43,8 @@ export default function App() {
     </RoughSVG>
   );
 }
-`.trim();
-export const EmojiSandbox = () => {
+`.trim()
+export function EmojiSandbox() {
   return (
     <Sandbox
       code={code}
@@ -53,5 +53,5 @@ export const EmojiSandbox = () => {
       }}
       direction="vertical"
     />
-  );
-};
+  )
+}

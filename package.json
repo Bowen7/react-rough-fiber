@@ -6,6 +6,10 @@
     "apps/*",
     "packages/*"
   ],
+  "packageManager": "pnpm@9.6.0",
+  "engines": {
+    "node": ">=14.0.0"
+  },
   "scripts": {
     "build": "turbo run build",
     "dev": "turbo run dev",
@@ -14,14 +18,10 @@
     "format": "prettier --write \"**/*.{ts,tsx,md}\""
   },
   "devDependencies": {
-    "eslint-config-custom": "workspace:*",
-    "prettier": "latest",
+    "@antfu/eslint-config": "^4.7.0",
+    "eslint": "^9.21.0",
     "turbo": "latest"
   },
-  "engines": {
-    "node": ">=14.0.0"
-  },
-  "packageManager": "pnpm@9.6.0",
   "pnpm": {
     "patchedDependencies": {
       "roughjs@4.5.2": "patches/roughjs@4.5.2.patch",

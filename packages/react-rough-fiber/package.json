@@ -2,20 +2,8 @@
   "name": "react-rough-fiber",
   "version": "0.0.6",
   "description": "A React renderer for rendering hand-drawn SVGs.",
-  "keywords": [
-    "react",
-    "react-renderer",
-    "svg",
-    "svg-icons",
-    "hand-drawn",
-    "roughjs",
-    "hand-drawn-graphs"
-  ],
   "author": "Bowen <zwxdyx@foxmail.com>(https://github.com/Bowen7)",
-  "bugs": {
-    "url": "https://github.com/Bowen7/react-rough-fiber/issues"
-  },
-  "homepage": "https://react-rough-fiber.amind.app/",
+  "license": "MIT",
   "funding": [
     {
       "type": "Github Sponsor",
@@ -26,14 +14,31 @@
       "url": "https://ko-fi.com/bowen7"
     }
   ],
+  "homepage": "https://react-rough-fiber.amind.app/",
+  "bugs": {
+    "url": "https://github.com/Bowen7/react-rough-fiber/issues"
+  },
+  "keywords": [
+    "react",
+    "react-renderer",
+    "svg",
+    "svg-icons",
+    "hand-drawn",
+    "roughjs",
+    "hand-drawn-graphs"
+  ],
   "main": "./src/index.tsx",
-  "license": "MIT",
   "scripts": {
     "lint": "eslint *.ts*",
     "test": "vitest",
     "build": "rm -rf dist && tsup",
     "pre-publish": "node scripts/pre-publish.js && npm run build",
     "publish-next": "node scripts/pre-next-publish.js && npm run build && npm publish --tag next --access public && node scripts/post-next-publish.js"
+  },
+  "peerDependencies": {
+    "react": ">=17.0.0",
+    "react-dom": ">=17.0.0",
+    "react-reconciler": ">=0.26.2"
   },
   "dependencies": {
     "its-fine": "^1.2.5"
@@ -48,8 +53,6 @@
     "@types/react": "^18.0.17",
     "@types/react-dom": "^18.0.6",
     "@types/react-reconciler": "^0.28.9",
-    "eslint": "^7.32.0",
-    "eslint-config-custom": "workspace:*",
     "jsdom": "^25.0.1",
     "path-data-parser": "^0.1.0",
     "points-on-curve": "^1.0.0",
@@ -63,10 +66,5 @@
     "tsup": "^6.7.0",
     "typescript": "^4.5.2",
     "vitest": "^2.1.8"
-  },
-  "peerDependencies": {
-    "react": ">=17.0.0",
-    "react-dom": ">=17.0.0",
-    "react-reconciler": ">=0.26.2"
   }
 }

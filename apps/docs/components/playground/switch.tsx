@@ -1,14 +1,15 @@
-import * as SwitchPrimitives from '@radix-ui/react-switch';
-import { useId } from 'react';
-type Props = {
-  value: boolean;
-  label: string;
-  onChange: (value: boolean) => void;
-};
+import * as SwitchPrimitives from '@radix-ui/react-switch'
+import { useId } from 'react'
 
-export const Switch = (props: Props) => {
-  const { value, label, onChange } = props;
-  const id = useId();
+interface Props {
+  value: boolean
+  label: string
+  onChange: (value: boolean) => void
+}
+
+export function Switch(props: Props) {
+  const { value, label, onChange } = props
+  const id = useId()
   return (
     <div className="flex flex-col w-36">
       <label className="flex justify-between mb-2 pr-1" htmlFor={id}>
@@ -21,12 +22,10 @@ export const Switch = (props: Props) => {
         id={id}
       >
         <SwitchPrimitives.Thumb
-          className={
-            'pointer-events-none block h-5 w-5 rounded-full bg-background shadow-lg ring-0 transition-transform data-[state=checked]:translate-x-5 data-[state=unchecked]:translate-x-0'
-          }
+          className="pointer-events-none block h-5 w-5 rounded-full bg-background shadow-lg ring-0 transition-transform data-[state=checked]:translate-x-5 data-[state=unchecked]:translate-x-0"
         />
       </SwitchPrimitives.Root>
     </div>
-  );
-};
-Switch.displayName = SwitchPrimitives.Root.displayName;
+  )
+}
+Switch.displayName = SwitchPrimitives.Root.displayName

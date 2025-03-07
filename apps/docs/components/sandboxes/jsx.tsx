@@ -1,5 +1,5 @@
-import { Sandbox } from './sandbox';
-import { CAVEAT_FONT_URL } from '../constants';
+import { CAVEAT_FONT_URL } from '../constants'
+import { Sandbox } from './sandbox'
 
 const jsxCode = /* js */ `
 import { useState, useEffect } from 'react';
@@ -86,20 +86,20 @@ export default function App() {
     </RoughSVG>
   )
 }
-`.trim();
+`.trim()
 
-export const JSXSandbox = () => {
+export function JSXSandbox() {
   return (
     <Sandbox
       code={jsxCode}
       editorHeight={500}
       previewHeight={400}
       dependencies={{
-        satori: '0.4.7',
+        'satori': '0.4.7',
         'react-inlinesvg': '^3.0.2',
       }}
       direction="vertical"
       font
     />
-  );
-};
+  )
+}

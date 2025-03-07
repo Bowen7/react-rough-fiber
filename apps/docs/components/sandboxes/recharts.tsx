@@ -1,4 +1,4 @@
-import { Sandbox } from './sandbox';
+import { Sandbox } from './sandbox'
 
 const rechartsCode = /* js */ `
 import { RoughSVG } from 'react-rough-fiber';
@@ -56,8 +56,8 @@ export default function App() {
     </RoughSVG>
   )
 }
-`.trim();
-export const RechartsSandbox = () => {
+`.trim()
+export function RechartsSandbox() {
   return (
     <Sandbox
       code={rechartsCode}
@@ -67,5 +67,5 @@ export const RechartsSandbox = () => {
       direction="vertical"
       font
     />
-  );
-};
+  )
+}

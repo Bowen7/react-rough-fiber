@@ -1,18 +1,18 @@
-import { useEffect, useRef, useState, createElement } from 'react';
-import { LegacyRoot } from 'react-reconciler/constants';
-import { createReconciler } from './renderer';
-import { RoughSVGProps, Options } from './types';
+import type { Options, RoughSVGProps } from './types'
+import { createElement, useEffect, useRef, useState } from 'react'
+import { LegacyRoot } from 'react-reconciler/constants'
+import { createReconciler } from './renderer'
 
-export const RoughSVG = ({
+export function RoughSVG({
   containerType = 'div',
   children,
   options = {},
   ...restProps
-}: RoughSVGProps) => {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const mountNodeRef = useRef<any>(null);
-  const optionsRef = useRef<Options>(options);
-  const [reconciler] = useState(() => createReconciler(optionsRef));
+}: RoughSVGProps) {
+  const containerRef = useRef<HTMLDivElement>(null)
+  const mountNodeRef = useRef<any>(null)
+  const optionsRef = useRef<Options>(options)
+  const [reconciler] = useState(() => createReconciler(optionsRef))
 
   useEffect(() => {
     if (containerRef.current && !mountNodeRef.current) {
@@ -25,19 +25,19 @@ export const RoughSVG = ({
         '',
         () => {},
         null,
-      );
+      )
     }
-    optionsRef.current = options || {};
+    optionsRef.current = options || {}
     if (mountNodeRef.current) {
-      reconciler.updateContainer(children, mountNodeRef.current, null);
+      reconciler.updateContainer(children, mountNodeRef.current, null)
     }
-  }, [children, reconciler, options]);
+  }, [children, reconciler, options])
 
   useEffect(() => {
     return () => {
-      reconciler.updateContainer(null, mountNodeRef.current, null);
-    };
-  }, [reconciler]);
+      reconciler.updateContainer(null, mountNodeRef.current, null)
+    }
+  }, [reconciler])
 
-  return createElement(containerType, { ref: containerRef, ...restProps });
-};
+  return createElement(containerType, { ref: containerRef, ...restProps })
+}

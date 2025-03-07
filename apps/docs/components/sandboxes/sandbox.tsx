@@ -1,30 +1,32 @@
-import { useMemo } from 'react';
-import {
+import type {
   SandpackFiles,
   SandpackSetup,
-  SandpackProvider,
-  SandpackLayout,
+} from '@codesandbox/sandpack-react'
+import {
   SandpackCodeEditor,
+  SandpackLayout,
   SandpackPreview,
-} from '@codesandbox/sandpack-react';
-import { useTheme } from 'nextra-theme-docs';
-import { CAVEAT_FONT_URL } from '../constants';
+  SandpackProvider,
+} from '@codesandbox/sandpack-react'
+import { useTheme } from 'nextra-theme-docs'
+import { useMemo } from 'react'
+import { CAVEAT_FONT_URL } from '../constants'
 
-type Dependencies = SandpackSetup['dependencies'];
-type Props = {
-  code: string;
-  dependencies?: Dependencies;
-  editorHeight?: number;
-  previewHeight?: number;
-  font?: boolean;
-  direction?: 'horizontal' | 'vertical';
-  cssCode?: string;
-};
+type Dependencies = SandpackSetup['dependencies']
+interface Props {
+  code: string
+  dependencies?: Dependencies
+  editorHeight?: number
+  previewHeight?: number
+  font?: boolean
+  direction?: 'horizontal' | 'vertical'
+  cssCode?: string
+}
 
 const baseDependencies: Dependencies = {
   'react-rough-fiber': 'latest',
   'react-reconciler': '^0.29.0',
-};
+}
 
 const fontCode = /* css */ `
 @font-face {
@@ -35,9 +37,9 @@ const fontCode = /* css */ `
   src: url(${CAVEAT_FONT_URL}) format('woff2');
   unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
 }
-`.trimStart();
+`.trimStart()
 
-export const Sandbox = ({
+export function Sandbox({
   code,
   dependencies,
   editorHeight = 300,
@@ -45,17 +47,17 @@ export const Sandbox = ({
   font = false,
   direction = 'horizontal',
   cssCode,
-}: Props) => {
-  const { resolvedTheme } = useTheme();
+}: Props) {
+  const { resolvedTheme } = useTheme()
   const files = useMemo(() => {
-    let css = font ? fontCode : '';
-    css += cssCode ? cssCode : '';
-    return css ? { 'App.js': code, 'style.css': css } : { 'App.js': code };
-  }, [code, font, cssCode]);
+    let css = font ? fontCode : ''
+    css += cssCode || ''
+    return css ? { 'App.js': code, 'style.css': css } : { 'App.js': code }
+  }, [code, font, cssCode])
 
   const options = useMemo(() => {
-    const classes: Record<string, string> =
-      direction === 'vertical'
+    const classes: Record<string, string>
+      = direction === 'vertical'
         ? {
             'sp-layout': '!block divide-y mt-6',
             'sp-stack': '!w-full',
@@ -63,12 +65,12 @@ export const Sandbox = ({
           }
         : {
             'sp-layout': 'mt-6',
-          };
+          }
     return {
       resizablePanels: direction === 'horizontal',
       classes,
-    };
-  }, [direction]);
+    }
+  }, [direction])
   return (
     <SandpackProvider
       theme={resolvedTheme === 'dark' ? 'dark' : 'light'}
@@ -87,5 +89,5 @@ export const Sandbox = ({
         <SandpackPreview style={{ height: previewHeight || editorHeight }} />
       </SandpackLayout>
     </SandpackProvider>
-  );
-};
+  )
+}
