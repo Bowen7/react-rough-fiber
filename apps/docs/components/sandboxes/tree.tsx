@@ -1,11 +1,11 @@
-import { Sandbox } from './sandbox';
+import { Sandbox } from './sandbox'
 
 const css = /* css */ `
 svg {
   font-family: 'Caveat';
   font-size: 28px;
 }
-`.trim();
+`.trim()
 
 const code = /* js */ `
 import { RoughSVG } from 'react-rough-fiber';
@@ -62,9 +62,9 @@ export default function App() {
     </RoughSVG>
   );
 }
-`.trim();
+`.trim()
 
-export const TreeSandbox = () => {
+export function TreeSandbox() {
   return (
     <Sandbox
       code={code}
@@ -77,5 +77,5 @@ export const TreeSandbox = () => {
       direction="vertical"
       font
     />
-  );
-};
+  )
+}

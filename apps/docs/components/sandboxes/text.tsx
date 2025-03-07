@@ -1,5 +1,5 @@
-import { Sandbox } from './sandbox';
-import { CAVEAT_FONT_URL } from '../constants';
+import { CAVEAT_FONT_URL } from '../constants'
+import { Sandbox } from './sandbox'
 
 const code = /* js */ `
 import { useEffect, useState } from 'react';
@@ -40,9 +40,9 @@ export default function App() {
     </RoughSVG>
   );
 }
-`.trim();
+`.trim()
 
-export const TextSandbox = () => {
+export function TextSandbox() {
   return (
     <Sandbox
       code={code}
@@ -54,5 +54,5 @@ export const TextSandbox = () => {
       direction="vertical"
       font
     />
-  );
-};
+  )
+}

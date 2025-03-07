@@ -1,4 +1,4 @@
-import { Sandbox } from './sandbox';
+import { Sandbox } from './sandbox'
 
 const visxCode = /* js */ `
 import { useState, useEffect } from 'react';
@@ -70,9 +70,9 @@ export default function App() {
     </RoughSVG>
   );
 }
-`.trim();
+`.trim()
 
-export const VisxSandbox = () => {
+export function VisxSandbox() {
   return (
     <Sandbox
       code={visxCode}
@@ -83,5 +83,5 @@ export const VisxSandbox = () => {
       }}
       direction="vertical"
     />
-  );
-};
+  )
+}

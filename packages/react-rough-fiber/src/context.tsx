@@ -1,20 +1,21 @@
-import { FiberProvider, type ContextBridge, useContextBridge } from 'its-fine';
-import { RoughSVGProps } from './types';
-import { RoughSVG } from './roughSVG';
+import type { ContextBridge } from 'its-fine'
+import type { RoughSVGProps } from './types'
+import { FiberProvider, useContextBridge } from 'its-fine'
+import { RoughSVG } from './roughSVG'
 
-const WithBridgeRoughSVG = ({ children, ...restProps }: RoughSVGProps) => {
-  const Bridge: ContextBridge = useContextBridge();
+function WithBridgeRoughSVG({ children, ...restProps }: RoughSVGProps) {
+  const Bridge: ContextBridge = useContextBridge()
   return (
     <RoughSVG {...restProps}>
       <Bridge>{children}</Bridge>
     </RoughSVG>
-  );
-};
+  )
+}
 
-export const WCRoughSVG = (props: RoughSVGProps) => {
+export function WCRoughSVG(props: RoughSVGProps) {
   return (
     <FiberProvider>
       <WithBridgeRoughSVG {...props} />
     </FiberProvider>
-  );
-};
+  )
+}

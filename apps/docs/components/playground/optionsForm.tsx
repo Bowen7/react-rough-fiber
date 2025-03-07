@@ -1,34 +1,34 @@
-import { RoughOptions } from 'react-rough-fiber';
-import { Select } from './select';
-import { Switch } from './switch';
-import { Input } from './input';
-import { Slider } from './slider';
+import type { RoughOptions } from 'react-rough-fiber'
+import { Input } from './input'
+import { Select } from './select'
+import { Slider } from './slider'
+import { Switch } from './switch'
 
-type SliderField = {
-  key: keyof RoughOptions;
-  min: number;
-  max: number;
-};
+interface SliderField {
+  key: keyof RoughOptions
+  min: number
+  max: number
+}
 
-type SelectField = {
-  key: keyof RoughOptions;
-  options: string[];
-};
+interface SelectField {
+  key: keyof RoughOptions
+  options: string[]
+}
 
-type SwitchField = {
-  key: keyof RoughOptions;
-};
+interface SwitchField {
+  key: keyof RoughOptions
+}
 
-type InputField = {
-  key: keyof RoughOptions;
-};
+interface InputField {
+  key: keyof RoughOptions
+}
 
-type OptionFields = {
-  sliders: SliderField[];
-  selects: SelectField[];
-  switches: SwitchField[];
-  inputs: InputField[];
-};
+interface OptionFields {
+  sliders: SliderField[]
+  selects: SelectField[]
+  switches: SwitchField[]
+  inputs: InputField[]
+}
 
 const optionFields: OptionFields = {
   sliders: [
@@ -69,22 +69,22 @@ const optionFields: OptionFields = {
     { key: 'preserveVertices' },
   ],
   inputs: [{ key: 'hachureAngle' }, { key: 'seed' }],
-};
+}
 
-type Props = {
-  options: RoughOptions;
-  onChange: (options: RoughOptions) => void;
-};
-export const OptionsForm = (props: Props) => {
-  const { options, onChange } = props;
+interface Props {
+  options: RoughOptions
+  onChange: (options: RoughOptions) => void
+}
+export function OptionsForm(props: Props) {
+  const { options, onChange } = props
   const handleChange = (
     key: keyof RoughOptions,
-    value: string | number | boolean
+    value: string | number | boolean,
   ) => {
-    onChange({ ...options, [key]: value });
-  };
+    onChange({ ...options, [key]: value })
+  }
 
-  const { sliders, selects, inputs, switches } = optionFields;
+  const { sliders, selects, inputs, switches } = optionFields
 
   return (
     <>
@@ -97,7 +97,7 @@ export const OptionsForm = (props: Props) => {
             value={options[key] as number}
             label={key}
             onChange={(v) => {
-              handleChange(key, v);
+              handleChange(key, v)
             }}
           />
         ))}
@@ -110,7 +110,7 @@ export const OptionsForm = (props: Props) => {
             value={options[key] as string}
             options={opts}
             onChange={(v) => {
-              handleChange(key, v);
+              handleChange(key, v)
             }}
           />
         ))}
@@ -120,7 +120,7 @@ export const OptionsForm = (props: Props) => {
             label={key}
             value={options[key] as number}
             onChange={(v) => {
-              handleChange(key, v);
+              handleChange(key, v)
             }}
           />
         ))}
@@ -132,11 +132,11 @@ export const OptionsForm = (props: Props) => {
             label={key}
             value={options[key] as boolean}
             onChange={(v) => {
-              handleChange(key, v);
+              handleChange(key, v)
             }}
           />
         ))}
       </div>
     </>
-  );
-};
+  )
+}

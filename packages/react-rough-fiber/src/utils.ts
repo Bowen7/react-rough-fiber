@@ -1,37 +1,35 @@
-import React from 'react';
-import { InstanceProps } from './types';
-export const isFun = (val: any) => typeof val === 'function';
+import type { InstanceProps } from './types'
+import React from 'react'
 
-export const shallowEqual = (
-  options1: InstanceProps | undefined | null,
-  options2: InstanceProps | undefined | null,
-) => {
+export const isFun = (val: any) => typeof val === 'function'
+
+export function shallowEqual(options1: InstanceProps | undefined | null, options2: InstanceProps | undefined | null) {
   if (options1 === options2) {
-    return true;
+    return true
   }
   if (options1 == null || options2 == null) {
-    return false;
+    return false
   }
-  const keys1 = Object.keys(options1);
-  const keys2 = Object.keys(options2);
+  const keys1 = Object.keys(options1)
+  const keys2 = Object.keys(options2)
 
   if (keys1.length !== keys2.length) {
-    return false;
+    return false
   }
 
-  return keys1.every((key) => options1[key] === options2[key]);
-};
+  return keys1.every(key => options1[key] === options2[key])
+}
 
-const pointSplit = /\s+|\s*,\s*/;
-export const parsePoints = (points: string) => {
-  const pts: [number, number][] = [];
-  const coord = points.split(pointSplit);
+const pointSplit = /\s+|\s*,\s*/
+export function parsePoints(points: string) {
+  const pts: [number, number][] = []
+  const coord = points.split(pointSplit)
   for (let i = 0; i < coord.length; i += 2) {
-    pts.push([+coord[i], +coord[i + 1]]);
+    pts.push([+coord[i], +coord[i + 1]])
   }
-  return pts;
-};
+  return pts
+}
 
-export const isReact19 = () => {
-  return React.version.startsWith('19.');
-};
+export function isReact19() {
+  return React.version.startsWith('19.')
+}

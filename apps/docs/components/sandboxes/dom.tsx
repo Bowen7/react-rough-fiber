@@ -1,4 +1,4 @@
-import { Sandbox } from './sandbox';
+import { Sandbox } from './sandbox'
 
 const css = /* css */ `
 .dom-container {
@@ -28,7 +28,7 @@ const css = /* css */ `
 text {
   font-family: 'Caveat'!important;
 }
-`;
+`
 
 const code = /* js */ `
 import { useEffect, useRef, useState } from 'react';
@@ -68,9 +68,9 @@ export default function App() {
     </>
   );
 }
-`.trim();
+`.trim()
 
-export const DOMSandbox = () => {
+export function DOMSandbox() {
   return (
     <Sandbox
       code={code}
@@ -83,5 +83,5 @@ export const DOMSandbox = () => {
       direction="vertical"
       font
     />
-  );
-};
+  )
+}

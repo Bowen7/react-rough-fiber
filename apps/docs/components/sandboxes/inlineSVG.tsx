@@ -1,4 +1,4 @@
-import { Sandbox } from './sandbox';
+import { Sandbox } from './sandbox'
 
 const remoteSVGCode = /* js */ `
 import { RoughSVG } from 'react-rough-fiber';
@@ -15,8 +15,8 @@ export default function App() {
     </RoughSVG>
   )
 }
-`.trim();
-export const RemoteSVGSandbox = () => {
+`.trim()
+export function RemoteSVGSandbox() {
   return (
     <Sandbox
       code={remoteSVGCode}
@@ -25,8 +25,8 @@ export const RemoteSVGSandbox = () => {
       }}
       direction="vertical"
     />
-  );
-};
+  )
+}
 
 const inlineSVGCode = /* js */ `
 import { RoughSVG } from 'react-rough-fiber';
@@ -43,8 +43,8 @@ export default function App() {
     </RoughSVG>
   )
 }
-`.trim();
-export const InlineSVGSandbox = () => {
+`.trim()
+export function InlineSVGSandbox() {
   return (
     <Sandbox
       code={inlineSVGCode}
@@ -54,5 +54,5 @@ export const InlineSVGSandbox = () => {
       }}
       direction="vertical"
     />
-  );
-};
+  )
+}

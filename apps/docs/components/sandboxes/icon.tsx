@@ -1,4 +1,4 @@
-import { Sandbox } from './sandbox';
+import { Sandbox } from './sandbox'
 
 const reactFeatherCode = /* js */ `
 import { RoughSVG } from 'react-rough-fiber';
@@ -10,8 +10,8 @@ export default function App() {
     </RoughSVG>
   )
 }
-`.trim();
-export const ReactFeatherSandbox = () => {
+`.trim()
+export function ReactFeatherSandbox() {
   return (
     <Sandbox
       code={reactFeatherCode}
@@ -21,8 +21,8 @@ export const ReactFeatherSandbox = () => {
       }}
       editorHeight={200}
     />
-  );
-};
+  )
+}
 
 const antdCode = /* js */ `
 import { useState, useRef } from 'react';
@@ -40,8 +40,8 @@ export default function App() {
     </RoughSVG>
   )
 }
-`.trim();
-export const AntdSandbox = () => {
+`.trim()
+export function AntdSandbox() {
   return (
     <Sandbox
       code={antdCode}
@@ -51,8 +51,8 @@ export const AntdSandbox = () => {
       }}
       editorHeight={200}
     />
-  );
-};
+  )
+}
 
 const heroiconsCode = /* js */ `
 import { RoughSVG } from 'react-rough-fiber';
@@ -64,13 +64,13 @@ export default function App() {
     </RoughSVG>
   )
 }
-`.trim();
-export const HeroiconsSandbox = () => {
+`.trim()
+export function HeroiconsSandbox() {
   return (
     <Sandbox
       code={heroiconsCode}
       dependencies={{ '@heroicons/react': '2.0.17' }}
       editorHeight={200}
     />
-  );
-};
+  )
+}

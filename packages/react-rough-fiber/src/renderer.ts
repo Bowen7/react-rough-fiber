@@ -1,69 +1,64 @@
-import { MutableRefObject } from 'react';
-import Reconciler from 'react-reconciler';
-import * as ReactReconcilerConstants from 'react-reconciler/constants';
-import {
+import type { MutableRefObject } from 'react'
+import type {
+  HostConfig,
+  HostContext,
   Instance,
   InstanceProps,
-  HostContext,
-  HostConfig,
   InstanceWithRRF,
   Options,
-} from './types';
+} from './types'
+import Reconciler from 'react-reconciler'
+import * as ReactReconcilerConstants from 'react-reconciler/constants'
 import {
-  SVG_NAMESPACE,
-  HTML_NAMESPACE,
-  SVG_SHAPE_MAP,
   DATA_RRF_GROUP,
-} from './constants';
-import { isFun, isReact19 } from './utils';
-import { diffProps } from './props';
+  HTML_NAMESPACE,
+  SVG_NAMESPACE,
+  SVG_SHAPE_MAP,
+} from './constants'
+import { diffProps } from './props'
+import { isFun, isReact19 } from './utils'
 
-const UPDATE_SIGNAL = {};
+const UPDATE_SIGNAL = {}
 
-// @ts-ignore for React 19
-let currentUpdatePriority: number = ReactReconcilerConstants.NoEventPriority;
+// @ts-expect-error for React 19
+let currentUpdatePriority: number = ReactReconcilerConstants.NoEventPriority
 
-const createInstance = (
-  type: string,
-  _props: InstanceProps,
-  root: Element,
-  hostContext: HostContext,
-) => {
-  const ownerDocument = root.ownerDocument;
-  const { namespace, inDefs } = hostContext;
-  let domElement: Instance;
+function createInstance(type: string, _props: InstanceProps, root: Element, hostContext: HostContext) {
+  const ownerDocument = root.ownerDocument
+  const { namespace, inDefs } = hostContext
+  let domElement: Instance
   if (namespace === SVG_NAMESPACE || type === 'svg') {
     // roughjs renders a shape as a fill path(if fill is not none) and a stroke path(if stroke is not none)
     // so we need to wrap the shape in a g element
     if (!inDefs && type in SVG_SHAPE_MAP) {
-      domElement = ownerDocument.createElementNS(SVG_NAMESPACE, 'g');
-      domElement.setAttribute(DATA_RRF_GROUP, '');
-    } else {
-      domElement = ownerDocument.createElementNS(SVG_NAMESPACE, type);
+      domElement = ownerDocument.createElementNS(SVG_NAMESPACE, 'g')
+      domElement.setAttribute(DATA_RRF_GROUP, '')
     }
-  } else {
-    domElement = ownerDocument.createElement(type);
+    else {
+      domElement = ownerDocument.createElementNS(SVG_NAMESPACE, type)
+    }
   }
-  (domElement as InstanceWithRRF)._rrf_inDefs = inDefs;
-  return domElement;
-};
+  else {
+    domElement = ownerDocument.createElement(type)
+  }
+  (domElement as InstanceWithRRF)._rrf_inDefs = inDefs
+  return domElement
+}
 
-const removeChild = (parent: Instance, child: Instance) =>
-  parent.removeChild(child);
+function removeChild(parent: Instance, child: Instance) {
+  return parent.removeChild(child)
+}
 
-const appendChild = (parent: Instance, child: Instance) =>
-  child && parent.appendChild(child);
+function appendChild(parent: Instance, child: Instance) {
+  return child && parent.appendChild(child)
+}
 
-const insertBefore = (
-  parent: Instance,
-  child: Instance,
-  beforeChild: Instance,
-) => parent.insertBefore(child, beforeChild);
+function insertBefore(parent: Instance, child: Instance, beforeChild: Instance) {
+  return parent.insertBefore(child, beforeChild)
+}
 
-export const createReconciler = (
-  optionsRef: MutableRefObject<Options>,
-): Reconciler.Reconciler<Instance, Instance, void, Instance, Instance> =>
-  Reconciler<
+export function createReconciler(optionsRef: MutableRefObject<Options>): Reconciler.Reconciler<Instance, Instance, void, Instance, Instance> {
+  return Reconciler<
     HostConfig['type'],
     HostConfig['props'],
     HostConfig['container'],
@@ -89,30 +84,30 @@ export const createReconciler = (
     supportsHydration: false,
     noTimeout: -1,
     appendChildToContainer: (container, child) => {
-      container.appendChild(child as Instance);
+      container.appendChild(child as Instance)
     },
     removeChildFromContainer: (container, child) => {
-      container.removeChild(child as Instance);
+      container.removeChild(child as Instance)
     },
     insertInContainerBefore: (container, child, beforeChild) => {
-      container.insertBefore(child as Instance, beforeChild as Instance);
+      container.insertBefore(child as Instance, beforeChild as Instance)
     },
-    getRootHostContext: (root) => ({
+    getRootHostContext: root => ({
       namespace: root.namespaceURI || '',
       inDefs: false,
     }),
     getChildHostContext: (parentHostContext, type) => {
-      const { namespace, inDefs } = parentHostContext;
+      const { namespace, inDefs } = parentHostContext
       if (type === 'svg') {
-        return { namespace: SVG_NAMESPACE, inDefs };
+        return { namespace: SVG_NAMESPACE, inDefs }
       }
       if (namespace === SVG_NAMESPACE && type === 'foreignObject') {
-        return { namespace: HTML_NAMESPACE, inDefs };
+        return { namespace: HTML_NAMESPACE, inDefs }
       }
       if (type === 'defs') {
-        return { namespace, inDefs: true };
+        return { namespace, inDefs: true }
       }
-      return parentHostContext;
+      return parentHostContext
     },
     finalizeInitialChildren(instance, type, props) {
       diffProps(
@@ -121,22 +116,23 @@ export const createReconciler = (
         props,
         null,
         optionsRef.current,
-      );
-      return false;
+      )
+      return false
     },
     prepareUpdate(_instance, _type, _oldProps, _newProps, _rootContainer) {
-      return UPDATE_SIGNAL;
+      return UPDATE_SIGNAL
     },
     commitUpdate(...args) {
-      let instance;
-      let type;
-      let oldProps;
-      let newProps;
-      let _;
+      let instance
+      let type
+      let oldProps
+      let newProps
+      let _
       if (isReact19()) {
-        [instance, type, oldProps, newProps] = args;
-      } else {
-        [instance, _, type, oldProps, newProps] = args;
+        [instance, type, oldProps, newProps] = args
+      }
+      else {
+        [instance, _, type, oldProps, newProps] = args
       }
       diffProps(
         type as string,
@@ -144,20 +140,20 @@ export const createReconciler = (
         newProps,
         oldProps as InstanceProps | null,
         optionsRef.current,
-      );
+      )
     },
     commitTextUpdate(textInstance, _oldText: string, newText: string): void {
-      (<any>textInstance).nodeValue = newText;
+      (<any>textInstance).nodeValue = newText
     },
     commitMount() {},
     getPublicInstance: (instance) => {
       if (instance?.hasAttribute(DATA_RRF_GROUP)) {
-        const firstChild = instance.children[0];
+        const firstChild = instance.children[0]
         if (firstChild?.tagName === 'path') {
-          return firstChild as SVGElement;
+          return firstChild as SVGElement
         }
       }
-      return instance!;
+      return instance!
     },
     prepareForCommit: () => null,
     preparePortalMount: () => {},
@@ -173,7 +169,7 @@ export const createReconciler = (
     getCurrentEventPriority: () => {
       return typeof currentUpdatePriority === 'number'
         ? currentUpdatePriority
-        : ReactReconcilerConstants.DefaultEventPriority;
+        : ReactReconcilerConstants.DefaultEventPriority
     },
     beforeActiveInstanceBlur: () => {},
     afterActiveInstanceBlur: () => {},
@@ -183,18 +179,17 @@ export const createReconciler = (
     getInstanceFromNode: () => null,
     prepareScopeUpdate: () => {},
     getInstanceFromScope: () => null,
-    // These hooks are undocumented, remove @ts-ignore in the future
-    // @ts-ignore
+    // @ts-expect-error these hooks are undocumented, remove @ts-ignore in the future
     setCurrentUpdatePriority: (newPriority: number) => {
-      currentUpdatePriority = newPriority;
+      currentUpdatePriority = newPriority
     },
     getCurrentUpdatePriority: () => {
-      return currentUpdatePriority;
+      return currentUpdatePriority
     },
     resolveUpdatePriority: () => {
       return (
         currentUpdatePriority || ReactReconcilerConstants.DefaultEventPriority
-      );
+      )
     },
     shouldAttemptEagerTransition: () => false,
     requestPostPaintCallback: () => {},
@@ -205,4 +200,5 @@ export const createReconciler = (
     waitForCommitToBeReady: () => null,
     NotPendingTransition: null,
     resetFormInstance: () => {},
-  });
+  })
+}

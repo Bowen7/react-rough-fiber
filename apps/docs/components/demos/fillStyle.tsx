@@ -1,6 +1,8 @@
-import { useState } from 'react';
-import { RoughSVG, RoughOptions } from 'react-rough-fiber';
-import { Select } from '../playground/select';
+import type { RoughOptions } from 'react-rough-fiber'
+import { useState } from 'react'
+import { RoughSVG } from 'react-rough-fiber'
+import { Select } from '../playground/select'
+
 const fillStyles = [
   'hachure',
   'solid',
@@ -9,13 +11,13 @@ const fillStyles = [
   'dots',
   'dashed',
   'zigzag-line',
-];
-export const FilStyleDemo = () => {
-  const [fillStyle, setFillStyle] =
-    useState<RoughOptions['fillStyle']>('hachure');
+]
+export function FilStyleDemo() {
+  const [fillStyle, setFillStyle]
+    = useState<RoughOptions['fillStyle']>('hachure')
   const onChange = (value: string) => {
-    setFillStyle(value as RoughOptions['fillStyle']);
-  };
+    setFillStyle(value as RoughOptions['fillStyle'])
+  }
   return (
     <>
       <Select
@@ -37,5 +39,5 @@ export const FilStyleDemo = () => {
         </svg>
       </RoughSVG>
     </>
-  );
-};
+  )
+}

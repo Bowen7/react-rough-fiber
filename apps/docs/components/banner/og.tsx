@@ -1,45 +1,43 @@
-import { HTMLAttributes } from 'react';
-import { RoughOptions, RoughSVG, SVGShape } from 'react-rough-fiber';
-import { textPaths } from '../demos/text';
+import type { HTMLAttributes } from 'react'
+import type { RoughOptions, SVGShape } from 'react-rough-fiber'
+import { RoughSVG } from 'react-rough-fiber'
+import { textPaths } from '../demos/text'
 
-const options = (
-  { type }: SVGShape,
-  props: HTMLAttributes<SVGElement>
-): RoughOptions => {
+function options({ type }: SVGShape, props: HTMLAttributes<SVGElement>): RoughOptions {
   switch (type) {
     case 'rect':
       return {
         roughness: 0,
         fillStyle: 'dots',
         hachureGap: 20,
-      };
+      }
     case 'path': {
-      const dataIndex = props['data-index' as keyof HTMLAttributes<SVGElement>];
+      const dataIndex = props['data-index' as keyof HTMLAttributes<SVGElement>]
       if (dataIndex === undefined) {
         return {
           seed: 4,
           disableMultiStroke: true,
           roughness: 5,
-        };
+        }
       }
       if (dataIndex >= 5 && dataIndex < 10) {
         return {
           roughness: 0,
           fillStyle: 'solid',
-        };
+        }
       }
       return {
         roughness: 0,
         hachureGap: 4,
         fillWeight: 2,
-      };
+      }
     }
     default:
-      return {};
+      return {}
   }
-};
+}
 
-export const OG = () => {
+export function OG() {
   return (
     <>
       <RoughSVG
@@ -91,5 +89,5 @@ export const OG = () => {
         </svg>
       </RoughSVG>
     </>
-  );
-};
+  )
+}

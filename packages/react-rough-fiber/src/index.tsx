@@ -1,3 +1,3 @@
-export { RoughSVG } from './roughSVG';
-export { WCRoughSVG } from './context';
-export type { RoughOptions, RoughSVGProps, SVGShape, Options } from './types';
+export { WCRoughSVG } from './context'
+export { RoughSVG } from './roughSVG'
+export type { Options, RoughOptions, RoughSVGProps, SVGShape } from './types'
