@@ -8,5 +8,4 @@ export default defineConfig({
   dts: true,
   format: ['esm', 'cjs'],
   platform: 'browser',
-  legacyOutput: true,
 });

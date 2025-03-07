@@ -8,7 +8,7 @@ import type {
   Options,
 } from './types'
 import Reconciler from 'react-reconciler'
-import * as ReactReconcilerConstants from 'react-reconciler/constants'
+import * as ReactReconcilerConstants from 'react-reconciler/constants.js'
 import {
   DATA_RRF_GROUP,
   HTML_NAMESPACE,

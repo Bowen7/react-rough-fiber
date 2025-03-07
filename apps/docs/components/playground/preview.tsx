@@ -56,12 +56,14 @@ export function Preview({ lang, value, theme, options }: PreviewProps) {
         <RoughSVG className="flex-1" options={options}>
           <p className="my-4">Output Preview:</p>
           <div ref={previewRef}>
-            {lang === 'jsx' ? (
-              // @ts-expect-error react version
-              <JSXParser jsx={value} />
-            ) : (
-              <SVG src={value} key={optionsID} />
-            )}
+            {lang === 'jsx'
+              ? (
+                  // @ts-expect-error react version
+                  <JSXParser jsx={value} />
+                )
+              : (
+                  <SVG src={value} key={optionsID} />
+                )}
           </div>
         </RoughSVG>
       </div>

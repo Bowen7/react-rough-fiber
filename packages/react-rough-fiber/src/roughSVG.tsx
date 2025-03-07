@@ -1,6 +1,6 @@
 import type { Options, RoughSVGProps } from './types'
 import { createElement, useEffect, useRef, useState } from 'react'
-import { LegacyRoot } from 'react-reconciler/constants'
+import { LegacyRoot } from 'react-reconciler/constants.js'
 import { createReconciler } from './renderer'
 
 export function RoughSVG({

@@ -1,6 +1,6 @@
 {
   "name": "react-rough-fiber",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "A React renderer for rendering hand-drawn SVGs.",
   "author": "Bowen <zwxdyx@foxmail.com>(https://github.com/Bowen7)",
   "license": "MIT",
@@ -32,8 +32,8 @@
     "lint": "eslint *.ts*",
     "test": "vitest",
     "build": "rm -rf dist && tsup",
-    "pre-publish": "node scripts/pre-publish.js && npm run build",
-    "publish-next": "node scripts/pre-next-publish.js && npm run build && npm publish --tag next --access public && node scripts/post-next-publish.js"
+    "pre-publish": "node scripts/pre-publish.mjs && npm run build",
+    "publish-next": "node scripts/pre-next-publish.mjs && npm run build && npm publish --tag next --access public && node scripts/post-next-publish.mjs"
   },
   "peerDependencies": {
     "react": ">=17.0.0",
@@ -63,7 +63,7 @@
     "regenerator-runtime": "^0.13.11",
     "roughjs": "4.5.2",
     "tsconfig": "workspace:*",
-    "tsup": "^6.7.0",
+    "tsup": "^8.4.0",
     "typescript": "^4.5.2",
     "vitest": "^2.1.8"
   }
