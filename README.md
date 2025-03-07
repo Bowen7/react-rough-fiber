@@ -15,7 +15,7 @@
 npm install react-rough-fiber react-reconciler
 ```
 
-> If you are using React 17, you need to install react-reconciler@0.26.2
+> If you are using React 18, you need to install react-reconciler@0.29.2; If you are still using React 17, you can install react-reconciler@0.26.2
 
 ## Quick Start
 
