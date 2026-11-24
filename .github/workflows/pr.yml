@@ -25,7 +25,7 @@ jobs:
         run: pnpm test
 
       - name: Install React 19
-        run: cd packages/react-rough-fiber && pnpm add react@19.0.0 react-dom@19.0.0 react-reconciler@0.31.0
+        run: cd packages/react-rough-fiber && pnpm add react@19.3.1 react-dom@19.3.1 react-reconciler@0.34.0
 
       - name: Test with React 19
         run: pnpm test

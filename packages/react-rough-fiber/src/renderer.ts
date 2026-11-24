@@ -200,5 +200,8 @@ export function createReconciler(optionsRef: MutableRefObject<Options>): Reconci
     waitForCommitToBeReady: () => null,
     NotPendingTransition: null,
     resetFormInstance: () => {},
+    resolveEventTimeStamp: () => -1,
+    resolveEventType: () => null,
+    trackSchedulerEvent: () => {},
   })
 }

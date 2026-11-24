@@ -1,6 +1,6 @@
 {
   "name": "react-rough-fiber",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "description": "A React renderer for rendering hand-drawn SVGs.",
   "author": "Bowen <zwxdyx@foxmail.com>(https://github.com/Bowen7)",
   "license": "MIT",
@@ -54,7 +54,7 @@
     "@types/react-dom": "^18.0.6",
     "@types/react-reconciler": "^0.28.9",
     "jsdom": "^25.0.1",
-    "path-data-parser": "^0.1.0",
+    "path-data-parser": "0.1.0",
     "points-on-curve": "^1.0.0",
     "points-on-path": "^0.2.1",
     "react": "^18.3.1",
